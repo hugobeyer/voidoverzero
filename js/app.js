@@ -101,7 +101,6 @@ const App = {
         groupEl.innerHTML = `
             <div class="group-header">
                 <div class="group-title">${group.name}</div>
-                <div class="group-count">${group.params.length} parameters</div>
             </div>
             <p class="group-desc">${group.description}</p>
             <div class="param-grid"></div>
