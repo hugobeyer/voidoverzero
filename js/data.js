@@ -410,12 +410,6 @@ const DOCS_DATA = {
                     description: 'How we trace and simplify your object\'s outline into a mesh.',
                     params: [
                         {
-                            id: 'simplification',
-                            name: 'Simplification (Epsilon)',
-                            desc: 'How much to simplify the mesh (0-50). Higher = fewer vertices but less accurate shape. Lower = more detail but more polygons.',
-                            image: 'images/params/simplification.svg'
-                        },
-                        {
                             id: 'cast-mode',
                             name: 'Cast Mode',
                             desc: 'Per-Angle generates unique mesh for each angle (most accurate). Combined creates single mesh for all angles. Per-Piece is experimental. GPU-accelerated processing.',
