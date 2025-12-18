@@ -480,28 +480,10 @@ const DOCS_DATA = {
                     description: 'Configure channel sources for the PBR map. Default packing is R=Metallic, G=Smoothness, B=AO, A=Depth.',
                     params: [
                         {
-                            id: 'pbrmap-r',
-                            name: 'PBRMap R Channel',
-                            desc: 'Source for red channel. Default is Metallic. Controls how metallic the surface appears. Available sources include Metallic, Smoothness, AO, Depth, Emission channels, Albedo, Normal, and custom data.',
+                            id: 'pbrmap-channels',
+                            name: 'PBRMap Channels',
+                            desc: 'Configure RGBA channel sources for the PBR map. Default: R=Metallic (controls how metallic the surface appears), G=Smoothness (controls surface smoothness: 1.0 = smooth/mirror-like, 0.0 = rough), B=AO/Ambient Occlusion (controls how much ambient light is occluded in crevices), A=Depth (normalized depth: 0 = closest point, 1 = farthest point, used for depth-based effects). Each channel can be configured independently from available sources: Metallic, Smoothness, AO, Depth, Emission, Albedo, Normal, Translucency, or custom data.',
                             image: 'images/params/pbrmap-r.svg'
-                        },
-                        {
-                            id: 'pbrmap-g',
-                            name: 'PBRMap G Channel',
-                            desc: 'Source for green channel. Default is Smoothness. Controls surface smoothness (1.0 = smooth/mirror-like, 0.0 = rough). Configure to match your shader requirements.',
-                            image: 'images/params/pbrmap-g.svg'
-                        },
-                        {
-                            id: 'pbrmap-b',
-                            name: 'PBRMap B Channel',
-                            desc: 'Source for blue channel. Default is AO (Ambient Occlusion). Controls how much ambient light is occluded in crevices and corners. All channel sources available.',
-                            image: 'images/params/pbrmap-b.svg'
-                        },
-                        {
-                            id: 'pbrmap-a',
-                            name: 'PBRMap A Channel',
-                            desc: 'Source for alpha channel. Default is Depth. Stores normalized depth information (0 = closest point, 1 = farthest point). Used for depth-based effects and edge detection. Configure based on your material needs.',
-                            image: 'images/params/pbrmap-a.svg'
                         }
                     ]
                 },
@@ -511,28 +493,10 @@ const DOCS_DATA = {
                     description: 'Configure channel sources for an additional export map with custom channel packing.',
                     params: [
                         {
-                            id: 'exportmap-r',
-                            name: 'ExportMap R Channel',
-                            desc: 'Source for red channel in the custom export map. Can be any captured channel: Metallic, Smoothness, AO, Depth, Emission, Albedo, Normal, Translucency, or custom data.',
+                            id: 'exportmap-channels',
+                            name: 'ExportMap Channels',
+                            desc: 'Configure RGBA channel sources for a custom export map. Each channel (R, G, B, A) can be set to any captured channel source: Metallic, Smoothness, AO, Depth, Emission (R/G/B), Albedo (R/G/B/Alpha), Normal (R/G/B), Translucency, Vertex Colors, Texcoords, or custom shader data. Perfect for custom workflows like ORM maps (R=Occlusion, G=Roughness, B=Metallic) or any other packing scheme.',
                             image: 'images/params/exportmap-r.svg'
-                        },
-                        {
-                            id: 'exportmap-g',
-                            name: 'ExportMap G Channel',
-                            desc: 'Source for green channel in the custom export map. Your texture, your rules. All channel sources available.',
-                            image: 'images/params/exportmap-g.svg'
-                        },
-                        {
-                            id: 'exportmap-b',
-                            name: 'ExportMap B Channel',
-                            desc: 'Source for blue channel in the custom export map. All channel options available for custom workflows.',
-                            image: 'images/params/exportmap-b.svg'
-                        },
-                        {
-                            id: 'exportmap-a',
-                            name: 'ExportMap A Channel',
-                            desc: 'Source for alpha channel in the custom export map. Can store any channel data including Depth, Alpha, or custom values.',
-                            image: 'images/params/exportmap-a.svg'
                         }
                     ]
                 }
