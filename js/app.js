@@ -148,14 +148,6 @@ const App = {
             ${hasImages ? `
             <div class="param-card-image">
                 <img src="${images[0]}" alt="${param.name}" class="loaded" onerror="this.classList.remove('loaded')">
-                <div class="param-card-placeholder">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <path d="M21 15l-5-5L5 21"/>
-                    </svg>
-                    <span>Visual guide</span>
-                </div>
                 <div class="param-card-nav ${images.length <= 1 ? 'hidden' : ''}">
                     <button class="prev-btn" aria-label="Previous image">‹</button>
                     <button class="next-btn" aria-label="Next image">›</button>
