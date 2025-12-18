@@ -480,28 +480,10 @@ const DOCS_DATA = {
                     description: 'Configure channel sources for the PBR map. Default packing is Metallic/Roughness/AO/Depth.',
                     params: [
                         {
-                            id: 'pbrmap-r',
-                            name: 'PBRMap R Channel',
-                            desc: 'Source for red channel. Default is Metallic. Available sources include Roughness, Smoothness, AO, Depth, Emission channels, and custom data.',
+                            id: 'pbrmap-channels',
+                            name: 'PBRMap Channels',
+                            desc: 'Configure RGBA channel sources. Default: R=Metallic, G=Roughness, B=AO, A=Depth. Available sources include Metallic, Roughness, Smoothness, AO, Depth, Emission channels, and custom data.',
                             image: 'images/params/pbrmap-r.svg'
-                        },
-                        {
-                            id: 'pbrmap-g',
-                            name: 'PBRMap G Channel',
-                            desc: 'Source for green channel. Default is Roughness. Configure to match your shader requirements.',
-                            image: 'images/params/pbrmap-g.svg'
-                        },
-                        {
-                            id: 'pbrmap-b',
-                            name: 'PBRMap B Channel',
-                            desc: 'Blue channel. AO by default. All the usual suspects available.',
-                            image: 'images/params/pbrmap-b.svg'
-                        },
-                        {
-                            id: 'pbrmap-a',
-                            name: 'PBRMap A Channel',
-                            desc: 'Source for alpha channel. Default is Depth. Configure based on your material needs.',
-                            image: 'images/params/pbrmap-a.svg'
                         }
                     ]
                 },
@@ -511,28 +493,10 @@ const DOCS_DATA = {
                     description: 'Configure channel sources for an additional export map with custom channel packing.',
                     params: [
                         {
-                            id: 'exportmap-r',
-                            name: 'ExportMap R Channel',
-                            desc: 'Source for red channel in the custom export map.',
+                            id: 'exportmap-channels',
+                            name: 'ExportMap Channels',
+                            desc: 'Configure RGBA channel sources for the custom export map. All channel options available.',
                             image: 'images/params/exportmap-r.svg'
-                        },
-                        {
-                            id: 'exportmap-g',
-                            name: 'ExportMap G Channel',
-                            desc: 'Green channel. Your texture, your rules.',
-                            image: 'images/params/exportmap-g.svg'
-                        },
-                        {
-                            id: 'exportmap-b',
-                            name: 'ExportMap B Channel',
-                            desc: 'Blue channel. All options available.',
-                            image: 'images/params/exportmap-b.svg'
-                        },
-                        {
-                            id: 'exportmap-a',
-                            name: 'ExportMap A Channel',
-                            desc: 'Source for alpha channel in the custom export map.',
-                            image: 'images/params/exportmap-a.svg'
                         }
                     ]
                 }
