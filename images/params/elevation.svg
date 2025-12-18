@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+    <linearGradient id="objectGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffd5"/>
+      <stop offset="100%" style="stop-color:#00b894"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="30" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">ELEVATION ANGLES</text>
+
+  <!-- Vertical arc representing elevation range -->
+  <path d="M 320 140 A 120 120 0 0 0 80 140" fill="none" stroke="#00ffd5" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+  <path d="M 80 140 A 120 120 0 0 0 320 140" fill="none" stroke="#00ffd5" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+
+  <!-- Vertical line through center -->
+  <line x1="200" y1="40" x2="200" y2="240" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+
+  <!-- Horizontal line through center -->
+  <line x1="60" y1="140" x2="340" y2="140" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+
+  <!-- Central object -->
+  <circle cx="200" cy="140" r="20" fill="url(#objectGrad)" opacity="0.8"/>
+  <text x="200" y="145" font-family="system-ui, sans-serif" font-size="10" fill="#1a1e24" text-anchor="middle" font-weight="600">OBJ</text>
+
+  <!-- Elevation camera positions (5 elevations shown) -->
+  <g fill="#d64550">
+    <!-- Top -->
+    <circle cx="200" cy="45" r="6"/>
+    <!-- Upper -->
+    <circle cx="270" cy="75" r="6"/>
+    <!-- Middle -->
+    <circle cx="300" cy="140" r="6"/>
+    <!-- Lower -->
+    <circle cx="270" cy="205" r="6"/>
+    <!-- Bottom -->
+    <circle cx="200" cy="235" r="6"/>
+  </g>
+
+  <!-- Lines from cameras to object -->
+  <g stroke="#d64550" stroke-width="1" opacity="0.4">
+    <line x1="200" y1="51" x2="200" y2="120"/>
+    <line x1="266" y1="79" x2="213" y2="128"/>
+    <line x1="294" y1="140" x2="220" y2="140"/>
+    <line x1="266" y1="201" x2="213" y2="152"/>
+    <line x1="200" y1="229" x2="200" y2="160"/>
+  </g>
+
+  <!-- Angle labels -->
+  <text x="170" y="50" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">+90°</text>
+  <text x="305" y="80" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">+45°</text>
+  <text x="315" y="144" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">0°</text>
+  <text x="305" y="210" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">-45°</text>
+  <text x="170" y="242" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">-90°</text>
+
+  <!-- Elevation count indicator -->
+  <rect x="30" y="60" width="80" height="160" fill="none" stroke="#d64550" stroke-width="1" rx="4" opacity="0.5"/>
+  <text x="70" y="55" font-family="system-ui, sans-serif" font-size="10" fill="#d64550" text-anchor="middle">5 Elevations</text>
+
+  <!-- Level markers -->
+  <g fill="#d64550" opacity="0.6">
+    <rect x="35" y="68" width="70" height="4" rx="2"/>
+    <rect x="35" y="102" width="70" height="4" rx="2"/>
+    <rect x="35" y="136" width="70" height="4" rx="2"/>
+    <rect x="35" y="170" width="70" height="4" rx="2"/>
+    <rect x="35" y="204" width="70" height="4" rx="2"/>
+  </g>
+
+  <!-- Info text -->
+  <text x="200" y="268" font-family="system-ui, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.5">5 vertical captures from top to bottom</text>
+</svg>

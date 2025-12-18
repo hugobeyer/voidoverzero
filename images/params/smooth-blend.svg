@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">SMOOTH BLENDING</text>
+
+  <!-- Without smooth blend (discrete) -->
+  <g transform="translate(120, 125)">
+    <!-- Frame showing discrete angle -->
+    <rect x="-55" y="-55" width="110" height="110" rx="4" fill="#1a1e24" stroke="#b9975b" stroke-width="2"/>
+
+    <!-- Single texture tile -->
+    <rect x="-40" y="-40" width="80" height="80" fill="#b9975b" opacity="0.3"/>
+
+    <!-- Tree icon (single angle) -->
+    <rect x="-5" y="5" width="10" height="30" fill="#5d4d9b" opacity="0.8"/>
+    <polygon points="0,-35 -25,5 25,5" fill="#00b894" opacity="0.8"/>
+
+    <!-- Angle indicator -->
+    <text x="0" y="-45" font-family="monospace" font-size="9" fill="#b9975b" text-anchor="middle">Tile #5</text>
+
+    <!-- Pop indicator when switching -->
+    <g transform="translate(45, -45)">
+      <text x="0" y="0" font-family="system-ui, sans-serif" font-size="16" fill="#d64550">⚡</text>
+    </g>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="11" fill="#b9975b" text-anchor="middle" font-weight="600">Discrete</text>
+    <text x="0" y="85" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Visible tile pops</text>
+  </g>
+
+  <!-- With smooth blend -->
+  <g transform="translate(280, 125)">
+    <!-- Frame showing blended result -->
+    <rect x="-55" y="-55" width="110" height="110" rx="4" fill="#1a1e24" stroke="#00ffd5" stroke-width="2"/>
+
+    <!-- Four overlapping tiles with blend -->
+    <g opacity="0.25">
+      <rect x="-42" y="-42" width="40" height="40" fill="#00ffd5"/>
+      <rect x="2" y="-42" width="40" height="40" fill="#00b894"/>
+      <rect x="-42" y="2" width="40" height="40" fill="#00d4aa"/>
+      <rect x="2" y="2" width="40" height="40" fill="#00ffd5"/>
+    </g>
+
+    <!-- Blended tree icon -->
+    <rect x="-5" y="5" width="10" height="30" fill="#5d4d9b" opacity="0.9"/>
+    <polygon points="0,-35 -25,5 25,5" fill="#00b894" opacity="0.9"/>
+
+    <!-- Blend weights indicator -->
+    <g transform="translate(0, -45)">
+      <text x="-20" y="0" font-family="monospace" font-size="7" fill="#00ffd5">0.3</text>
+      <text x="20" y="0" font-family="monospace" font-size="7" fill="#00ffd5">0.3</text>
+      <text x="-20" y="85" font-family="monospace" font-size="7" fill="#00ffd5">0.2</text>
+      <text x="20" y="85" font-family="monospace" font-size="7" fill="#00ffd5">0.2</text>
+    </g>
+
+    <!-- Smooth indicator -->
+    <g transform="translate(45, -45)">
+      <text x="0" y="0" font-family="system-ui, sans-serif" font-size="16" fill="#00ffd5">~</text>
+    </g>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="11" fill="#00ffd5" text-anchor="middle" font-weight="600">Smooth Blend</text>
+    <text x="0" y="85" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Seamless transitions</text>
+  </g>
+
+  <!-- Blend formula -->
+  <g transform="translate(200, 235)">
+    <rect x="-150" y="-15" width="300" height="35" rx="4" fill="#1a1e24" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+    <text x="0" y="0" font-family="monospace" font-size="9" fill="#00ffd5" text-anchor="middle">result = lerp(tile1, tile2, angle_blend)</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.4">Bilinear interpolation between 4 adjacent tiles</text>
+  </g>
+</svg>

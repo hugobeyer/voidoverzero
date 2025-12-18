@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+    <radialGradient id="sphereGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#00ffd5"/>
+      <stop offset="100%" style="stop-color:#00b894"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGrad)"/>
+
+  <text x="200" y="30" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600" letter-spacing="1">ELEVATION 3D</text>
+
+  <!-- Perspective Transform Group -->
+  <g transform="translate(200, 150)">
+
+    <!-- Floor Grid -->
+    <path d="M -100 60 L 100 60 L 140 10 L -140 10 Z" fill="url(#sphereGrad)" opacity="0.05"/>
+    <path d="M -120 35 L 120 35" stroke="#00ffd5" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+    <path d="M 0 60 L 0 -120" stroke="#ffffff" stroke-width="1" opacity="0.1" stroke-dasharray="4,4"/>
+
+    <!-- Central Object -->
+    <circle cx="0" cy="35" r="15" fill="url(#sphereGrad)" filter="url(#glow)"/>
+
+    <!-- Elevation Arc -->
+    <!-- Using an elliptical arc to simulate 3D rotation of the vertical arc -->
+    <path d="M 0 -100 A 100 135 0 0 1 0 110" fill="none" stroke="#d64550" stroke-width="1" stroke-dasharray="4,4" opacity="0.4" transform="rotate(-15)"/>
+
+    <!-- Cameras along the arc -->
+    <!-- Top (+90) -->
+    <g transform="translate(-25, -90)">
+       <path d="M0 0 L10 15 L-10 15 Z" fill="#d64550" stroke="#a03038" stroke-width="0.5"/>
+       <line x1="0" y1="15" x2="25" y2="125" stroke="#d64550" stroke-width="1" opacity="0.3"/>
+    </g>
+
+    <!-- Upper (+45) -->
+    <g transform="translate(60, -50)">
+       <!-- Camera angled down-left -->
+       <path d="M0 0 L-10 8 L-5 15 Z" fill="#d64550" stroke="#a03038" stroke-width="0.5"/>
+       <path d="M0 0 L-5 15 L5 12 Z" fill="#f07078" stroke="#a03038" stroke-width="0.5"/>
+       <line x1="-5" y1="10" x2="-60" y2="85" stroke="#d64550" stroke-width="1" opacity="0.3"/>
+    </g>
+
+    <!-- Middle (0) -->
+    <g transform="translate(90, 35)">
+       <!-- Camera side view -->
+       <path d="M0 0 L-12 -6 L-12 6 Z" fill="#d64550" stroke="#a03038" stroke-width="0.5"/>
+       <line x1="-12" y1="0" x2="-90" y2="0" stroke="#d64550" stroke-width="1" opacity="0.3"/>
+    </g>
+
+    <!-- Lower (-45) -->
+    <g transform="translate(60, 100)">
+       <!-- Camera angled up-left -->
+       <path d="M0 0 L-10 -8 L-5 -15 Z" fill="#d64550" stroke="#a03038" stroke-width="0.5"/>
+       <path d="M0 0 L-5 -15 L5 -12 Z" fill="#b03038" stroke="#a03038" stroke-width="0.5"/>
+       <line x1="-5" y1="-10" x2="-60" y2="-65" stroke="#d64550" stroke-width="1" opacity="0.3"/>
+    </g>
+
+    <!-- Labels -->
+    <text x="-40" y="-90" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">+90�</text>
+    <text x="80" y="-55" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">+45�</text>
+    <text x="110" y="40" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">0�</text>
+    <text x="80" y="115" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">-45�</text>
+
+  </g>
+
+  <text x="200" y="280" font-family="system-ui, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.4">Perspective view of vertical capture arc</text>
+</svg>

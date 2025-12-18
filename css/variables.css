@@ -1,0 +1,114 @@
+/* ========================================
+   CSS VARIABLES - SINGLE SOURCE OF TRUTH
+   Rawteous Documentation v1.0.0
+   Updated: January 2025
+   ======================================== */
+
+:root {
+    /* === COLORS === */
+
+    /* Backgrounds - Dark Theme */
+    --color-bg-dark: #0a0c0f;
+    --color-bg-surface: #10131a;
+    --color-bg-elevated: #161a24;
+    --color-bg-card: #1a1f2b;
+    --color-bg-hover: #222836;
+
+    /* Accent - Cyan/Teal Neon */
+    --color-accent: #00ffd5;
+    --color-accent-dim: #00d4aa;
+    --color-accent-dark: #00b894;
+    --color-accent-glow: rgba(0, 255, 213, 0.12);
+    --color-accent-glow-strong: rgba(0, 255, 213, 0.25);
+
+    /* Panel Colors - Distinctive per section */
+    --color-impostor: #c4a35a;
+    --color-capture: #e05a67;
+    --color-postprocess: #b84454;
+    --color-billboard: #a86bb0;
+    --color-cast: #6b5db8;
+    --color-workflow: #5b9db8;
+
+    /* Text */
+    --color-text: #f0f1f3;
+    --color-text-secondary: rgba(240, 241, 243, 0.75);
+    --color-text-tertiary: rgba(240, 241, 243, 0.55);
+    --color-text-muted: rgba(240, 241, 243, 0.35);
+
+    /* Borders */
+    --color-border: rgba(255, 255, 255, 0.05);
+    --color-border-default: rgba(255, 255, 255, 0.08);
+    --color-border-accent: rgba(0, 255, 213, 0.25);
+
+    /* Status */
+    --color-danger: #ff4757;
+    --color-success: #00ffd5;
+    --color-warning: #ffc107;
+    --color-danger-glow: rgba(255, 71, 87, 0.2);
+
+    /* === TYPOGRAPHY === */
+    --font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    --font-main: var(--font-family);
+
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-base: 15px;
+    --text-lg: 17px;
+    --text-xl: 20px;
+    --text-2xl: 26px;
+    --text-3xl: 34px;
+    --text-4xl: 48px;
+
+    /* === SPACING === */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+
+    /* === TEXT INDENT (left spacing) === */
+    --text-indent-sm: 12px;
+    --text-indent-md: 20px;
+    --text-indent-lg: 28px;
+    --text-indent-xl: 36px;
+
+    /* === LAYOUT === */
+    --sidebar-width: 280px;
+    --content-max-width: 960px;
+
+    /* === BORDERS === */
+    --radius-xs: 0px;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --radius-xl: 0px;
+
+    /* === SHADOWS === */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px var(--color-accent-glow-strong);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
+
+    /* === TRANSITIONS === */
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* === BLUR === */
+    --blur-sm: 8px;
+    --blur-md: 16px;
+    --blur-lg: 24px;
+
+    /* === GRADIENTS === */
+    --gradient-bg:
+        radial-gradient(ellipse at 0% 0%, rgba(0, 255, 213, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(0, 180, 148, 0.02) 0%, transparent 50%);
+    --gradient-accent-h: linear-gradient(90deg, var(--color-accent-glow) 0%, transparent 100%);
+    --gradient-accent-v: linear-gradient(180deg, var(--color-accent-glow) 0%, transparent 100%);
+    --gradient-panel: linear-gradient(135deg, var(--panel-color, var(--color-accent)) 0%, transparent 60%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+}

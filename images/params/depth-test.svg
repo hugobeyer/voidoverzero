@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">DEPTH TEST</text>
+
+  <!-- Without depth test (broken) -->
+  <g transform="translate(100, 130)">
+    <rect x="-60" y="-55" width="120" height="110" rx="4" fill="#1a1e24" stroke="#d64550" stroke-width="1" opacity="0.5"/>
+
+    <!-- Ground plane -->
+    <path d="M -50 40 L 50 40 L 40 20 L -40 20 Z" fill="#5d4d9b" opacity="0.3"/>
+
+    <!-- Wall (should be behind) -->
+    <rect x="-30" y="-40" width="60" height="50" fill="#5d4d9b" opacity="0.5"/>
+
+    <!-- Billboard rendered IN FRONT (wrong!) -->
+    <rect x="-20" y="-30" width="40" height="60" fill="#00ffd5" opacity="0.6" stroke="#00ffd5" stroke-width="2"/>
+
+    <!-- X mark showing error -->
+    <g stroke="#d64550" stroke-width="3">
+      <line x1="35" y1="-35" x2="50" y2="-20"/>
+      <line x1="50" y1="-35" x2="35" y2="-20"/>
+    </g>
+
+    <text x="0" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#d64550" text-anchor="middle" font-weight="600">Depth Test OFF</text>
+    <text x="0" y="88" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.5">Billboard always visible</text>
+  </g>
+
+  <!-- With depth test (correct) -->
+  <g transform="translate(300, 130)">
+    <rect x="-60" y="-55" width="120" height="110" rx="4" fill="#1a1e24" stroke="#00ffd5" stroke-width="1" opacity="0.5"/>
+
+    <!-- Ground plane -->
+    <path d="M -50 40 L 50 40 L 40 20 L -40 20 Z" fill="#5d4d9b" opacity="0.3"/>
+
+    <!-- Wall (correctly in front) -->
+    <rect x="-30" y="-40" width="60" height="50" fill="#5d4d9b" opacity="0.5"/>
+
+    <!-- Billboard partially occluded -->
+    <rect x="10" y="-30" width="30" height="60" fill="#00ffd5" opacity="0.6" stroke="#00ffd5" stroke-width="2"/>
+
+    <!-- Check mark -->
+    <g stroke="#00ffd5" stroke-width="3" fill="none">
+      <path d="M 35 -35 L 42 -28 L 55 -45"/>
+    </g>
+
+    <text x="0" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#00ffd5" text-anchor="middle" font-weight="600">Depth Test ON</text>
+    <text x="0" y="88" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.5">Correct occlusion</text>
+  </g>
+
+  <!-- Explanation -->
+  <text x="200" y="255" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Enable for proper sorting with scene geometry</text>
+</svg>

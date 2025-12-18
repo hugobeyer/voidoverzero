@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">FIELD OF VIEW</text>
+
+  <!-- Narrow FOV -->
+  <g transform="translate(100, 145)">
+    <!-- Camera -->
+    <rect x="-12" y="-8" width="24" height="16" rx="2" fill="#b9975b"/>
+    <circle cx="0" cy="0" r="5" fill="#1a1e24"/>
+
+    <!-- Narrow frustum -->
+    <path d="M 0 0 L 60 -30 L 60 30 Z" fill="#b9975b" opacity="0.2" stroke="#b9975b" stroke-width="1"/>
+
+    <!-- Object in view -->
+    <circle cx="60" cy="0" r="20" fill="#00ffd5" opacity="0.3" stroke="#00ffd5" stroke-width="1"/>
+
+    <!-- Angle indicator -->
+    <path d="M 20 -10 A 20 20 0 0 1 20 10" fill="none" stroke="#b9975b" stroke-width="1"/>
+    <text x="30" y="5" font-family="monospace" font-size="9" fill="#b9975b">25°</text>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#b9975b" text-anchor="middle" font-weight="600">Narrow FOV</text>
+    <text x="0" y="83" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.5">Telephoto, less distortion</text>
+  </g>
+
+  <!-- Wide FOV -->
+  <g transform="translate(300, 145)">
+    <!-- Camera -->
+    <rect x="-12" y="-8" width="24" height="16" rx="2" fill="#00ffd5"/>
+    <circle cx="0" cy="0" r="5" fill="#1a1e24"/>
+
+    <!-- Wide frustum -->
+    <path d="M 0 0 L 60 -50 L 60 50 Z" fill="#00ffd5" opacity="0.2" stroke="#00ffd5" stroke-width="1"/>
+
+    <!-- Object in view (smaller due to perspective) -->
+    <circle cx="60" cy="0" r="15" fill="#00ffd5" opacity="0.3" stroke="#00ffd5" stroke-width="1"/>
+
+    <!-- Angle indicator -->
+    <path d="M 15 -18 A 20 20 0 0 1 15 18" fill="none" stroke="#00ffd5" stroke-width="1"/>
+    <text x="25" y="5" font-family="monospace" font-size="9" fill="#00ffd5">90°</text>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#00ffd5" text-anchor="middle" font-weight="600">Wide FOV</text>
+    <text x="0" y="83" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.5">More context, perspective warp</text>
+  </g>
+
+  <!-- Info -->
+  <text x="200" y="255" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Lower FOV = more zoom, better for detailed captures</text>
+</svg>

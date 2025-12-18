@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="background-color: #1a1e24;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+
+    <!-- Gradients for shading -->
+    <linearGradient id="sideShade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="2" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgGrad)"/>
+
+  <text x="400" y="50" font-family="system-ui, sans-serif" font-size="24" fill="#00ffd5" text-anchor="middle" font-weight="600" letter-spacing="2">RESOLUTION 3D</text>
+
+  <!-- ISOMETRIC PROJECTION CONSTANTS -->
+  <!-- We simulate the camera view: x_iso = (x - z), y_iso = (x + z)/2 - y -->
+
+  <!-- LEFT: LOW RESOLUTION (64px) - Red Theme -->
+  <g transform="translate(200, 250)">
+      <!-- Platform Base (Thickness) -->
+      <path d="M -70 40 L 0 80 L 70 40 L 70 50 L 0 90 L -70 50 Z" fill="#8a2b32"/> <!-- Dark Red Side -->
+      <path d="M 0 80 L 70 40 L 70 50 L 0 90 Z" fill="#000" opacity="0.2"/> <!-- Right side darker -->
+
+      <!-- Platform Top -->
+      <path d="M 0 -40 L 70 0 L 0 40 L -70 0 Z" fill="#2c3e50" stroke="#d64550" stroke-width="2"/>
+
+      <!-- Low Res Grid (Large squares) -->
+      <g stroke="#d64550" stroke-width="1" opacity="0.5">
+          <!-- Parallel to X -->
+          <line x1="-35" y1="-20" x2="35" y2="20"/>
+          <!-- Parallel to Z -->
+          <line x1="35" y1="-20" x2="-35" y2="20"/>
+      </g>
+
+      <!-- Low Res Tree (Voxels/Cubes) -->
+      <g transform="translate(0, 0)" filter="url(#shadow)">
+          <!-- Trunk (Box) -->
+          <path d="M -5 0 L 5 0 L 5 -20 L -5 -20 Z" fill="#5d4d9b"/> <!-- Front -->
+          <path d="M 5 0 L 10 -5 L 10 -25 L 5 -20 Z" fill="#483d7a"/> <!-- Side -->
+          <path d="M -5 -20 L 5 -20 L 10 -25 L 0 -25 Z" fill="#6e5bb5"/> <!-- Top -->
+
+          <!-- Leaves (Big Cube) -->
+          <path d="M -15 -20 L 15 -20 L 15 -50 L -15 -50 Z" fill="#00b894"/> <!-- Front -->
+          <path d="M 15 -20 L 25 -30 L 25 -60 L 15 -50 Z" fill="#008f72"/> <!-- Side -->
+          <path d="M -15 -50 L 15 -50 L 25 -60 L -5 -60 Z" fill="#00d4aa"/> <!-- Top -->
+      </g>
+
+      <text x="0" y="120" font-family="system-ui, sans-serif" font-size="16" fill="#d64550" text-anchor="middle" font-weight="bold">64px</text>
+      <text x="0" y="140" font-family="system-ui, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">Blocky Voxel</text>
+  </g>
+
+
+  <!-- CENTER: MEDIUM RESOLUTION (256px) - Teal Theme -->
+  <g transform="translate(400, 250)">
+      <!-- Platform Base -->
+      <path d="M -70 40 L 0 80 L 70 40 L 70 50 L 0 90 L -70 50 Z" fill="#007f6a"/>
+      <path d="M 0 80 L 70 40 L 70 50 L 0 90 Z" fill="#000" opacity="0.2"/>
+
+      <!-- Platform Top -->
+      <path d="M 0 -40 L 70 0 L 0 40 L -70 0 Z" fill="#2c3e50" stroke="#00ffd5" stroke-width="2"/>
+
+      <!-- Med Res Grid (Medium squares) -->
+      <g stroke="#00ffd5" stroke-width="1" opacity="0.4">
+          <line x1="-35" y1="-20" x2="35" y2="20"/>
+          <line x1="-17.5" y1="-30" x2="52.5" y2="10"/>
+          <line x1="-52.5" y1="-10" x2="17.5" y2="30"/>
+
+          <line x1="35" y1="-20" x2="-35" y2="20"/>
+          <line x1="52.5" y1="-10" x2="-17.5" y2="30"/>
+          <line x1="17.5" y1="-30" x2="-52.5" y2="10"/>
+      </g>
+
+      <!-- Med Res Tree (Geometric Pyramids) -->
+      <g transform="translate(0, 0)" filter="url(#shadow)">
+          <!-- Trunk -->
+          <path d="M -4 0 L 4 0 L 4 -20 L -4 -20 Z" fill="#5d4d9b"/>
+          <path d="M 4 0 L 7 -3 L 7 -23 L 4 -20 Z" fill="#483d7a"/>
+
+          <!-- Lower Pyramid -->
+          <path d="M 0 -50 L -20 -20 L 20 -20 Z" fill="#00b894"/> <!-- Front Face -->
+          <path d="M 0 -50 L 20 -20 L 25 -25 Z" fill="#008f72"/> <!-- Side Face -->
+
+          <!-- Upper Pyramid -->
+          <path d="M 0 -70 L -15 -45 L 15 -45 Z" fill="#00d4aa"/>
+          <path d="M 0 -70 L 15 -45 L 20 -50 Z" fill="#00a383"/>
+      </g>
+
+      <text x="0" y="120" font-family="system-ui, sans-serif" font-size="16" fill="#00ffd5" text-anchor="middle" font-weight="bold">256px</text>
+      <text x="0" y="140" font-family="system-ui, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">Geometric Low-Poly</text>
+  </g>
+
+
+  <!-- RIGHT: HIGH RESOLUTION (512px) - Gold Theme -->
+  <g transform="translate(600, 250)">
+      <!-- Platform Base -->
+      <path d="M -70 40 L 0 80 L 70 40 L 70 50 L 0 90 L -70 50 Z" fill="#7a6030"/>
+      <path d="M 0 80 L 70 40 L 70 50 L 0 90 Z" fill="#000" opacity="0.2"/>
+
+      <!-- Platform Top -->
+      <path d="M 0 -40 L 70 0 L 0 40 L -70 0 Z" fill="#2c3e50" stroke="#b9975b" stroke-width="2"/>
+
+      <!-- High Res Grid (Fine mesh) -->
+      <defs>
+        <pattern id="fineGrid" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(60) scale(1 0.58)">
+             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#b9975b" stroke-width="0.5" opacity="0.3"/>
+        </pattern>
+      </defs>
+      <path d="M 0 -40 L 70 0 L 0 40 L -70 0 Z" fill="url(#fineGrid)"/>
+
+      <!-- High Res Tree (Smooth/Cone stack) -->
+      <g transform="translate(0, 0)" filter="url(#shadow)">
+          <!-- Trunk (Cylinder-ish) -->
+          <path d="M -3 0 L 3 0 L 2.5 -20 L -2.5 -20 Z" fill="#5d4d9b"/>
+
+          <!-- Tier 1 -->
+          <path d="M 0 -45 C -15 -45 -22 -20 -22 -20 L 22 -20 C 22 -20 15 -45 0 -45 Z" fill="#00b894"/>
+          <ellipse cx="0" cy="-20" rx="22" ry="5" fill="#008f72" opacity="0.3"/> <!-- Bottom shade -->
+
+          <!-- Tier 2 -->
+          <path d="M 0 -65 C -12 -65 -18 -40 -18 -40 L 18 -40 C 18 -40 12 -65 0 -65 Z" fill="#00d4aa"/>
+          <ellipse cx="0" cy="-40" rx="18" ry="4" fill="#008f72" opacity="0.3"/>
+
+          <!-- Tier 3 -->
+          <path d="M 0 -80 C -8 -80 -12 -60 -12 -60 L 12 -60 C 12 -60 8 -80 0 -80 Z" fill="#00ffd5"/>
+          <ellipse cx="0" cy="-60" rx="12" ry="3" fill="#00a383" opacity="0.3"/>
+      </g>
+
+      <text x="0" y="120" font-family="system-ui, sans-serif" font-size="16" fill="#b9975b" text-anchor="middle" font-weight="bold">512px</text>
+      <text x="0" y="140" font-family="system-ui, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">Smooth High-Fidelity</text>
+  </g>
+
+</svg>

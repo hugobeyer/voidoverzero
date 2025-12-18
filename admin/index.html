@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous Admin</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-app">
+        <header class="admin-header">
+            <div class="header-brand">
+                <a href="../" class="back-link">← Back to Docs</a>
+                <h1>Image Manager</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="Admin.exportData()">Export JSON</button>
+                <button class="btn btn-secondary" onclick="Admin.importData()">Import JSON</button>
+                <input type="file" id="import-input" accept=".json" style="display:none">
+            </div>
+        </header>
+
+        <main class="admin-content">
+            <!-- Panel Tabs -->
+            <div class="panel-tabs" id="panel-tabs"></div>
+
+            <!-- Content Area -->
+            <div class="admin-panels" id="admin-panels"></div>
+        </main>
+
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
