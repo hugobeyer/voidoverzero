@@ -579,9 +579,54 @@ const DOCS_DATA = {
                     description: 'Buttons available in the overlay menu.',
                     params: [
                         {
+                            id: 'create-as-child-button',
+                            name: 'Create Impostors Button',
+                            desc: 'Create Rawteous impostors from selected objects. Adds Rawteous components to the selection.',
+                        },
+                        {
+                            id: 'create-skip-prefabs-button',
+                            name: 'Create Skip Prefabs Button',
+                            desc: 'Create impostors while skipping prefab assets. Useful for batch processing scene objects.',
+                        },
+                        {
+                            id: 'regenerate-all-button',
+                            name: 'Regenerate All Button',
+                            desc: 'Regenerate all impostors in the scene. Useful after changing global settings or updating source objects.',
+                        },
+                        {
                             id: 'delete-all-button',
                             name: 'Delete All Button',
                             desc: 'Button to delete all Rawteous objects from the scene. Use with caution - this removes all impostors.',
+                        },
+                        {
+                            id: 'grid-bin-button',
+                            name: 'Grid Bin Button',
+                            desc: 'Toggle grid bin visualization. Shows how impostors are organized in the atlas grid.',
+                        },
+                        {
+                            id: 'toggle-impostors-only-button',
+                            name: 'Toggle Impostors Only Button',
+                            desc: 'Toggle to show only impostor billboards, hiding source objects. Useful for previewing the final result.',
+                        },
+                        {
+                            id: 'toggle-auto-resolution-button',
+                            name: 'Toggle Auto Resolution Button',
+                            desc: 'Toggle automatic resolution calculation. When enabled, resolution is calculated based on object size.',
+                        },
+                        {
+                            id: 'debug-popup-button',
+                            name: 'Debug Popup Button',
+                            desc: 'Open the debug popup menu. Provides access to debug visualization modes and diagnostic tools.',
+                        },
+                        {
+                            id: 'set-leadership-button',
+                            name: 'Set Leadership Button',
+                            desc: 'Set leadership from selected objects. Last selected becomes leader, others become followers.',
+                        },
+                        {
+                            id: 'disconnect-leadership-button',
+                            name: 'Disconnect Leadership Button',
+                            desc: 'Disconnect leadership from selected objects, making them independent again.',
                         }
                     ]
                 }
