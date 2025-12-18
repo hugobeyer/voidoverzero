@@ -482,7 +482,7 @@ const DOCS_DATA = {
                         {
                             id: 'pbrmap-channels',
                             name: 'PBRMap Channels',
-                            desc: 'Configure RGBA channel sources for the PBR map. Default: R=Metallic (controls how metallic the surface appears), G=Smoothness (controls surface smoothness: 1.0 = smooth/mirror-like, 0.0 = rough), B=AO/Ambient Occlusion (controls how much ambient light is occluded in crevices), A=Depth (normalized depth: 0 = closest point, 1 = farthest point, used for depth-based effects). Each channel can be configured independently from available sources: Metallic, Smoothness, AO, Depth, Emission, Albedo, Normal, Translucency, or custom data.',
+                            desc: 'Configure RGBA channel sources. Default: R=Metallic, G=Smoothness, B=AO, A=Depth. Each channel can be set independently from available sources: Metallic, Smoothness, AO, Depth, Emission, Albedo, Normal, Translucency, or custom data.',
                             image: 'images/params/pbrmap-r.svg'
                         }
                     ]
