@@ -123,8 +123,12 @@ const App = {
         if (images.length === 0 && param.image && param.image.trim() !== '') {
             images = [param.image];
         }
-        // Filter out empty strings
-        images = images.filter(img => img && img.trim() !== '');
+        // Filter out empty strings and non-SVG images
+        images = images.filter(img => {
+            if (!img || img.trim() === '') return false;
+            // Only include SVG images
+            return img.toLowerCase().endsWith('.svg');
+        });
         const hasImages = images.length > 0;
 
         const card = document.createElement('div');
