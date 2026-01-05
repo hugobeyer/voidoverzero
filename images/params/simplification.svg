@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">CAST MESH SIMPLIFICATION</text>
+
+  <!-- Low simplification (detailed) -->
+  <g transform="translate(90, 130)">
+    <!-- Complex silhouette -->
+    <path d="M -35 40 L -30 30 L -35 25 L -25 20 L -30 10 L -20 5 L -25 -5 L -15 -15 L -20 -25 L -5 -35 L 5 -30 L 15 -40 L 20 -30 L 30 -25 L 25 -15 L 35 -10 L 30 0 L 40 10 L 30 20 L 35 30 L 25 35 L 30 45 L 15 40 L 5 50 L -5 45 L -15 50 L -25 45 Z"
+          fill="#5d4d9b" opacity="0.3" stroke="#5d4d9b" stroke-width="1"/>
+
+    <!-- Vertex dots -->
+    <g fill="#5d4d9b">
+      <circle cx="-35" cy="40" r="2"/>
+      <circle cx="-30" cy="30" r="2"/>
+      <circle cx="-35" cy="25" r="2"/>
+      <circle cx="-25" cy="20" r="2"/>
+      <circle cx="-30" cy="10" r="2"/>
+      <circle cx="-20" cy="5" r="2"/>
+      <circle cx="-25" cy="-5" r="2"/>
+      <circle cx="-15" cy="-15" r="2"/>
+      <circle cx="-20" cy="-25" r="2"/>
+      <circle cx="-5" cy="-35" r="2"/>
+      <circle cx="5" cy="-30" r="2"/>
+      <circle cx="15" cy="-40" r="2"/>
+      <circle cx="20" cy="-30" r="2"/>
+      <circle cx="30" cy="-25" r="2"/>
+      <circle cx="25" cy="-15" r="2"/>
+      <circle cx="35" cy="-10" r="2"/>
+      <circle cx="30" cy="0" r="2"/>
+      <circle cx="40" cy="10" r="2"/>
+      <circle cx="30" cy="20" r="2"/>
+      <circle cx="35" cy="30" r="2"/>
+      <circle cx="25" cy="35" r="2"/>
+      <circle cx="30" cy="45" r="2"/>
+      <circle cx="15" cy="40" r="2"/>
+      <circle cx="5" cy="50" r="2"/>
+      <circle cx="-5" cy="45" r="2"/>
+      <circle cx="-15" cy="50" r="2"/>
+      <circle cx="-25" cy="45" r="2"/>
+    </g>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#5d4d9b" text-anchor="middle" font-weight="600">ε = 1</text>
+    <text x="0" y="83" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">27 vertices</text>
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.3">Most accurate</text>
+  </g>
+
+  <!-- Medium simplification -->
+  <g transform="translate(200, 130)">
+    <!-- Simplified silhouette -->
+    <path d="M -30 40 L -30 15 L -20 -10 L -5 -35 L 15 -40 L 30 -20 L 40 10 L 30 35 L 10 50 L -15 50 Z"
+          fill="#00ffd5" opacity="0.3" stroke="#00ffd5" stroke-width="2"/>
+
+    <!-- Vertex dots -->
+    <g fill="#00ffd5">
+      <circle cx="-30" cy="40" r="3"/>
+      <circle cx="-30" cy="15" r="3"/>
+      <circle cx="-20" cy="-10" r="3"/>
+      <circle cx="-5" cy="-35" r="3"/>
+      <circle cx="15" cy="-40" r="3"/>
+      <circle cx="30" cy="-20" r="3"/>
+      <circle cx="40" cy="10" r="3"/>
+      <circle cx="30" cy="35" r="3"/>
+      <circle cx="10" cy="50" r="3"/>
+      <circle cx="-15" cy="50" r="3"/>
+    </g>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#00ffd5" text-anchor="middle" font-weight="600">ε = 5</text>
+    <text x="0" y="83" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">10 vertices</text>
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="8" fill="#00ffd5" text-anchor="middle">Recommended</text>
+  </g>
+
+  <!-- High simplification -->
+  <g transform="translate(310, 130)">
+    <!-- Very simplified silhouette -->
+    <path d="M -25 45 L -20 -20 L 15 -40 L 40 15 L 10 50 Z"
+          fill="#d64550" opacity="0.3" stroke="#d64550" stroke-width="2"/>
+
+    <!-- Vertex dots -->
+    <g fill="#d64550">
+      <circle cx="-25" cy="45" r="4"/>
+      <circle cx="-20" cy="-20" r="4"/>
+      <circle cx="15" cy="-40" r="4"/>
+      <circle cx="40" cy="15" r="4"/>
+      <circle cx="10" cy="50" r="4"/>
+    </g>
+
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#d64550" text-anchor="middle" font-weight="600">ε = 20</text>
+    <text x="0" y="83" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">5 vertices</text>
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.3">Fast but rough</text>
+  </g>
+
+  <!-- Douglas-Peucker explanation -->
+  <g transform="translate(200, 245)">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Douglas-Peucker algorithm removes points within ε distance of line</text>
+    <text x="0" y="15" font-family="system-ui, sans-serif" font-size="8" fill="#00ffd5" text-anchor="middle" opacity="0.6">Higher ε = fewer vertices = simpler mesh</text>
+  </g>
+</svg>

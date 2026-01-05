@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">HEMISPHERE ONLY MODE</text>
+
+  <!-- Left: Full sphere capture -->
+  <g transform="translate(120, 145)">
+    <!-- Full sphere -->
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+    <ellipse cx="0" cy="0" rx="70" ry="20" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+
+    <!-- Camera positions - full sphere -->
+    <g fill="#b9975b">
+      <!-- Top -->
+      <circle cx="0" cy="-65" r="5"/>
+      <!-- Upper ring -->
+      <circle cx="50" cy="-40" r="4"/>
+      <circle cx="-50" cy="-40" r="4"/>
+      <!-- Middle ring -->
+      <circle cx="65" cy="0" r="4"/>
+      <circle cx="-65" cy="0" r="4"/>
+      <!-- Lower ring -->
+      <circle cx="50" cy="40" r="4"/>
+      <circle cx="-50" cy="40" r="4"/>
+      <!-- Bottom -->
+      <circle cx="0" cy="65" r="5"/>
+    </g>
+
+    <!-- Object in center -->
+    <circle cx="0" cy="0" r="15" fill="#00ffd5" opacity="0.2"/>
+
+    <!-- Label -->
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" opacity="0.7">Full Sphere</text>
+    <text x="0" y="108" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.4">All angles captured</text>
+  </g>
+
+  <!-- Right: Hemisphere only -->
+  <g transform="translate(280, 145)">
+    <!-- Upper hemisphere only -->
+    <path d="M -70 0 A 70 70 0 0 1 70 0" fill="none" stroke="#00ffd5" stroke-width="2"/>
+    <!-- Lower hemisphere (faded/disabled) -->
+    <path d="M -70 0 A 70 70 0 0 0 70 0" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1" stroke-dasharray="4,4"/>
+
+    <!-- Equator line -->
+    <ellipse cx="0" cy="0" rx="70" ry="20" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.5"/>
+
+    <!-- Camera positions - upper hemisphere only -->
+    <g fill="#00ffd5">
+      <!-- Top -->
+      <circle cx="0" cy="-65" r="5"/>
+      <!-- Upper ring -->
+      <circle cx="50" cy="-40" r="5"/>
+      <circle cx="-50" cy="-40" r="5"/>
+      <circle cx="0" cy="-45" r="4"/>
+      <!-- Near equator -->
+      <circle cx="65" cy="-10" r="4"/>
+      <circle cx="-65" cy="-10" r="4"/>
+    </g>
+
+    <!-- Crossed out lower cameras -->
+    <g stroke="#d64550" stroke-width="2" opacity="0.5">
+      <line x1="45" y1="35" x2="55" y2="45"/>
+      <line x1="55" y1="35" x2="45" y2="45"/>
+      <line x1="-55" y1="35" x2="-45" y2="45"/>
+      <line x1="-45" y1="35" x2="-55" y2="45"/>
+    </g>
+
+    <!-- Object in center -->
+    <circle cx="0" cy="0" r="15" fill="#00ffd5" opacity="0.2"/>
+
+    <!-- Ground indicator -->
+    <line x1="-80" y1="5" x2="80" y2="5" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+    <text x="0" y="20" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" opacity="0.3">GROUND</text>
+
+    <!-- Label -->
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="11" fill="#00ffd5" text-anchor="middle" font-weight="600">Hemisphere Only</text>
+    <text x="0" y="108" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.4">50% memory saved</text>
+  </g>
+
+  <!-- Use case examples -->
+  <rect x="50" y="230" width="300" height="35" rx="4" fill="#1a1e24" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+  <text x="200" y="248" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.6">Best for: Ground vegetation, floor objects, terrain features</text>
+  <text x="200" y="260" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.4">Never viewed from below</text>
+</svg>

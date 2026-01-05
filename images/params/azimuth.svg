@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+    <linearGradient id="objectGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffd5"/>
+      <stop offset="100%" style="stop-color:#00b894"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="30" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">AZIMUTH ANGLES</text>
+
+  <!-- Circle representing horizontal plane -->
+  <ellipse cx="200" cy="150" rx="120" ry="40" fill="none" stroke="#00ffd5" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+
+  <!-- Central object -->
+  <circle cx="200" cy="150" r="20" fill="url(#objectGrad)" opacity="0.8"/>
+  <text x="200" y="155" font-family="system-ui, sans-serif" font-size="10" fill="#1a1e24" text-anchor="middle" font-weight="600">OBJ</text>
+
+  <!-- Camera positions around the circle -->
+  <g fill="#b9975b">
+    <!-- 8 cameras at equal angles -->
+    <circle cx="320" cy="150" r="6"/>
+    <circle cx="285" cy="93" r="6"/>
+    <circle cx="200" cy="70" r="6"/>
+    <circle cx="115" cy="93" r="6"/>
+    <circle cx="80" cy="150" r="6"/>
+    <circle cx="115" cy="207" r="6"/>
+    <circle cx="200" cy="230" r="6"/>
+    <circle cx="285" cy="207" r="6"/>
+  </g>
+
+  <!-- Lines from cameras to object -->
+  <g stroke="#b9975b" stroke-width="1" opacity="0.4">
+    <line x1="314" y1="150" x2="220" y2="150"/>
+    <line x1="281" y1="97" x2="213" y2="138"/>
+    <line x1="200" y1="76" x2="200" y2="130"/>
+    <line x1="119" y1="97" x2="187" y2="138"/>
+    <line x1="86" y1="150" x2="180" y2="150"/>
+    <line x1="119" y1="203" x2="187" y2="162"/>
+    <line x1="200" y1="224" x2="200" y2="170"/>
+    <line x1="281" y1="203" x2="213" y2="162"/>
+  </g>
+
+  <!-- Angle arc indicator -->
+  <path d="M 260 150 A 60 60 0 0 0 230 100" fill="none" stroke="#00ffd5" stroke-width="2"/>
+  <text x="265" y="115" font-family="system-ui, sans-serif" font-size="11" fill="#00ffd5">45°</text>
+
+  <!-- Labels -->
+  <text x="340" y="154" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">0°</text>
+  <text x="200" y="60" font-family="monospace" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.7">90°</text>
+  <text x="55" y="154" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">180°</text>
+  <text x="200" y="252" font-family="monospace" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.7">270°</text>
+
+  <!-- Info text -->
+  <text x="200" y="268" font-family="system-ui, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.5">8 horizontal captures around object</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui, sans-serif" font-size="14" fill="#00ffd5" text-anchor="middle" font-weight="600">POLE SCALING EFFECT</text>
+
+  <!-- Left sphere: Low pole scaling (compressed to equator) -->
+  <g transform="translate(100, 140)">
+    <!-- Sphere outline -->
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+
+    <!-- Horizontal bands showing distribution -->
+    <ellipse cx="0" cy="-20" rx="57" ry="10" fill="none" stroke="#b9975b" stroke-width="2" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="60" ry="12" fill="none" stroke="#b9975b" stroke-width="2"/>
+    <ellipse cx="0" cy="20" rx="57" ry="10" fill="none" stroke="#b9975b" stroke-width="2" opacity="0.8"/>
+
+    <!-- Poles (sparse) -->
+    <circle cx="0" cy="-55" r="3" fill="#b9975b" opacity="0.3"/>
+    <circle cx="0" cy="55" r="3" fill="#b9975b" opacity="0.3"/>
+
+    <!-- Label -->
+    <text x="0" y="85" font-family="system-ui, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" opacity="0.7">Low (20)</text>
+    <text x="0" y="100" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Clustered at equator</text>
+  </g>
+
+  <!-- Middle sphere: Balanced (50) -->
+  <g transform="translate(200, 140)">
+    <!-- Sphere outline -->
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+
+    <!-- Even distribution -->
+    <ellipse cx="0" cy="-45" rx="40" ry="8" fill="none" stroke="#00ffd5" stroke-width="2" opacity="0.6"/>
+    <ellipse cx="0" cy="-22" rx="55" ry="10" fill="none" stroke="#00ffd5" stroke-width="2" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="60" ry="12" fill="none" stroke="#00ffd5" stroke-width="2"/>
+    <ellipse cx="0" cy="22" rx="55" ry="10" fill="none" stroke="#00ffd5" stroke-width="2" opacity="0.8"/>
+    <ellipse cx="0" cy="45" rx="40" ry="8" fill="none" stroke="#00ffd5" stroke-width="2" opacity="0.6"/>
+
+    <!-- Label -->
+    <text x="0" y="85" font-family="system-ui, sans-serif" font-size="11" fill="#00ffd5" text-anchor="middle" font-weight="600">Default (50)</text>
+    <text x="0" y="100" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">Uniform distribution</text>
+  </g>
+
+  <!-- Right sphere: High pole scaling (expanded to poles) -->
+  <g transform="translate(300, 140)">
+    <!-- Sphere outline -->
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#00ffd5" stroke-width="1" opacity="0.3"/>
+
+    <!-- Pole-heavy distribution -->
+    <circle cx="0" cy="-55" r="5" fill="#d64550"/>
+    <ellipse cx="0" cy="-40" rx="45" ry="9" fill="none" stroke="#d64550" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="60" ry="12" fill="none" stroke="#d64550" stroke-width="2" opacity="0.6"/>
+    <ellipse cx="0" cy="40" rx="45" ry="9" fill="none" stroke="#d64550" stroke-width="2"/>
+    <circle cx="0" cy="55" r="5" fill="#d64550"/>
+
+    <!-- Label -->
+    <text x="0" y="85" font-family="system-ui, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" opacity="0.7">High (80)</text>
+    <text x="0" y="100" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.5">More at poles</text>
+  </g>
+
+  <!-- Scale indicator -->
+  <rect x="50" y="250" width="300" height="8" rx="4" fill="#1a1e24" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <rect x="50" y="250" width="150" height="8" rx="4" fill="#00ffd5" opacity="0.5"/>
+  <circle cx="200" cy="254" r="6" fill="#00ffd5"/>
+
+  <text x="50" y="270" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" opacity="0.5">10</text>
+  <text x="200" y="270" font-family="system-ui, sans-serif" font-size="9" fill="#00ffd5" text-anchor="middle">50</text>
+  <text x="350" y="270" font-family="system-ui, sans-serif" font-size="9" fill="#ffffff" opacity="0.5" text-anchor="end">80</text>
+</svg>

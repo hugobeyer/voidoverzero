@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="background-color: #1a1e24;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1e24"/>
+      <stop offset="100%" style="stop-color:#13161b"/>
+    </linearGradient>
+    <radialGradient id="sphereGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" style="stop-color:#888888" stop-opacity="0.9"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgGrad)"/>
+  <text x="400" y="50" font-family="system-ui, sans-serif" font-size="24" fill="#00ffd5" text-anchor="middle" font-weight="600" letter-spacing="2">HORIZONTAL ARC LIMIT 3D</text>
+
+  <!-- Reusable Camera Symbol Definition -->
+  <defs>
+      <g id="camera-frustum">
+        <!-- Body -->
+        <path d="M -10 -8 L 10 -8 L 16 -16 L -16 -16 Z" fill="currentColor" opacity="0.8"/>
+        <path d="M -16 -16 L 16 -16 L 10 -22 L -10 -22 Z" fill="currentColor" opacity="0.6"/> <!-- Top -->
+        <path d="M 10 -8 L 16 -16 L 16 -24 L 10 -18 Z" fill="currentColor" opacity="0.5"/> <!-- Side -->
+        <!-- Lens -->
+        <circle cx="0" cy="-12" r="3" fill="#1a1e24"/>
+      </g>
+  </defs>
+
+  <!-- 360 DEGREE (Full Circle) -->
+  <g transform="translate(200, 250)">
+      <!-- Floor Circle -->
+      <ellipse cx="0" cy="0" rx="100" ry="60" fill="none" stroke="#00ffd5" stroke-width="2" stroke-dasharray="4,4" opacity="0.3"/>
+
+      <!-- Central Object -->
+      <circle cx="0" cy="-10" r="15" fill="url(#sphereGrad)"/>
+
+      <!-- Cameras (Teal) -->
+      <g color="#00ffd5">
+          <!-- Back Cameras (Behind object) -->
+          <use href="#camera-frustum" x="0" y="-60" transform="translate(0, -10) scale(0.8)"/>
+          <use href="#camera-frustum" x="-70" y="-40" transform="translate(0, -10) scale(0.8)"/>
+          <use href="#camera-frustum" x="70" y="-40" transform="translate(0, -10) scale(0.8)"/>
+
+          <!-- Front Cameras -->
+          <use href="#camera-frustum" x="-100" y="0" transform="translate(0, 5)"/>
+          <use href="#camera-frustum" x="100" y="0" transform="translate(0, 5)"/>
+          <use href="#camera-frustum" x="-70" y="40" transform="translate(0, 15) scale(1.1)"/>
+          <use href="#camera-frustum" x="70" y="40" transform="translate(0, 15) scale(1.1)"/>
+          <use href="#camera-frustum" x="0" y="60" transform="translate(0, 20) scale(1.2)"/>
+      </g>
+
+      <text x="0" y="100" font-family="system-ui, sans-serif" font-size="16" fill="#00ffd5" text-anchor="middle" font-weight="bold">360� Full</text>
+  </g>
+
+
+  <!-- 180 DEGREE (Front Half) -->
+  <g transform="translate(400, 250)">
+      <!-- Floor: Full circle ghosted, Front arc solid -->
+      <path d="M -100 0 A 100 60 0 0 1 100 0" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.1"/> <!-- Back half ghost -->
+      <path d="M -100 0 A 100 60 0 0 0 100 0" fill="none" stroke="#b9975b" stroke-width="3" opacity="0.8"/> <!-- Front half solid -->
+
+      <!-- Central Object -->
+      <circle cx="0" cy="-10" r="15" fill="url(#sphereGrad)"/>
+
+      <!-- Cameras (Gold) -->
+      <g color="#b9975b">
+          <!-- Only Front Cameras -->
+          <use href="#camera-frustum" x="-100" y="0" transform="translate(0, 5)"/>
+          <use href="#camera-frustum" x="100" y="0" transform="translate(0, 5)"/>
+          <use href="#camera-frustum" x="-70" y="40" transform="translate(0, 15) scale(1.1)"/>
+          <use href="#camera-frustum" x="70" y="40" transform="translate(0, 15) scale(1.1)"/>
+          <use href="#camera-frustum" x="0" y="60" transform="translate(0, 20) scale(1.2)"/>
+      </g>
+
+      <!-- Front Direction Arrow -->
+      <path d="M 0 75 L 0 95 M -5 90 L 0 95 L 5 90" stroke="#b9975b" stroke-width="2" opacity="0.6"/>
+      <text x="0" y="115" font-family="system-ui, sans-serif" font-size="16" fill="#b9975b" text-anchor="middle" font-weight="bold">180� Front</text>
+  </g>
+
+
+  <!-- 90 DEGREE (Quarter Arc) -->
+  <g transform="translate(600, 250)">
+       <!-- Floor: Full circle ghosted, Front quarter solid -->
+      <ellipse cx="0" cy="0" rx="100" ry="60" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.1"/>
+
+      <!-- 90 degree arc (approximate bezier for isometric arc segment) -->
+      <path d="M -50 50 Q 0 65 50 50" fill="none" stroke="#d64550" stroke-width="3" opacity="0.8"/>
+
+      <!-- Cone of vision lines -->
+      <line x1="0" y1="0" x2="-50" y2="50" stroke="#d64550" stroke-width="1" opacity="0.3" stroke-dasharray="2,2"/>
+      <line x1="0" y1="0" x2="50" y2="50" stroke="#d64550" stroke-width="1" opacity="0.3" stroke-dasharray="2,2"/>
+
+      <!-- Central Object -->
+      <circle cx="0" cy="-10" r="15" fill="url(#sphereGrad)"/>
+
+      <!-- Cameras (Red) -->
+      <g color="#d64550">
+          <!-- Narrow Arc Cameras -->
+          <use href="#camera-frustum" x="-50" y="45" transform="translate(0, 12) scale(1.0)"/> <!-- Left edge of 90 -->
+          <use href="#camera-frustum" x="50" y="45" transform="translate(0, 12) scale(1.0)"/>  <!-- Right edge of 90 -->
+          <use href="#camera-frustum" x="0" y="60" transform="translate(0, 20) scale(1.2)"/>   <!-- Center -->
+      </g>
+
+      <text x="0" y="100" font-family="system-ui, sans-serif" font-size="16" fill="#d64550" text-anchor="middle" font-weight="bold">90� Narrow</text>
+  </g>
+
+  <text x="400" y="400" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" opacity="0.4">Visualizing limited capture angles for billboards</text>
+
+</svg>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- TinyMCE Rich Text Editor -->
+    <script src="https://cdn.tiny.cloud/1/iuvi9qf223dfasx083ehq9wz5slcz6yjknnr3271jh2gvfmc/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="admin-app">
+        <header class="admin-header">
+            <div class="header-brand">
+                <a href="../" class="back-link">← Back to Docs</a>
+                <h1>Documentation Admin</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="Admin.previewChanges()">Preview Changes</button>
+                <button class="btn btn-secondary" onclick="Admin.exportData()">Export Data</button>
+                <button class="btn btn-secondary" onclick="Admin.importData()">Import Data</button>
+                <input type="file" id="import-input" accept=".json" style="display:none">
+            </div>
+        </header>
+
+        <!-- Main Navigation -->
+        <nav class="admin-nav">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-view="list">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    Item List
+                </button>
+                <button class="nav-tab" data-view="categories">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14,2 14,8 20,8"></polyline>
+                    </svg>
+                    Categories
+                </button>
+                <button class="nav-tab" data-view="editor">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Editor
+                </button>
+                <button class="nav-tab" data-view="images">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="9" cy="9" r="2"></circle>
+                        <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                    </svg>
+                    Images
+                </button>
+            </div>
+        </nav>
+
+        <main class="admin-content">
+            <!-- Item List View -->
+            <div class="admin-view active" id="view-list">
+                <div class="view-header">
+                    <div class="search-controls">
+                        <div class="search-input-wrapper">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                            <input type="text" id="search-input" placeholder="Search documentation items..." class="search-input">
+                        </div>
+                        <select id="category-filter" class="category-filter">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="view-actions">
+                        <button class="btn btn-primary" onclick="Admin.addNewItem()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Item
+                        </button>
+                    </div>
+                </div>
+                <div class="stats-bar" id="stats-bar"></div>
+                <div class="item-list" id="item-list"></div>
+            </div>
+
+            <!-- Categories View -->
+            <div class="admin-view" id="view-categories">
+                <div class="view-header">
+                    <h2>Category Management</h2>
+                    <button class="btn btn-primary" onclick="Admin.addNewCategory()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add Category
+                    </button>
+                </div>
+                <div class="categories-grid" id="categories-grid"></div>
+            </div>
+
+            <!-- Editor View -->
+            <div class="admin-view" id="view-editor">
+                <div class="view-header">
+                    <div class="editor-info" id="editor-info">
+                        <h2>Select an item to edit</h2>
+                        <p>Choose an item from the list view to start editing with the rich text editor.</p>
+                        <div class="copy-paste-info">
+                            <h3>💡 Copy/Paste Features:</h3>
+                            <ul>
+                                <li><strong>Text:</strong> Ctrl+C / Ctrl+V (works with formatting)</li>
+                                <li><strong>Images:</strong> Copy images from anywhere and paste directly</li>
+                                <li><strong>HTML:</strong> Copy from web pages, Word docs, etc.</li>
+                                <li><strong>Drag & Drop:</strong> Drag images from desktop</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor-container" id="editor-container">
+                    <div class="editor-toolbar">
+                        <button class="btn btn-secondary" onclick="Admin.saveCurrentItem()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17,8 12,3 7,8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Save Changes
+                        </button>
+                        <div class="auto-save-status" id="auto-save-status">
+                            <span class="auto-save-dot"></span>
+                            Auto-saving enabled
+                        </div>
+                        <button class="btn btn-secondary" onclick="Admin.previewItem()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            Preview
+                        </button>
+                        <button class="btn btn-secondary" onclick="Admin.insertImageFromGallery()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="9" cy="9" r="2"></circle>
+                                <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                            </svg>
+                            Insert from Gallery
+                        </button>
+                        <button class="btn btn-secondary" onclick="Admin.testCopyPaste()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Test Copy/Paste
+                        </button>
+                    </div>
+                    <div class="editor-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="item-name">Name</label>
+                                <input type="text" id="item-name" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="item-category">Category</label>
+                                <select id="item-category" class="form-select"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-description">Description</label>
+                            <textarea id="item-description" class="form-textarea" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-content">Content (Rich Text)</label>
+                            <textarea id="item-content" class="rich-editor"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images View -->
+            <div class="admin-view" id="view-images">
+                <div class="view-header">
+                    <h2>Image Management</h2>
+                    <div class="upload-controls">
+                        <label class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                            Upload Images
+                            <input type="file" id="image-upload" accept="image/*" multiple style="display:none">
+                        </label>
+                    </div>
+                </div>
+                <div class="images-gallery" id="images-gallery"></div>
+            </div>
+        </main>
+
+        <!-- Modals -->
+        <div class="modal" id="item-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Add New Item</h3>
+                    <button class="modal-close" onclick="Admin.closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="modal-item-name">Name</label>
+                        <input type="text" id="modal-item-name" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-item-type">Type</label>
+                        <select id="modal-item-type" class="form-select">
+                            <option value="custom">Custom Page</option>
+                            <option value="param">Parameter</option>
+                            <option value="group">Group</option>
+                            <option value="panel">Panel</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-item-category">Category</label>
+                        <select id="modal-item-category" class="form-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-item-description">Description</label>
+                        <textarea id="modal-item-description" class="form-textarea" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="Admin.closeModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="Admin.saveModalItem()">Save Item</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="admin-data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

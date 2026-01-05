@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolution 3D Generator</title>
+    <style>
+        body { margin: 0; background-color: #1a1e24; color: white; font-family: system-ui, sans-serif; overflow: hidden; }
+        #info { position: absolute; top: 10px; width: 100%; text-align: center; pointer-events: none; }
+        #controls { position: absolute; bottom: 20px; width: 100%; text-align: center; }
+        button { padding: 10px 20px; background: #00ffd5; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; pointer-events: auto; }
+        button:hover { background: #00b894; }
+    </style>
+    <!-- Import Three.js and SVGRenderer as ES modules -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="info">
+        <h2>Resolution 3D Generator</h2>
+        <p>Rotate to desired angle, then click Download</p>
+    </div>
+    <div id="controls">
+        <button id="download">Download SVG</button>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { SVGRenderer } from 'three/addons/renderers/SVGRenderer.js';
+
+        // Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color('#1a1e24');
+
+        // Camera - using Orthographic for that clean isometric look, but can switch to Perspective
+        const aspect = window.innerWidth / window.innerHeight;
+        const frustumSize = 40;
+        const camera = new THREE.OrthographicCamera(
+            frustumSize * aspect / -2, frustumSize * aspect / 2,
+            frustumSize / 2, frustumSize / -2,
+            1, 1000
+        );
+
+        // Initial isometric-ish position
+        camera.position.set(20, 20, 20);
+        camera.lookAt(0, 0, 0);
+
+        // Renderer (SVG)
+        const renderer = new SVGRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Controls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // --- SCENE CONTENT ---
+
+        // Colors
+        const colorTeal = 0x00ffd5;
+        const colorGold = 0xb9975b;
+        const colorRed = 0xd64550;
+        const colorTreeTrunk = 0x5d4d9b;
+        const colorTreeLeaves = 0x00b894;
+
+        // Group 1: Low Res (Left)
+        const groupLow = new THREE.Group();
+        groupLow.position.x = -12;
+        scene.add(groupLow);
+
+        // Grid Base
+        const geoBase = new THREE.BoxGeometry(10, 1, 10);
+        // We use edges geometry for that "wireframe" look in SVG
+        const edgesLow = new THREE.EdgesGeometry(geoBase);
+        const lineLow = new THREE.LineSegments(edgesLow, new THREE.LineBasicMaterial({ color: colorRed }));
+        groupLow.add(lineLow);
+
+        // Grid lines on top
+        const gridHelperLow = new THREE.GridHelper(10, 2, colorRed, colorRed);
+        gridHelperLow.position.y = 0.5;
+        groupLow.add(gridHelperLow);
+
+        // Low Res Tree (Blocks)
+        const trunkLow = new THREE.Mesh(new THREE.BoxGeometry(2, 4, 2), new THREE.MeshBasicMaterial({ color: colorTreeTrunk }));
+        trunkLow.position.y = 2.5;
+        groupLow.add(trunkLow);
+        const leavesLow = new THREE.Mesh(new THREE.BoxGeometry(6, 6, 6), new THREE.MeshBasicMaterial({ color: colorTreeLeaves }));
+        leavesLow.position.y = 7.5;
+        groupLow.add(leavesLow);
+
+
+        // Group 2: Medium Res (Center)
+        const groupMed = new THREE.Group();
+        groupMed.position.x = 0;
+        scene.add(groupMed);
+
+        const edgesMed = new THREE.EdgesGeometry(geoBase);
+        const lineMed = new THREE.LineSegments(edgesMed, new THREE.LineBasicMaterial({ color: colorTeal }));
+        groupMed.add(lineMed);
+
+        const gridHelperMed = new THREE.GridHelper(10, 5, colorTeal, colorTeal);
+        gridHelperMed.position.y = 0.5;
+        groupMed.add(gridHelperMed);
+
+        // Med Res Tree (More geometric)
+        const trunkMed = new THREE.Mesh(new THREE.BoxGeometry(1.5, 4, 1.5), new THREE.MeshBasicMaterial({ color: colorTreeTrunk }));
+        trunkMed.position.y = 2.5;
+        groupMed.add(trunkMed);
+
+        const leavesMed1 = new THREE.Mesh(new THREE.ConeGeometry(3.5, 4, 4), new THREE.MeshBasicMaterial({ color: colorTreeLeaves }));
+        leavesMed1.position.y = 6.5;
+        leavesMed1.rotation.y = Math.PI / 4;
+        groupMed.add(leavesMed1);
+
+        const leavesMed2 = new THREE.Mesh(new THREE.ConeGeometry(2.5, 3, 4), new THREE.MeshBasicMaterial({ color: 0x00d4aa }));
+        leavesMed2.position.y = 8.5;
+        leavesMed2.rotation.y = Math.PI / 4;
+        groupMed.add(leavesMed2);
+
+
+        // Group 3: High Res (Right)
+        const groupHigh = new THREE.Group();
+        groupHigh.position.x = 12;
+        scene.add(groupHigh);
+
+        const edgesHigh = new THREE.EdgesGeometry(geoBase);
+        const lineHigh = new THREE.LineSegments(edgesHigh, new THREE.LineBasicMaterial({ color: colorGold }));
+        groupHigh.add(lineHigh);
+
+        const gridHelperHigh = new THREE.GridHelper(10, 10, colorGold, colorGold);
+        gridHelperHigh.position.y = 0.5;
+        groupHigh.add(gridHelperHigh);
+
+        // High Res Tree (Smooth)
+        const trunkHigh = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 1, 4, 16), new THREE.MeshBasicMaterial({ color: colorTreeTrunk }));
+        trunkHigh.position.y = 2.5;
+        groupHigh.add(trunkHigh);
+
+        const leavesHigh1 = new THREE.Mesh(new THREE.ConeGeometry(3.5, 4, 32), new THREE.MeshBasicMaterial({ color: colorTreeLeaves }));
+        leavesHigh1.position.y = 6;
+        groupHigh.add(leavesHigh1);
+
+        const leavesHigh2 = new THREE.Mesh(new THREE.ConeGeometry(2.8, 3.5, 32), new THREE.MeshBasicMaterial({ color: 0x00d4aa }));
+        leavesHigh2.position.y = 8;
+        groupHigh.add(leavesHigh2);
+
+        const leavesHigh3 = new THREE.Mesh(new THREE.ConeGeometry(2, 3, 32), new THREE.MeshBasicMaterial({ color: colorTeal }));
+        leavesHigh3.position.y = 10;
+        groupHigh.add(leavesHigh3);
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            const aspect = window.innerWidth / window.innerHeight;
+            camera.left = -frustumSize * aspect / 2;
+            camera.right = frustumSize * aspect / 2;
+            camera.top = frustumSize / 2;
+            camera.bottom = -frustumSize / 2;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Download SVG
+        document.getElementById('download').addEventListener('click', () => {
+            const svgData = renderer.domElement.outerHTML;
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'resolution_3d_render.svg';
+            link.click();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous Unity Params Generator</title>
+    <style>
+        body { margin: 0; background-color: #1a1e24; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        #ui { position: absolute; top: 10px; left: 10px; background: #282c34; padding: 15px; border-radius: 4px; border: 1px solid #3e434c; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; min-width: 250px; }
+        h1 { margin: 0 0 15px 0; font-size: 14px; color: #bdbdbd; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-bottom: 1px solid #3e434c; padding-bottom: 10px; }
+
+        .control-group { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; color: #bdbdbd; margin-bottom: 5px; }
+        select, button { width: 100%; padding: 6px; background: #383c44; color: #e0e0e0; border: 1px solid #21252b; border-radius: 2px; font-size: 12px; outline: none; }
+        select:hover, button:hover { border-color: #555; }
+        button#download { background: #3d424b; margin-top: 10px; }
+        button#download:hover { background: #4a505a; }
+
+        /* Unity Inspector Style Labels - UPDATED SIZE */
+        .unity-label {
+            position: absolute;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px; /* Increased from 12px */
+            color: #e0e0e0;
+            background: rgba(40, 44, 52, 0.95);
+            padding: 6px 12px; /* Increased padding */
+            border-radius: 4px;
+            border: 1px solid #21252b;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        .unity-prop { color: #bdbdbd; font-size: 13px; font-weight: 500; } /* Increased from 11px */
+        .unity-val { color: #00ffd5; font-weight: 700; font-size: 15px; } /* Increased */
+        .unity-val.gold { color: #b9975b; }
+        .unity-val.red { color: #d64550; }
+
+        #labels-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    </style>
+    <!-- Import Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="ui">
+        <h1>Rawteous Inspector</h1>
+
+        <div class="control-group">
+            <label>VISUALIZATION MODE</label>
+            <select id="sceneSelector">
+                <option value="resolution">textureResolution</option>
+                <option value="horizontalArch">horizontalArchLimit</option>
+                <option value="hemisphere">hemisphereOnly</option>
+            </select>
+        </div>
+
+        <button id="download">Save Screenshot</button>
+    </div>
+
+    <div id="labels-container"></div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- UNITY COLORS ---
+        const C = {
+            bg: 0x1a1e24, // Unity Dark BG
+            grid: 0x2c3e50,
+            teal: 0x00ffd5,
+            gold: 0xb9975b,
+            red: 0xd64550,
+            white: 0xffffff,
+            grey: 0x888888,
+        };
+
+        // --- SETUP ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(C.bg);
+
+        // Orthographic Camera (Unity Editor Style)
+        const aspect = window.innerWidth / window.innerHeight;
+        const d = 16; // Zoomed in slightly more for better visibility
+        const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
+        camera.position.set(20, 20, -20); // Isometric-ish
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.1;
+
+        const contentGroup = new THREE.Group();
+        scene.add(contentGroup);
+
+        let activeLabels = [];
+        let billboardObjects = []; // Objects that should face camera
+
+        // --- MATERIALS & SHADERS ---
+
+        function createGradientLineMaterial(color, opacityStart=1.0, opacityEnd=0.0) {
+            return new THREE.ShaderMaterial({
+                uniforms: {
+                    color: { value: new THREE.Color(color) },
+                    opacityStart: { value: opacityStart },
+                    opacityEnd: { value: opacityEnd }
+                },
+                vertexShader: `
+                    attribute float alpha;
+                    varying float vAlpha;
+                    void main() {
+                        vAlpha = alpha;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 color;
+                    varying float vAlpha;
+                    void main() {
+                        gl_FragColor = vec4(color, vAlpha);
+                    }
+                `,
+                transparent: true,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+        }
+
+        // --- HELPER GEOMETRY ---
+
+        function createUnityCameraGizmo(color, scale = 1.0) {
+            const group = new THREE.Group();
+
+            // Frustum Points (Pyramid)
+            const w = 0.5 * scale;
+            const h = 0.35 * scale;
+            const z = 1.0 * scale; // Forward direction
+
+            const vertices = [
+                // 4 Base lines
+                -w, -h, z,  w, -h, z,
+                 w, -h, z,  w,  h, z,
+                 w,  h, z, -w,  h, z,
+                -w,  h, z, -w, -h, z,
+                // 4 Connector lines (Tip to Base)
+                0, 0, 0, -w, -h, z,
+                0, 0, 0,  w, -h, z,
+                0, 0, 0,  w,  h, z,
+                0, 0, 0, -w,  h, z
+            ];
+
+            const alphas = [
+                // Base lines (solid)
+                1, 1, 1, 1, 1, 1, 1, 1,
+                // Connectors (fade from tip 0 to base 1)
+                0, 1, 0, 1, 0, 1, 0, 1
+            ];
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1));
+
+            const material = createGradientLineMaterial(color, 0, 1);
+
+            const lines = new THREE.LineSegments(geometry, material);
+            group.add(lines);
+
+            // Add billboard behavior to the entire group if needed,
+            // BUT camera gizmos in Unity usually look at the object they are capturing.
+            // Rawteous cameras look AT the object center.
+            // So we DO NOT want them to billboard to the screen.
+            // We want them to look at (0,0,0).
+
+            return group;
+        }
+
+        function createGridSphere(radius, angles, elevations, color, limitArch = 360, hemiOnly = false) {
+            const group = new THREE.Group();
+
+            for (let e = 0; e < elevations; e++) {
+                const t = elevations > 1 ? e / (elevations - 1) : 0.5;
+
+                let elevAng;
+                if (hemiOnly) {
+                     // 0 (Horizon) to PI/2 (Top)
+                     elevAng = t * (Math.PI / 2);
+                } else {
+                     elevAng = -Math.PI/2 + t * Math.PI;
+                }
+
+                const halfArch = (limitArch * Math.PI / 180) / 2;
+
+                for (let a = 0; a < angles; a++) {
+                    const tA = angles > 1 ? a / (angles - 1) : 0.5;
+
+                    let azAng;
+                    if (limitArch >= 360) {
+                         azAng = (a / angles) * Math.PI * 2;
+                    } else {
+                         azAng = -halfArch + tA * (limitArch * Math.PI / 180);
+                    }
+
+                    const r = radius;
+                    const y = r * Math.sin(elevAng);
+                    const h = r * Math.cos(elevAng);
+                    const x = h * Math.sin(azAng);
+                    const z = h * Math.cos(azAng);
+
+                    const pos = new THREE.Vector3(x, y, z);
+
+                    const cam = createUnityCameraGizmo(color, 0.8);
+                    cam.position.copy(pos);
+                    cam.lookAt(0, 0, 0); // Always look at center
+                    group.add(cam);
+                }
+            }
+            return group;
+        }
+
+        function addLabel(prop, val, position, colorClass) {
+            const div = document.createElement('div');
+            div.className = `unity-label`;
+            let hex = '#00ffd5';
+            if(colorClass === 'gold') hex = '#b9975b';
+            if(colorClass === 'red') hex = '#d64550';
+
+            div.innerHTML = `
+                <div style="width:10px; height:10px; background:${hex}; border-radius:50%;"></div>
+                <span class="unity-prop">${prop}:</span>
+                <span class="unity-val ${colorClass}">${val}</span>
+            `;
+            document.getElementById('labels-container').appendChild(div);
+            activeLabels.push({ element: div, position: position.clone() });
+        }
+
+        function clearLabels() {
+            document.getElementById('labels-container').innerHTML = '';
+            activeLabels = [];
+        }
+
+        // --- SCENE BUILDERS ---
+
+        function buildResolutionScene() {
+            contentGroup.clear();
+            clearLabels();
+            billboardObjects = [];
+
+            const ambLight = new THREE.AmbientLight(0xffffff, 0.5);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(10, 20, 10);
+            contentGroup.add(ambLight, dirLight);
+
+            const gap = 16; // Widened gap for bigger text
+
+            // 1. 64px (Red)
+            const g1 = new THREE.Group();
+            g1.position.x = -gap;
+            const grid1 = new THREE.GridHelper(8, 4, C.red, 0x333333);
+            grid1.position.y = -0.1;
+            g1.add(grid1);
+
+            const t1 = new THREE.Mesh(new THREE.BoxGeometry(2, 4, 2), new THREE.MeshStandardMaterial({ color: C.red, roughness: 0.8 }));
+            t1.position.y = 2;
+            g1.add(t1);
+
+            contentGroup.add(g1);
+            addLabel('textureResolution', '64', new THREE.Vector3(-gap, -3, 0), 'red');
+
+            // 2. 256px (Teal)
+            const g2 = new THREE.Group();
+            g2.position.x = 0;
+            const grid2 = new THREE.GridHelper(8, 8, C.teal, 0x333333);
+            grid2.position.y = -0.1;
+            g2.add(grid2);
+
+            const t2trunk = new THREE.Mesh(new THREE.BoxGeometry(1, 2, 1), new THREE.MeshStandardMaterial({ color: 0x444444 }));
+            t2trunk.position.y = 1;
+            const t2leaves = new THREE.Mesh(new THREE.ConeGeometry(2.5, 4, 8), new THREE.MeshStandardMaterial({ color: C.teal, flatShading: true }));
+            t2leaves.position.y = 4;
+            g2.add(t2trunk, t2leaves);
+
+            contentGroup.add(g2);
+            addLabel('textureResolution', '256', new THREE.Vector3(0, -3, 0), 'default');
+
+            // 3. 512px (Gold)
+            const g3 = new THREE.Group();
+            g3.position.x = gap;
+            const grid3 = new THREE.GridHelper(8, 16, C.gold, 0x333333);
+            grid3.position.y = -0.1;
+            g3.add(grid3);
+
+            const t3trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.8, 2, 16), new THREE.MeshStandardMaterial({ color: 0x444444 }));
+            t3trunk.position.y = 1;
+            const t3leaves = new THREE.Mesh(new THREE.ConeGeometry(2.5, 5, 32), new THREE.MeshStandardMaterial({ color: C.gold, roughness: 0.2 }));
+            t3leaves.position.y = 4.5;
+            g3.add(t3trunk, t3leaves);
+
+            contentGroup.add(g3);
+            addLabel('textureResolution', '512', new THREE.Vector3(gap, -3, 0), 'gold');
+        }
+
+        function buildHorizontalArchScene() {
+            contentGroup.clear();
+            clearLabels();
+            billboardObjects = [];
+
+            // Central Source Object
+            const center = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), new THREE.MeshBasicMaterial({ color: 0x444444, wireframe: true }));
+            contentGroup.add(center);
+
+            // 1. 360 Full (Teal)
+            const g1 = new THREE.Group();
+            g1.position.x = -22;
+            const grid1 = createGridSphere(8, 8, 5, C.teal, 360, false);
+            g1.add(grid1);
+            contentGroup.add(g1);
+            addLabel('horizontalArchLimit', '360', new THREE.Vector3(-22, -12, 0), 'default');
+
+            // 2. 180 Front (Gold)
+            const g2 = new THREE.Group();
+            g2.position.x = 0;
+            const grid2 = createGridSphere(8, 5, 5, C.gold, 180, false);
+            g2.add(grid2);
+            const ghost2 = new THREE.Mesh(new THREE.SphereGeometry(7.5, 16, 16, Math.PI, Math.PI), new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true, transparent: true, opacity: 0.2 }));
+            ghost2.rotation.y = -Math.PI/2;
+            g2.add(ghost2);
+            contentGroup.add(g2);
+            addLabel('horizontalArchLimit', '180', new THREE.Vector3(0, -12, 0), 'gold');
+
+            // 3. 90 Narrow (Red)
+            const g3 = new THREE.Group();
+            g3.position.x = 22;
+            const grid3 = createGridSphere(8, 3, 5, C.red, 90, false);
+            g3.add(grid3);
+            const ghost3 = new THREE.Mesh(new THREE.SphereGeometry(7.5, 16, 16, Math.PI * 0.75, Math.PI * 1.5), new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true, transparent: true, opacity: 0.2 }));
+            ghost3.rotation.y = -Math.PI/2;
+            g3.add(ghost3);
+            contentGroup.add(g3);
+            addLabel('horizontalArchLimit', '90', new THREE.Vector3(22, -12, 0), 'red');
+        }
+
+        function buildHemisphereScene() {
+            contentGroup.clear();
+            clearLabels();
+            billboardObjects = [];
+
+            const center = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 2), new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true }));
+            contentGroup.add(center);
+
+            // Left: hemisphereOnly = false
+            const g1 = new THREE.Group();
+            g1.position.x = -18;
+            const grid1 = createGridSphere(8, 8, 9, C.grey, 360, false);
+            g1.add(grid1);
+            contentGroup.add(g1);
+            addLabel('hemisphereOnly', 'false', new THREE.Vector3(-18, -12, 0), 'default');
+
+            // Right: hemisphereOnly = true
+            const g2 = new THREE.Group();
+            g2.position.x = 18;
+            const grid2 = createGridSphere(8, 8, 5, C.teal, 360, true);
+            g2.add(grid2);
+
+            const ground = new THREE.GridHelper(16, 8, C.teal, 0x222222);
+            ground.position.y = -0.5;
+            g2.add(ground);
+
+            contentGroup.add(g2);
+            addLabel('hemisphereOnly', 'true', new THREE.Vector3(18, -12, 0), 'default');
+        }
+
+        // --- MAIN LOOP ---
+
+        buildResolutionScene(); // Init
+
+        document.getElementById('sceneSelector').addEventListener('change', (e) => {
+            const v = e.target.value;
+            if(v==='resolution') buildResolutionScene();
+            if(v==='horizontalArch') buildHorizontalArchScene();
+            if(v==='hemisphere') buildHemisphereScene();
+        });
+
+        document.getElementById('download').addEventListener('click', () => {
+             renderer.render(scene, camera);
+             const dataURL = renderer.domElement.toDataURL('image/png');
+             const link = document.createElement('a');
+             link.download = `Rawteous_${document.getElementById('sceneSelector').value}.png`;
+             link.href = dataURL;
+             link.click();
+        });
+
+        function updateLabels() {
+            activeLabels.forEach(lbl => {
+                const pos = lbl.position.clone();
+                pos.project(camera);
+                const x = (pos.x * .5 + .5) * window.innerWidth;
+                const y = (-(pos.y * .5) + .5) * window.innerHeight;
+                lbl.element.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            updateLabels();
+
+            // Billboard logic for specified objects (if any)
+            billboardObjects.forEach(obj => {
+                obj.lookAt(camera.position);
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            const aspect = window.innerWidth / window.innerHeight;
+            camera.left = -d * aspect;
+            camera.right = d * aspect;
+            camera.top = d;
+            camera.bottom = -d;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
