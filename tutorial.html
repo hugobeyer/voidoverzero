@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous Tutorials - Unity Impostor System</title>
+    <meta name="description" content="Step-by-step tutorials for Rawteous, the advanced impostor generation system for Unity. Learn how to create impostors, optimize performance, and more.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        .tutorial-content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .tutorial-section { margin-bottom: 4rem; }
+        .tutorial-section h2 { color: var(--color-accent); font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem; }
+        .tutorial-section h3 { color: var(--color-text-primary); font-size: 1.5rem; margin: 2rem 0 1rem 0; }
+        .tutorial-step { background: var(--gradient-card); border-radius: var(--radius-md); padding: 1.5rem; margin: 1.5rem 0; border: 1px solid var(--color-border); border-left: 4px solid var(--color-accent); }
+        .tutorial-step h4 { color: var(--color-accent); font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .tutorial-step p { margin: 0.5rem 0; line-height: 1.6; }
+        .tutorial-step ul, .tutorial-step ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+        .tutorial-step li { margin: 0.5rem 0; line-height: 1.6; }
+        .code-block { background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; }
+        .code-block code { color: var(--color-text-primary); }
+        .tip-box { background: rgba(0, 255, 213, 0.1); border-left: 4px solid var(--color-accent); padding: 1rem; margin: 1rem 0; border-radius: var(--radius-sm); }
+        .tip-box strong { color: var(--color-accent); }
+        .warning-box { background: rgba(255, 107, 53, 0.1); border-left: 4px solid #ff6b35; padding: 1rem; margin: 1rem 0; border-radius: var(--radius-sm); }
+        .warning-box strong { color: #ff6b35; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <a href="http://www.voidoverzero.com/index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+                    <img src="images/rawteous_logo.svg" alt="Rawteous" class="logo">
+                    <div class="brand-info">
+                        <span class="brand-name">Rawteous</span>
+                        <span class="brand-version">Tutorials</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="footer-links">
+                    <a href="rawteous.html" class="footer-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                        Documentation
+                    </a>
+                    <a href="tutorial.html" class="footer-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        Tutorial
+                    </a>
+                    <a href="api.html" class="footer-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                        API
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-badge">Step-by-Step Guides</div>
+                <div class="hero-logo">
+                    <img src="images/rawteous_logo.svg" alt="Rawteous">
+                </div>
+                <p class="hero-subtitle">Learn how to use Rawteous Impostors with practical, hands-on tutorials. From basic setup to advanced optimization techniques.</p>
+            </div>
+
+            <div class="tutorial-content">
+                <!-- Getting Started Tutorial -->
+                <section class="tutorial-section" id="getting-started">
+                    <h2>Getting Started</h2>
+                    <p>New to Rawteous? Follow this tutorial to create your first impostor in minutes.</p>
+
+                    <div class="tutorial-step">
+                        <h4>Step 1: Install Rawteous</h4>
+                        <p>If you haven't already, import the Rawteous Impostors package into your Unity project:</p>
+                        <ol>
+                            <li>Open Unity Package Manager (Window → Package Manager)</li>
+                            <li>Click the "+" button and select "Add package from disk"</li>
+                            <li>Navigate to the Rawteous Impostors package folder</li>
+                            <li>Select the <code>package.json</code> file</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Screenshot of Unity Package Manager window showing the "+" button and "Add package from disk" option -->
+                        <img src="images/tutorial/01-package-manager.png" alt="Unity Package Manager" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 2: Prepare Your 3D Object</h4>
+                        <p>Select any GameObject in your scene that you want to convert to an impostor. This can be:</p>
+                        <ul>
+                            <li>A character model</li>
+                            <li>A prop or decoration</li>
+                            <li>A building or structure</li>
+                            <li>Any 3D object with a mesh renderer</li>
+                        </ul>
+                        <div class="tip-box">
+                            <strong>💡 Tip:</strong> Objects with complex geometry work best. The impostor system will capture multiple angles automatically.
+                        </div>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 3: Add the Rawteous Component</h4>
+                        <p>With your GameObject selected:</p>
+                        <ol>
+                            <li>Click "Add Component" in the Inspector</li>
+                            <li>Search for "Rawteous Impostors"</li>
+                            <li>Add the component to your GameObject</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Screenshot of Unity Inspector showing "Add Component" button and search dropdown with "Rawteous Impostors" visible -->
+                        <img src="images/tutorial/02-add-component.png" alt="Add Rawteous Component" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                        <p>The component will appear in the Inspector with default settings.</p>
+                        <!-- IMAGE CAPTURE: Screenshot of Inspector showing the Rawteous Impostors component added with default settings visible -->
+                        <img src="images/tutorial/03-component-added.png" alt="Rawteous Component Added" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 4: Configure Basic Settings</h4>
+                        <p>For your first impostor, start with these recommended settings:</p>
+                        <ul>
+                            <li><strong>Texture Resolution:</strong> 256 or 512 (good balance of quality and performance)</li>
+                            <li><strong>Azimuth Steps:</strong> 8 (captures 8 angles around the object)</li>
+                            <li><strong>Elevation Steps:</strong> 4 (captures 4 vertical angles)</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Screenshot of Inspector showing the Rawteous component with these settings configured (Texture Resolution slider at 256 or 512, Azimuth Steps at 8, Elevation Steps at 4) -->
+                        <img src="images/tutorial/04-configure-settings.png" alt="Configure Basic Settings" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 5: Generate Your Impostor</h4>
+                        <p>Click the "Regenerate" button in the Inspector. Rawteous will:</p>
+                        <ol>
+                            <li>Capture the object from multiple angles</li>
+                            <li>Create an impostor texture atlas</li>
+                            <li>Generate a billboard mesh</li>
+                            <li>Replace the original mesh with the impostor</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Screenshot showing the "Regenerate" button in the Inspector, maybe with a highlight or arrow pointing to it -->
+                        <img src="images/tutorial/05-regenerate-button.png" alt="Regenerate Button" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                        <div class="tip-box">
+                            <strong>💡 Tip:</strong> The first generation may take a few seconds. Subsequent regenerations are faster thanks to caching.
+                        </div>
+                        <!-- IMAGE CAPTURE: Screenshot of Scene view showing the object being captured (maybe show gizmos or capture cameras if visible) -->
+                        <img src="images/tutorial/06-capture-process.png" alt="Capture Process" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 6: Test Your Impostor</h4>
+                        <p>Move your camera around the object in Play mode. You should see:</p>
+                        <ul>
+                            <li>The impostor switching between different captured angles</li>
+                            <li>Smooth transitions as you rotate around the object</li>
+                            <li>Significantly better performance compared to the original mesh</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Screenshot of Game view showing the impostor from different angles (maybe a side-by-side comparison or animated GIF showing rotation) -->
+                        <img src="images/tutorial/07-impostor-result.png" alt="Impostor Result" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+                </section>
+
+                <!-- Performance Optimization Tutorial -->
+                <section class="tutorial-section" id="performance-optimization">
+                    <h2>Performance Optimization</h2>
+                    <p>Learn how to optimize your impostors for the best performance without sacrificing visual quality.</p>
+
+                    <div class="tutorial-step">
+                        <h4>Understanding Resolution vs. Performance</h4>
+                        <p>The texture resolution directly affects both quality and memory usage:</p>
+                        <ul>
+                            <li><strong>Low (64-128):</strong> Best for small objects, background elements, or mobile games</li>
+                            <li><strong>Medium (256-512):</strong> Good balance for most use cases</li>
+                            <li><strong>High (1024+):</strong> Best for main characters or important objects</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Side-by-side comparison showing the same object at different resolutions (64, 256, 1024) to show quality difference -->
+                        <img src="images/tutorial/08-resolution-comparison.png" alt="Resolution Comparison" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Reducing Capture Steps</h4>
+                        <p>Fewer capture steps mean faster generation and smaller textures:</p>
+                        <ul>
+                            <li><strong>Azimuth Steps:</strong> 4-6 steps work well for most objects</li>
+                            <li><strong>Elevation Steps:</strong> 2-3 steps are usually sufficient</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Screenshot showing the Azimuth Steps and Elevation Steps sliders in the Inspector, maybe showing different values -->
+                        <img src="images/tutorial/09-capture-steps.png" alt="Capture Steps Settings" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                        <div class="warning-box">
+                            <strong>⚠️ Warning:</strong> Too few steps may cause visible "popping" when the camera rotates. Test in your game to find the sweet spot.
+                        </div>
+                        <!-- IMAGE CAPTURE: Visual comparison showing smooth vs. popping transitions (maybe a GIF or side-by-side showing rotation with different step counts) -->
+                        <img src="images/tutorial/10-step-comparison.png" alt="Step Count Comparison" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Using Texture-Based Mode</h4>
+                        <p>For maximum performance, use Texture-Based mode instead of Smooth Blending:</p>
+                        <!-- IMAGE CAPTURE: Screenshot of Inspector showing the Impostor Mode dropdown with "Texture Based" selected -->
+                        <img src="images/tutorial/11-impostor-mode.png" alt="Impostor Mode Setting" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                        <p>This mode switches between angles instantly without blending, which is faster but may be slightly less smooth.</p>
+                        <!-- IMAGE CAPTURE: Visual comparison showing Texture-Based vs Smooth Blending modes (maybe showing the difference in how they transition) -->
+                        <img src="images/tutorial/12-mode-comparison.png" alt="Mode Comparison" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Batch Processing Multiple Objects</h4>
+                        <p>If you need to convert many objects, you can add the Rawteous component to multiple objects at once:</p>
+                        <ol>
+                            <li>Select multiple GameObjects in the Hierarchy</li>
+                            <li>Add the Rawteous Impostors component (it will be added to all selected objects)</li>
+                            <li>Configure settings on one object, then copy the component settings to others</li>
+                            <li>Regenerate each impostor individually or use a batch script</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Screenshot showing multiple objects selected in Hierarchy, then showing the component added to all of them -->
+                        <img src="images/tutorial/13-batch-selection.png" alt="Batch Selection" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+                </section>
+
+                <!-- Advanced Techniques Tutorial -->
+                <section class="tutorial-section" id="advanced-techniques">
+                    <h2>Advanced Techniques</h2>
+                    <p>Take your impostor skills to the next level with these advanced techniques.</p>
+
+                    <div class="tutorial-step">
+                        <h4>Custom Capture Settings</h4>
+                        <p>Fine-tune how Rawteous captures your object:</p>
+                        <ul>
+                            <li><strong>Capture Distance:</strong> Adjust how far the capture camera is from the object</li>
+                            <li><strong>Field of View:</strong> Control the camera's field of view for better framing</li>
+                            <li><strong>Background Color:</strong> Set a transparent or colored background</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Screenshot of Inspector showing the Capture settings section with Capture Distance, Field of View, and Background Color options visible -->
+                        <img src="images/tutorial/14-capture-settings.png" alt="Capture Settings" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Runtime Impostor Generation</h4>
+                        <p>You can generate impostors at runtime for dynamic content. This is useful for procedurally generated objects or objects created during gameplay.</p>
+                        <p>To set this up:</p>
+                        <ol>
+                            <li>Create a script that adds the Rawteous component to objects at runtime</li>
+                            <li>Configure the settings programmatically</li>
+                            <li>Call Regenerate() to create the impostor</li>
+                            <li>Optionally disable the original mesh renderer</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Screenshot showing a script in the Inspector with runtime generation code, or showing the result in Play mode -->
+                        <img src="images/tutorial/15-runtime-generation.png" alt="Runtime Generation" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>LOD System Integration</h4>
+                        <p>Use impostors as part of a Level of Detail (LOD) system:</p>
+                        <ol>
+                            <li>Keep the original mesh for close-up views</li>
+                            <li>Switch to impostor when the object is far away</li>
+                            <li>Use distance-based switching logic</li>
+                        </ol>
+                        <!-- IMAGE CAPTURE: Visual comparison showing the same object close-up (original mesh) vs far away (impostor), maybe side-by-side or showing the transition -->
+                        <img src="images/tutorial/16-lod-comparison.png" alt="LOD Comparison" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Optimizing for Mobile</h4>
+                        <p>Special considerations for mobile platforms:</p>
+                        <ul>
+                            <li>Use lower resolutions (128-256)</li>
+                            <li>Reduce capture steps (4-6 azimuth, 2 elevation)</li>
+                            <li>Use Texture-Based mode for better performance</li>
+                            <li>Test on actual devices, not just the editor</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Screenshot showing mobile-optimized settings in the Inspector (low resolution, fewer steps, Texture-Based mode) -->
+                        <img src="images/tutorial/17-mobile-settings.png" alt="Mobile Optimization Settings" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+                </section>
+
+                <!-- Troubleshooting Tutorial -->
+                <section class="tutorial-section" id="troubleshooting">
+                    <h2>Troubleshooting</h2>
+                    <p>Common issues and how to fix them.</p>
+
+                    <div class="tutorial-step">
+                        <h4>Impostor Looks Blurry</h4>
+                        <p><strong>Problem:</strong> The impostor texture appears low-quality or blurry.</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Increase the texture resolution setting</li>
+                            <li>Check that your object isn't too large relative to the capture distance</li>
+                            <li>Ensure the original mesh has good detail</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Side-by-side showing blurry vs sharp impostor, or showing the resolution slider being adjusted -->
+                        <img src="images/tutorial/18-blurry-fix.png" alt="Fixing Blurry Impostor" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Visible Popping Between Angles</h4>
+                        <p><strong>Problem:</strong> You can see the impostor switching between captured angles.</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Increase azimuth and elevation steps</li>
+                            <li>Switch to Smooth Blending mode</li>
+                            <li>Adjust the capture distance</li>
+                        </ul>
+                        <!-- IMAGE CAPTURE: Visual showing popping issue, then showing the fix (more steps or Smooth Blending mode) -->
+                        <img src="images/tutorial/19-popping-fix.png" alt="Fixing Popping Issue" style="max-width: 100%; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Impostor Not Generating</h4>
+                        <p><strong>Problem:</strong> Clicking "Regenerate" doesn't create an impostor.</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Ensure the GameObject has a MeshRenderer</li>
+                            <li>Check that the object is visible in the Scene view</li>
+                            <li>Verify the object has valid geometry</li>
+                            <li>Check the Unity Console for error messages</li>
+                        </ul>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Performance Issues</h4>
+                        <p><strong>Problem:</strong> Game runs slower after adding impostors.</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Reduce texture resolution</li>
+                            <li>Decrease capture steps</li>
+                            <li>Use Texture-Based mode</li>
+                            <li>Limit the number of impostors visible at once</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Next Steps -->
+                <section class="tutorial-section" id="next-steps">
+                    <h2>Next Steps</h2>
+                    <p>Now that you've completed the tutorials, here's what to explore next:</p>
+                    <ul>
+                        <li><a href="rawteous.html">Read the full documentation</a> for detailed parameter explanations</li>
+                        <li><a href="api.html">Check the API reference</a> for programmatic control</li>
+                        <li>Experiment with different settings to find what works best for your project</li>
+                        <li>Join the community and share your results!</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

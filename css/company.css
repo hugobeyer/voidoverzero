@@ -149,8 +149,7 @@
     pointer-events: none;
     will-change: transform, filter;
     transform-origin: center center;
-    mix-blend-mode: screen;
-    opacity: 0.6;
+    opacity: 0.4;
     transform: translateY(var(--parallax-y, 0px));
     animation: bannerBlur 8s ease-in-out infinite, bannerZoom 13.3s steps(1, end) infinite;
 }

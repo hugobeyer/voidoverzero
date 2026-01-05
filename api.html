@@ -14,6 +14,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="logo.png">
     <style>
+        /* Override global user-select: none for API content */
+        .api-content *,
+        .api-content *::before,
+        .api-content *::after {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+        
         .api-content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
         .api-section { margin-bottom: 3rem; }
         .api-section h2 { color: var(--color-accent); font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem; }
@@ -22,115 +32,100 @@
         .api-table th, .api-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); }
         .api-table th { background: var(--color-bg-hover); font-weight: 600; color: var(--color-accent); }
         .api-table tr:hover { background: rgba(0, 255, 213, 0.05); }
-        .code-block { background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; }
-        .code-block code { color: var(--color-text-primary); user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; }
-        .method-signature { font-family: var(--font-mono); background: var(--color-bg-dark); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; border-left: 3px solid var(--color-accent); user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; }
-
-        /* Enable text selection for all API content */
-        .api-content,
-        .api-content p,
-        .api-content h2,
-        .api-content h3,
-        .api-content td,
-        .api-content th,
-        .api-content code {
-            user-select: text;
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
+        .code-block { background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; }
+        .code-block code { color: var(--color-text-primary); }
+        .method-signature { font-family: var(--font-mono); background: var(--color-bg-dark); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; border-left: 3px solid var(--color-accent); }
+        
+        /* Keep sidebar non-selectable */
+        .sidebar, .sidebar *, .sidebar-brand, .sidebar-footer, .hero-section { 
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
         }
-
-        /* Prevent accidental selection of UI elements */
-        .sidebar,
-        .sidebar-brand,
-        .sidebar-footer,
-        .hero-section,
-        .hero-logo {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+        
+        /* Enable selection highlight */
+        .api-content ::selection {
+            background: var(--color-accent-glow);
+            color: var(--color-accent);
         }
     </style>
 </head>
 <body>
     <div class="app">
-        <!-- Simple Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <a href="http://www.voidoverzero.com/index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
-                    <img src="logo.png" alt="Rawteous Impostors" class="logo">
-                    <div class="brand-info">
-                        <span class="brand-name">Rawteous Impostors</span>
-                        <span class="brand-version">API Reference</span>
-                    </div>
+                    <img src="images/rawteous_logo.svg" alt="Rawteous Impostors" class="logo">
                 </a>
             </div>
 
             <div class="sidebar-footer">
                 <div class="footer-links">
-                    <a href="http://www.voidoverzero.com/index.html" class="footer-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        Home
-                    </a>
                     <a href="rawteous.html" class="footer-link">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
                         Documentation
                     </a>
-                    <a href="mailto:support@voidoverzero.com" class="footer-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Support
+                    <a href="tutorial.html" class="footer-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        Tutorial
+                    </a>
+                    <a href="api.html" class="footer-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                        API
                     </a>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="content">
-            <!-- Hero Section -->
             <div class="hero-section">
                 <div class="hero-badge">API Reference</div>
-                <div class="hero-logo">
-                    <img src="logo.png" alt="Rawteous Impostors">
-                </div>
-                <p class="hero-subtitle">Everything you need to know to use Rawteous Impostors in your Unity projects. From basic setup to advanced configuration.</p>
+                <p class="hero-subtitle">Complete API reference for Rawteous Impostors. Programmatic control and runtime access to all impostor functionality.</p>
             </div>
 
             <div class="api-content">
-                <!-- Getting Started -->
                 <section class="api-section" id="getting-started">
                     <h2>Getting Started</h2>
-                    <p>Ready to get started? Here's the basics of adding impostors to your game objects.</p>
+                    <p>Add the RawteousImpostors component to any GameObject and configure it programmatically.</p>
 
                     <h3>Basic Setup</h3>
                     <div class="code-block">
-                        <code>// First, add the impostor component to your object
+                        <code>using RawteousImpostors.Runtime;
+using UnityEngine;
+
+// Add component to GameObject
 RawteousImpostors impostor = gameObject.AddComponent&lt;RawteousImpostors&gt;();
 
-// Set up some basic settings for good quality
-impostor.settings.resolution = 512;
-impostor.settings.azimuthSteps = 8;
-impostor.settings.elevationSteps = 4;
+// Set source object
+impostor.sourceObject = myGameObject;
 
-// Generate the impostor billboard!
+// Configure settings
+impostor.textureResolution = 512;
+impostor.captureAngles = 8;
+impostor.captureElevations = 3;
+
+// Generate impostor
 impostor.Regenerate();</code>
                     </div>
 
-                    <h3>Runtime Control</h3>
+                    <h3>Generation with Progress Tracking</h3>
+                    <p><strong>Note:</strong> Impostor generation is expensive and typically done at edit-time. Use this method when you need to generate impostors programmatically with progress callbacks.</p>
                     <div class="code-block">
-                        <code>// Choose when to regenerate (when you release the mouse is usually best)
-impostor.settings.regenerationMode = RegenerationMode.OnMouseUp;
-
-// Get the materials and mesh that were created
-Material billboardMaterial = impostor.GetBillboardMaterial();
-Mesh billboardMesh = impostor.GetBillboardMesh();</code>
+                        <code>// Generate with coroutine for progress tracking
+IEnumerator GenerateWithProgress()
+{
+    var coroutine = impostor.RegenerateCoroutine((progress) => {
+        Debug.Log($"Progress: {progress * 100}%");
+    });
+    yield return coroutine;
+}</code>
                     </div>
                 </section>
 
-                <!-- RawteousImpostors Class -->
                 <section class="api-section" id="RawteousImpostors">
                     <h2>RawteousImpostors</h2>
-                    <p>This is the main component you'll work with. Just attach it to any GameObject and it will turn that object into a lightweight billboard that looks great from any angle.</p>
+                    <p>Main component class. Attach to any GameObject to convert it into an impostor billboard.</p>
 
                     <h3>Properties</h3>
                     <table class="api-table">
@@ -138,19 +133,84 @@ Mesh billboardMesh = impostor.GetBillboardMesh();</code>
                             <tr>
                                 <th>Property</th>
                                 <th>Type</th>
-                                <th>What it does</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>settings</code></td>
                                 <td><code>RawteousImpostorsSettings</code></td>
-                                <td>All your configuration options live here</td>
+                                <td>All configuration options. Access all inspector settings programmatically.</td>
                             </tr>
                             <tr>
-                                <td><code>savedDecimatorRatio</code></td>
-                                <td><code>float</code></td>
-                                <td>How much to simplify the mesh (0-1). Lower numbers = more simplified</td>
+                                <td><code>sourceObject</code></td>
+                                <td><code>GameObject</code></td>
+                                <td>The GameObject to generate impostor from. Can be a scene object or prefab asset.</td>
+                            </tr>
+                            <tr>
+                                <td><code>textureResolution</code></td>
+                                <td><code>int</code></td>
+                                <td>Resolution of each tile in the atlas (8-1024, power of 2).</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureAngles</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of horizontal azimuth angles to capture (4-128).</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureElevations</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of vertical elevation angles to capture (1-33).</td>
+                            </tr>
+                            <tr>
+                                <td><code>showGizmos</code></td>
+                                <td><code>bool</code></td>
+                                <td>Show gizmos in scene view displaying capture positions and angles.</td>
+                            </tr>
+                            <tr>
+                                <td><code>ImpostorTextureRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Main impostor texture atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>NormalMapTextureRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Normal map texture atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>PBRMapTextureRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>PBR map texture atlas containing metallic, smoothness, AO, depth (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>EmissionMapTextureRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Emission map texture atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AtlasCols</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of columns in the atlas grid (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AtlasRows</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of rows in the atlas grid (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AtlasWidth</code></td>
+                                <td><code>int</code></td>
+                                <td>Total width of the atlas texture in pixels (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AtlasHeight</code></td>
+                                <td><code>int</code></td>
+                                <td>Total height of the atlas texture in pixels (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AtlasTileSize</code></td>
+                                <td><code>int</code></td>
+                                <td>Size of each tile in pixels (read-only).</td>
                             </tr>
                         </tbody>
                     </table>
@@ -161,139 +221,562 @@ Mesh billboardMesh = impostor.GetBillboardMesh();</code>
                             <tr>
                                 <th>Method</th>
                                 <th>Parameters</th>
-                                <th>What it does</th>
+                                <th>Returns</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>GetEffectiveTextureResolution()</code></td>
-                                <td></td>
-                                <td>Tells you what resolution the texture actually ended up being</td>
+                                <td><code>Regenerate()</code></td>
+                                <td><code>bool skipQueue = false</code></td>
+                                <td><code>void</code></td>
+                                <td>Regenerate the impostor from scratch. In editor, queues for batch processing. Otherwise executes immediately.</td>
+                            </tr>
+                            <tr>
+                                <td><code>RegenerateCoroutine()</code></td>
+                                <td><code>System.Action&lt;float&gt; onProgress = null</code></td>
+                                <td><code>IEnumerator</code></td>
+                                <td>Regenerate with progress callback. Use when generating programmatically with progress tracking.</td>
                             </tr>
                             <tr>
                                 <td><code>GetBillboardMaterial()</code></td>
                                 <td></td>
-                                <td>Gets the material that was created for the billboard</td>
+                                <td><code>Material</code></td>
+                                <td>Get the billboard material. Returns null if not generated yet. Editor-only.</td>
                             </tr>
                             <tr>
-                                <td><code>Regenerate()</code></td>
+                                <td><code>GetBillboardMesh()</code></td>
                                 <td></td>
-                                <td>Creates the impostor from scratch</td>
+                                <td><code>BillboardMesh</code></td>
+                                <td>Get the BillboardMesh component. Returns null if not generated yet. Editor-only.</td>
+                            </tr>
+                            <tr>
+                                <td><code>GetEffectiveTextureResolution()</code></td>
+                                <td></td>
+                                <td><code>int</code></td>
+                                <td>Get the effective texture resolution. Returns auto-calculated value if autoResolution is enabled, otherwise returns textureResolution.</td>
+                            </tr>
+                            <tr>
+                                <td><code>UpdateMaterialPropertiesImmediate()</code></td>
+                                <td></td>
+                                <td><code>void</code></td>
+                                <td>Update billboard material properties immediately. Editor-only.</td>
+                            </tr>
+                            <tr>
+                                <td><code>UpdateSinglePropertyImmediate()</code></td>
+                                <td><code>string propertyName</code></td>
+                                <td><code>void</code></td>
+                                <td>Update a single material property by name. Editor-only.</td>
+                            </tr>
+                            <tr>
+                                <td><code>UpdateLODGroupAssignment()</code></td>
+                                <td></td>
+                                <td><code>void</code></td>
+                                <td>Update LOD Group assignment. Adds or removes impostor from source object's LOD Group based on joinLODGroup setting.</td>
+                            </tr>
+                            <tr>
+                                <td><code>SetCastEnabled()</code></td>
+                                <td><code>bool enabled</code></td>
+                                <td><code>void</code></td>
+                                <td>Enable or disable cast mesh generation for shadow casting.</td>
+                            </tr>
+                            <tr>
+                                <td><code>GetCastEnabled()</code></td>
+                                <td></td>
+                                <td><code>bool</code></td>
+                                <td>Get whether cast mesh generation is enabled.</td>
+                            </tr>
+                            <tr>
+                                <td><code>SetCastParameters()</code></td>
+                                <td><code>float threshold, float dilation, float pointReduction</code></td>
+                                <td><code>void</code></td>
+                                <td>Set cast mesh generation parameters.</td>
+                            </tr>
+                            <tr>
+                                <td><code>GetCastParameters()</code></td>
+                                <td><code>out float threshold, out float dilation, out float pointReduction</code></td>
+                                <td><code>void</code></td>
+                                <td>Get current cast mesh generation parameters.</td>
+                            </tr>
+                            <tr>
+                                <td><code>CalculateCaptureParameterHash()</code></td>
+                                <td></td>
+                                <td><code>int</code></td>
+                                <td>Calculate hash of capture parameters. Used to detect when regeneration is needed.</td>
+                            </tr>
+                            <tr>
+                                <td><code>AreCaptureParametersDirty()</code></td>
+                                <td></td>
+                                <td><code>bool</code></td>
+                                <td>Check if capture parameters have changed since last generation.</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
 
-                <!-- RawteousImpostorsSettings Class -->
                 <section class="api-section" id="RawteousImpostorsSettings">
                     <h2>RawteousImpostorsSettings</h2>
-                    <p>All the knobs and dials for customizing how your impostors look and behave.</p>
+                    <p>Configuration class containing all impostor settings. Access via <code>impostor.settings</code>.</p>
 
                     <h3>Key Properties</h3>
                     <table class="api-table">
                         <thead>
                             <tr>
-                                <th>Group</th>
-                                <th>Setting</th>
+                                <th>Property</th>
                                 <th>Type</th>
-                                <th>What it does</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Capture</strong></td>
-                                <td><code>resolution</code></td>
-                                <td><code>int</code></td>
-                                <td>How detailed the texture should be (256-4096)</td>
+                                <td><code>sourceObject</code></td>
+                                <td><code>GameObject</code></td>
+                                <td>The GameObject to generate impostor from.</td>
                             </tr>
                             <tr>
-                                <td><strong>Capture</strong></td>
-                                <td><code>azimuthSteps</code></td>
-                                <td><code>int</code></td>
-                                <td>How many angles around the object to capture (4-32)</td>
+                                <td><code>leader</code></td>
+                                <td><code>GameObject</code></td>
+                                <td>Optional leader object. When set, this impostor follows the leader's settings.</td>
                             </tr>
                             <tr>
-                                <td><strong>Billboard</strong></td>
                                 <td><code>impostorMode</code></td>
                                 <td><code>ImpostorMode</code></td>
-                                <td>Choose between basic or smooth blending between angles</td>
+                                <td>Rendering mode: TextureBased or SmoothBlending.</td>
                             </tr>
                             <tr>
-                                <td><strong>Workflow</strong></td>
+                                <td><code>blendingMode</code></td>
+                                <td><code>BlendingMode</code></td>
+                                <td>Blending quality: Linear, Smoothstep, Barycentric, Spherical, CatmullRom, Bicubic, AIInterpolation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>billboardType</code></td>
+                                <td><code>BillboardType</code></td>
+                                <td>Billboard rotation type: Cylindrical, Spherical, or ScreenAligned.</td>
+                            </tr>
+                            <tr>
+                                <td><code>stepRotation</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable step rotation for retro sprite-like snapping.</td>
+                            </tr>
+                            <tr>
+                                <td><code>textureResolution</code></td>
+                                <td><code>int</code></td>
+                                <td>Resolution of each tile (8-1024, power of 2).</td>
+                            </tr>
+                            <tr>
+                                <td><code>autoResolution</code></td>
+                                <td><code>bool</code></td>
+                                <td>Automatically calculate resolution from bounding box size.</td>
+                            </tr>
+                            <tr>
+                                <td><code>maxAutoResolution</code></td>
+                                <td><code>int</code></td>
+                                <td>Maximum resolution when autoResolution is enabled (8-2048).</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureDistribution</code></td>
+                                <td><code>CaptureDistribution</code></td>
+                                <td>Distribution mode: Grid, Fibonacci, Octahedron, or HemiOctahedron.</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureAngles</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of horizontal azimuth angles (4-128). Only applies in Grid mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureElevations</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of vertical elevation angles (1-33). Only applies in Grid mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>hemisphereOnly</code></td>
+                                <td><code>bool</code></td>
+                                <td>Capture only top hemisphere. Only applies in Grid mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>fibonacciPoints</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of Fibonacci points (4-1024). Only applies in Fibonacci mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>octahedronResolution</code></td>
+                                <td><code>int</code></td>
+                                <td>Octahedron grid resolution (4-32). Only applies in Octahedron/HemiOctahedron modes.</td>
+                            </tr>
+                            <tr>
+                                <td><code>poleScaling</code></td>
+                                <td><code>float</code></td>
+                                <td>Pole scaling factor (10-80). Only applies in Grid mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>horizontalArchLimit</code></td>
+                                <td><code>float</code></td>
+                                <td>Horizontal arch limit in degrees (10-360). Only applies in Grid mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>superSamplingMultiplier</code></td>
+                                <td><code>int</code></td>
+                                <td>Super-sampling multiplier (0-4). 0 = disabled, higher = better quality.</td>
+                            </tr>
+                            <tr>
+                                <td><code>downscalingFilter</code></td>
+                                <td><code>int</code></td>
+                                <td>Downscaling filter: 0 = Bilinear, 1 = Lanczos, 2 = CatmullRom.</td>
+                            </tr>
+                            <tr>
+                                <td><code>useFXAA</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable FXAA anti-aliasing.</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureFrameReduction</code></td>
+                                <td><code>float</code></td>
+                                <td>Capture padding (0-1). Expands billboard mesh vertices outward.</td>
+                            </tr>
+                            <tr>
+                                <td><code>editBounds</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable bounds editing mode in scene view.</td>
+                            </tr>
+                            <tr>
+                                <td><code>useEditBounds</code></td>
+                                <td><code>bool</code></td>
+                                <td>Use custom edited bounds instead of auto-calculated.</td>
+                            </tr>
+                            <tr>
+                                <td><code>customBoundsCenter</code></td>
+                                <td><code>Vector3</code></td>
+                                <td>Custom bounds sphere center (world space).</td>
+                            </tr>
+                            <tr>
+                                <td><code>customBoundsRadius</code></td>
+                                <td><code>float</code></td>
+                                <td>Custom bounds sphere radius (0.01-100).</td>
+                            </tr>
+                            <tr>
+                                <td><code>orthographicSize</code></td>
+                                <td><code>float</code></td>
+                                <td>Orthographic camera size for capture (0.1-10).</td>
+                            </tr>
+                            <tr>
+                                <td><code>gamma</code></td>
+                                <td><code>float</code></td>
+                                <td>Gamma adjustment (0.1-3.0).</td>
+                            </tr>
+                            <tr>
+                                <td><code>saturation</code></td>
+                                <td><code>float</code></td>
+                                <td>Saturation adjustment (0-2).</td>
+                            </tr>
+                            <tr>
+                                <td><code>hue</code></td>
+                                <td><code>float</code></td>
+                                <td>Hue shift in degrees (-180 to 180).</td>
+                            </tr>
+                            <tr>
+                                <td><code>emissionStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Emission strength (0-2).</td>
+                            </tr>
+                            <tr>
+                                <td><code>translucencyStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Translucency strength (0-32).</td>
+                            </tr>
+                            <tr>
+                                <td><code>invertThickness</code></td>
+                                <td><code>bool</code></td>
+                                <td>Invert thickness map calculation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>sharpenStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Post-sharpen strength (0-10).</td>
+                            </tr>
+                            <tr>
+                                <td><code>denoiseStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Post-denoise strength (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>denoisePasses</code></td>
+                                <td><code>int</code></td>
+                                <td>Number of denoise passes (1-32).</td>
+                            </tr>
+                            <tr>
+                                <td><code>enableLaMaInpainting</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable LaMa-Dilated inpainting for fixing background artifacts.</td>
+                            </tr>
+                            <tr>
+                                <td><code>inpaintingAlphaThreshold</code></td>
+                                <td><code>float</code></td>
+                                <td>Alpha threshold for inpainting mask (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>inpaintingQuality</code></td>
+                                <td><code>InpaintingQuality</code></td>
+                                <td>Inpainting quality preset: Fast, Standard, or High.</td>
+                            </tr>
+                            <tr>
+                                <td><code>captureLightsAsEmissive</code></td>
+                                <td><code>bool</code></td>
+                                <td>Capture lights inside prefab as emissive.</td>
+                            </tr>
+                            <tr>
+                                <td><code>depthTest</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable depth testing for billboard.</td>
+                            </tr>
+                            <tr>
+                                <td><code>depthWrite</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable depth writing for billboard.</td>
+                            </tr>
+                            <tr>
+                                <td><code>alphaBlend</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable alpha blending for transparent billboard.</td>
+                            </tr>
+                            <tr>
+                                <td><code>alphaTest</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable alpha test (hard cutout) for billboard.</td>
+                            </tr>
+                            <tr>
+                                <td><code>alphaThreshold</code></td>
+                                <td><code>float</code></td>
+                                <td>Alpha threshold for alpha test (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>unfilteredPixels</code></td>
+                                <td><code>bool</code></td>
+                                <td>Use point filtering instead of bilinear for pixel-perfect rendering.</td>
+                            </tr>
+                            <tr>
+                                <td><code>joinLODGroup</code></td>
+                                <td><code>bool</code></td>
+                                <td>Automatically join source object's LOD Group.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lodPercentage</code></td>
+                                <td><code>float</code></td>
+                                <td>Screen height threshold for LOD level (0.01-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>maxLODAdditions</code></td>
+                                <td><code>int</code></td>
+                                <td>Maximum number of LOD additions (1-5).</td>
+                            </tr>
+                            <tr>
                                 <td><code>regenerationMode</code></td>
                                 <td><code>RegenerationMode</code></td>
-                                <td>When to update the impostor when you change settings</td>
+                                <td>When to automatically regenerate: OnMouseUp, Off, OnChange, or RealTime.</td>
+                            </tr>
+                            <tr>
+                                <td><code>showGizmos</code></td>
+                                <td><code>bool</code></td>
+                                <td>Show gizmos in scene view.</td>
                             </tr>
                         </tbody>
                     </table>
-                </section>
 
-                <!-- Enums -->
-                <section class="api-section" id="RegenerationMode">
-                    <h2>RegenerationMode</h2>
-                    <p>When should the impostor update when you tweak the settings?</p>
-
+                    <h3>Methods</h3>
                     <table class="api-table">
                         <thead>
                             <tr>
-                                <th>Option</th>
-                                <th>What it does</th>
-                                <th>Performance cost</th>
+                                <th>Method</th>
+                                <th>Returns</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>OnMouseUp</code></td>
-                                <td>Updates when you let go of the slider (recommended for most cases)</td>
-                                <td>Low - Only when you finish adjusting</td>
+                                <td><code>Validate()</code></td>
+                                <td><code>void</code></td>
+                                <td>Validate and clamp all settings to valid ranges.</td>
                             </tr>
                             <tr>
-                                <td><code>OnChange</code></td>
-                                <td>Updates instantly every time you change anything</td>
-                                <td>High - Can get slow with complex objects</td>
-                            </tr>
-                            <tr>
-                                <td><code>RealTime</code></td>
-                                <td>Live preview that updates as you work</td>
-                                <td>Medium - Smooth but uses more resources</td>
+                                <td><code>GetEffectiveCaptureDistribution()</code></td>
+                                <td><code>CaptureDistribution</code></td>
+                                <td>Get the effective capture distribution (handles deprecated fibonacciMode).</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
 
-                <section class="api-section" id="ImpostorMode">
-                    <h2>ImpostorMode</h2>
-                    <p>How should the impostor blend between different viewing angles?</p>
+                <section class="api-section" id="Enums">
+                    <h2>Enums</h2>
 
+                    <h3>ImpostorMode</h3>
                     <table class="api-table">
                         <thead>
                             <tr>
-                                <th>Mode</th>
-                                <th>How it works</th>
-                                <th>Best for</th>
+                                <th>Value</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>TextureBased</code></td>
-                                <td>Simple switching between pre-captured angles</td>
-                                <td>Most common choice, fastest performance</td>
+                                <td>Standard texture-based impostor with instant angle switching.</td>
                             </tr>
                             <tr>
                                 <td><code>SmoothBlending</code></td>
-                                <td>Gently blends between angles for smoother rotation</td>
-                                <td>Better looking, but uses a bit more GPU</td>
+                                <td>Smooth blending between tiles for smoother rotation.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>BlendingMode</h3>
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Linear</code></td>
+                                <td>Standard bilinear blending (fastest).</td>
+                            </tr>
+                            <tr>
+                                <td><code>Smoothstep</code></td>
+                                <td>Smoother curves for blending.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Barycentric</code></td>
+                                <td>3-tile weighting for blending.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Spherical</code></td>
+                                <td>Best for normals, spherical interpolation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>CatmullRom</code></td>
+                                <td>Smooth interpolation with Catmull-Rom splines.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Bicubic</code></td>
+                                <td>High quality bicubic interpolation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>AIInterpolation</code></td>
+                                <td>AI-powered blending.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>BillboardType</h3>
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Cylindrical</code></td>
+                                <td>Y-axis locked rotation (best for trees).</td>
+                            </tr>
+                            <tr>
+                                <td><code>Spherical</code></td>
+                                <td>Full 3D facing (best for bushes).</td>
+                            </tr>
+                            <tr>
+                                <td><code>ScreenAligned</code></td>
+                                <td>Camera-aligned, no edge rotation (best for rocks).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>CaptureDistribution</h3>
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Grid</code></td>
+                                <td>Standard latitude/longitude grid arrangement.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Fibonacci</code></td>
+                                <td>Uniform sphere distribution using Fibonacci spiral.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Octahedron</code></td>
+                                <td>Continuous octahedron mapping.</td>
+                            </tr>
+                            <tr>
+                                <td><code>HemiOctahedron</code></td>
+                                <td>Top hemisphere octahedron mapping.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>RegenerationMode</h3>
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>OnMouseUp</code></td>
+                                <td>Update when you release slider (recommended).</td>
+                            </tr>
+                            <tr>
+                                <td><code>Off</code></td>
+                                <td>Manual regeneration only.</td>
+                            </tr>
+                            <tr>
+                                <td><code>OnChange</code></td>
+                                <td>Instant updates on every change (can lag).</td>
+                            </tr>
+                            <tr>
+                                <td><code>RealTime</code></td>
+                                <td>Live preview (smooth but resource-intensive).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>InpaintingQuality</h3>
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Fast</code></td>
+                                <td>256x256 inference (fastest).</td>
+                            </tr>
+                            <tr>
+                                <td><code>Standard</code></td>
+                                <td>512x512 inference (balanced).</td>
+                            </tr>
+                            <tr>
+                                <td><code>High</code></td>
+                                <td>1024x1024 inference (best quality, slowest).</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
 
-                <!-- Usage Examples -->
                 <section class="api-section" id="usage-examples">
                     <h2>Usage Examples</h2>
-                    <p>Here are some real-world examples of how you might use Rawteous Impostors in your games.</p>
 
-                    <h3>Runtime Impostor Generation</h3>
+                    <h3>Programmatic Impostor Generation</h3>
                     <div class="code-block">
                         <code>using UnityEngine;
 using RawteousImpostors.Runtime;
@@ -302,38 +785,75 @@ public class ImpostorManager : MonoBehaviour
 {
     public void ConvertToImpostor(GameObject target)
     {
-        // Give the object the impostor powers
         var impostor = target.AddComponent&lt;RawteousImpostors&gt;();
-
-        // Set up reasonable quality settings for performance
-        impostor.settings.resolution = 256;
-        impostor.settings.azimuthSteps = 6;
-        impostor.settings.elevationSteps = 3;
+        impostor.sourceObject = target;
+        
+        impostor.settings.textureResolution = 256;
+        impostor.settings.captureAngles = 6;
+        impostor.settings.captureElevations = 3;
         impostor.settings.impostorMode = ImpostorMode.TextureBased;
-
-        // Make it happen!
+        impostor.settings.billboardType = BillboardType.Cylindrical;
+        
         impostor.Regenerate();
     }
 }</code>
                     </div>
 
-                    <h3>Batch Processing</h3>
+                    <h3>Accessing Generated Textures</h3>
                     <div class="code-block">
-                        <code>public class BatchImpostorGenerator : MonoBehaviour
-{
-    public GameObject[] targets;
-    public RawteousImpostorsSettings templateSettings;
+                        <code>// After regeneration, access the textures
+RenderTexture albedoAtlas = impostor.ImpostorTextureRT;
+RenderTexture normalAtlas = impostor.NormalMapTextureRT;
+RenderTexture pbrAtlas = impostor.PBRMapTextureRT;
+RenderTexture emissionAtlas = impostor.EmissionMapTextureRT;
 
-    public void GenerateAllImpostors()
-    {
-        foreach (var target in targets)
-        {
-            // Convert each object to an impostor using our saved settings
-            var impostor = target.AddComponent&lt;RawteousImpostors&gt;();
-            impostor.settings = templateSettings;
-            impostor.Regenerate();
-        }
-    }
+// Get atlas dimensions
+int cols = impostor.AtlasCols;
+int rows = impostor.AtlasRows;
+int tileSize = impostor.AtlasTileSize;</code>
+                    </div>
+
+                    <h3>Coroutine-Based Generation with Progress</h3>
+                    <div class="code-block">
+                        <code>IEnumerator GenerateWithProgress(RawteousImpostors impostor)
+{
+    yield return impostor.RegenerateCoroutine((progress) => {
+        Debug.Log($"Generation progress: {progress * 100:F1}%");
+    });
+    Debug.Log("Generation complete!");
+}</code>
+                    </div>
+
+                    <h3>Configuring Distribution Modes</h3>
+                    <div class="code-block">
+                        <code>// Grid distribution (default)
+impostor.settings.captureDistribution = CaptureDistribution.Grid;
+impostor.settings.captureAngles = 8;
+impostor.settings.captureElevations = 3;
+impostor.settings.hemisphereOnly = true;
+
+// Fibonacci distribution
+impostor.settings.captureDistribution = CaptureDistribution.Fibonacci;
+impostor.settings.fibonacciPoints = 64;
+
+// Octahedron distribution
+impostor.settings.captureDistribution = CaptureDistribution.Octahedron;
+impostor.settings.octahedronResolution = 8;</code>
+                    </div>
+
+                    <h3>Leader-Follower Pattern</h3>
+                    <div class="code-block">
+                        <code>// Set up leader
+RawteousImpostors leader = leaderObject.GetComponent&lt;RawteousImpostors&gt;();
+leader.settings.textureResolution = 512;
+leader.settings.captureAngles = 8;
+
+// Set up followers
+foreach (GameObject followerObj in followerObjects)
+{
+    var follower = followerObj.GetComponent&lt;RawteousImpostors&gt;();
+    follower.settings.leader = leaderObject;
+    // Follower will automatically sync settings from leader
 }</code>
                     </div>
                 </section>

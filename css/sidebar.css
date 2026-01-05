@@ -76,7 +76,7 @@
     align-items: center;
     gap: var(--space-sm);
     padding: var(--space-sm) var(--space-md);
-    margin: var(--space-xs) var(--space-md);
+    margin: 2px var(--space-md);
     border-radius: var(--radius-md);
     cursor: pointer;
     color: var(--color-text-secondary);
@@ -167,7 +167,7 @@
 /* Param Links */
 .nav-param-link {
     display: block;
-    padding: 3px 0;
+    padding: var(--space-sm) 0;
     padding-left: var(--space-sm);
     font-size: var(--text-xs);
     color: var(--color-text-tertiary);

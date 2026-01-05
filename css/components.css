@@ -93,15 +93,18 @@
 
 .param-card-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: var(--space-md);
     margin-bottom: var(--space-sm);
+    position: relative;
 }
 
 .param-card-name {
     font-size: var(--text-base);
     font-weight: 600;
     color: var(--color-text);
+    flex: 1;
 }
 
 .param-card-id {
@@ -111,6 +114,18 @@
     padding: 2px var(--space-sm);
     background: var(--color-bg-elevated);
     border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.param-card-id:hover {
+    color: var(--color-accent);
+    background: var(--color-accent-glow);
+    transform: translateY(-1px);
 }
 
 .param-card-desc {

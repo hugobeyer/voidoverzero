@@ -140,7 +140,7 @@ const App = {
             <div class="param-card-content">
                 <div class="param-card-header">
                     <div class="param-card-name">${displayName}</div>
-                    <div class="param-card-id">${param.id}</div>
+                    <a href="api.html#${param.id}" class="param-card-id" title="View API reference">${param.id}</a>
                 </div>
                 ${contentHtml}
             </div>
@@ -148,6 +148,11 @@ const App = {
 
         // Add click handler to card
         card.addEventListener('click', (e) => {
+            // Don't trigger if clicking on param-card-id (let link handle navigation)
+            if (e.target.closest('.param-card-id')) {
+                return;
+            }
+
             // Scroll to center and highlight
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
             history.pushState(null, '', `#${key}`);

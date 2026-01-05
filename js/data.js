@@ -2,43 +2,150 @@
  * Rawteous Documentation Data
  * Comprehensive reference for all impostor generation parameters
  * Updated: January 2025
- * Version: 1.0.0
+ * Version: 2.0.0
  *
- * NOTE: This documentation matches the current inspector structure.
- * Some parameters may be deprecated or moved to different sections.
+ * This documentation matches EXACTLY what is visible in the Unity Inspector.
+ * All parameters are based on the actual inspector UI setup code.
  */
 
 const DOCS_DATA = {
     panels: [
         {
-            id: 'impostor',
-            name: 'Impostor',
+            id: 'quality',
+            name: 'Quality',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/square.png',
-            description: 'Basic impostor settings and texture resolution configuration.',
+            description: 'Texture resolution and quality settings for the impostor atlas.',
             groups: [
                 {
-                    id: 'impostor-settings',
-                    name: 'Impostor Settings',
-                    description: 'Configure texture resolution for the impostor atlas.',
+                    id: 'quality-settings',
+                    name: 'Quality',
+                    description: 'Configure texture resolution and quality options for the impostor atlas.',
                     params: [
                         {
                             id: 'texture-resolution',
                             name: 'Texture Resolution',
-                            desc: 'Resolution level for each tile in the atlas (0-8). Maps to resolutions: 8, 16, 32, 64, 128, 256, 512, 1024 pixels. Higher resolution captures more detail but increases memory usage.',
+                            desc: 'Resolution of each tile in the atlas. Must be power of 2: 8, 16, 32, 64, 128, 256, 512, 1024 pixels. Higher resolution captures more detail but increases memory usage. Range: 8-1024.',
                             image: 'images/params/resolution.svg'
+                        },
+                        {
+                            id: 'auto-resolution',
+                            name: 'Auto Resolution',
+                            desc: 'Automatically calculate resolution from bounding box size. When enabled, resolution is calculated based on object size and clamped to max auto resolution. Disables manual texture resolution setting.',
+                            image: 'images/params/auto-resolution.svg'
+                        },
+                        {
+                            id: 'max-auto-resolution',
+                            name: 'Max Auto Resolution',
+                            desc: 'Maximum resolution when auto resolution is enabled. Resolution will be calculated from bounds but clamped to this maximum value. Range: 8-2048.',
+                            image: 'images/params/max-auto-resolution.svg'
+                        },
+                        {
+                            id: 'super-sampling-multiplier',
+                            name: 'Super-Sample',
+                            desc: 'Render at higher resolution then downscale for better quality. 0 = Disabled (1x), 1 = 1.5x, 2 = 2x, 3 = 3x, 4 = 4x. Higher values = better quality but slower capture. Range: 0-4.',
+                            image: 'images/params/super-sampling.svg'
+                        },
+                        {
+                            id: 'downscaling-filter',
+                            name: 'Filter',
+                            desc: 'Method used when super-sampling is enabled. 0 = Bilinear (fastest), 1 = Lanczos (best quality), 2 = CatmullRom (sharp). Range: 0-2.',
+                            image: 'images/params/downscaling-filter.svg'
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            id: 'impostor',
+            name: 'Impostor',
+            icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/square.png',
+            description: 'Capture distribution and angle configuration for impostor generation.',
+            groups: [
                 {
-                    id: 'debug',
-                    name: 'Debug',
-                    description: 'Debug visualization options for the impostor system.',
+                    id: 'impostor-settings',
+                    name: 'Impostor Settings',
+                    description: 'Control how camera angles are distributed around your object and capture settings.',
                     params: [
                         {
-                            id: 'show-gizmos',
-                            name: 'Show Gizmos',
-                            desc: 'Display camera gizmos in the Scene view showing capture positions and angles (0-1). 0 = hidden, 1 = visible. Useful for visualizing how the impostor is captured.',
-                            image: 'images/params/debug-view.svg'
+                            id: 'capture-distribution',
+                            name: 'Capture Distribution',
+                            desc: 'Distribution mode for capture angles. Grid = Standard latitude/longitude arrangement. Fibonacci = Uniform sphere distribution that avoids clustering at poles. Octahedron = Continuous octahedron mapping. HemiOctahedron = Top hemisphere octahedron. Range: 0-3.',
+                            image: 'images/params/distribution-mode.svg'
+                        },
+                        {
+                            id: 'capture-angles',
+                            name: 'Azimuth',
+                            desc: 'Number of horizontal azimuth angles to capture. Valid values: 4, 6, 8, 12, 16, 20, 24, 32, 48, 64, 80, 96, 128. More angles create smoother rotation but require more texture memory. Only applies in Grid mode. Range: 4-128.',
+                            image: 'images/params/azimuth.svg'
+                        },
+                        {
+                            id: 'capture-elevations',
+                            name: 'Elevation',
+                            desc: 'Number of vertical elevation angles to capture. Valid values: 1 (Lowest), 3 (Low), 5 (Average), 9 (Medium), 11 (High), 15 (Very High), 17 (Ultra), 21, 25, 29, 33 (Extreme). Higher values provide better coverage when viewing from above or below. Only applies in Grid mode. Range: 1-33.',
+                            image: 'images/params/elevation.svg'
+                        },
+                        {
+                            id: 'hemisphere-only',
+                            name: 'Hemisphere Only',
+                            desc: 'Capture only the top hemisphere (0-90 degrees elevation). When enabled, only captures views from above the horizon, useful for objects that are never viewed from below. Reduces texture memory by half. Only applies in Grid mode.',
+                            image: 'images/params/hemisphere.svg'
+                        },
+                        {
+                            id: 'fibonacci-points',
+                            name: 'Points',
+                            desc: 'Number of Fibonacci points to capture (Fibonacci distribution). Replaces Azimuth/Elevation grid. Common values: 16, 32, 64, 128, 256. Higher values provide more uniform coverage. Only applies when using Fibonacci distribution. Range: 4-1024.',
+                            image: 'images/params/fibonacci-points.svg'
+                        },
+                        {
+                            id: 'octahedron-resolution',
+                            name: 'Octahedron Resolution',
+                            desc: 'Grid size for octahedron capture (e.g., 8 = 8x8 = 64 samples, 16 = 16x16 = 256 samples). Higher = better quality but more captures. Only applies when using Octahedron or HemiOctahedron distribution. Range: 4-32.',
+                            image: 'images/params/octahedron-resolution.svg'
+                        },
+                        {
+                            id: 'pole-scaling',
+                            name: 'Pole Scaling',
+                            desc: 'Scales the elevation range up or down the sphere. Lower values = compressed range (less coverage), higher values = expanded range (more coverage). 50 = no scaling. Range: 10-80. Only applies in Grid mode.',
+                            image: 'images/params/pole-scaling.svg'
+                        },
+                        {
+                            id: 'horizontal-arch-limit',
+                            name: 'Horizontal Arch Limit',
+                            desc: 'Limits azimuth range to focus on front view. 360 = full 360 degrees, lower values = limited range centered on front. Prioritizes front-facing views. Range: 10-360 degrees. Only applies in Grid mode.',
+                            image: 'images/params/horizontal-arch.svg'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'lod',
+            name: 'LOD',
+            icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/square.png',
+            description: 'Level of detail settings and LOD Group integration.',
+            groups: [
+                {
+                    id: 'lod-settings',
+                    name: 'LOD Settings',
+                    description: 'Automatically join the source object\'s LOD Group as the furthest LOD level.',
+                    params: [
+                        {
+                            id: 'join-lod-group',
+                            name: 'Join LOD Group',
+                            desc: 'Automatically join the source object\'s LOD Group as the furthest LOD level. When enabled, the impostor will be added to the LOD Group at the configured LOD percentage.',
+                            image: 'images/params/join-lod.svg'
+                        },
+                        {
+                            id: 'lod-percentage',
+                            name: 'LOD Percentage',
+                            desc: 'Screen height threshold (0-1) for impostor LOD level when joining LOD Group. Lower values activate the impostor when objects are further away. Default is 0.05 (5% screen height). Range: 0.01-1.',
+                            image: 'images/params/lod-percentage.svg'
+                        },
+                        {
+                            id: 'max-lod-additions',
+                            name: 'Max LOD Additions',
+                            desc: 'Maximum number of times the impostor can be added to the LOD Group. Prevents creating too many duplicate LOD entries. Range: 1-5.',
+                            image: 'images/params/max-lod-additions.svg'
                         }
                     ]
                 }
@@ -48,72 +155,30 @@ const DOCS_DATA = {
             id: 'capture',
             name: 'Capture',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/camera.png',
-            description: 'Configure capture distribution, angles, and capture options for GPU-accelerated generation.',
+            description: 'Capture frame settings and bounds configuration.',
             groups: [
                 {
                     id: 'capture',
                     name: 'Capture',
-                    description: 'Control how camera angles are distributed around your object and capture settings.',
+                    description: 'Control capture frame size and bounds editing.',
                     params: [
                         {
-                            id: 'distribution-mode',
-                            name: 'Distribution Mode',
-                            desc: 'Grid: Standard latitude/longitude arrangement. Fibonacci: Uniform sphere distribution that avoids clustering at poles.',
-                            image: 'images/params/distribution-mode.svg'
-                        },
-                        {
-                            id: 'capture-angles',
-                            name: 'Capture Angles',
-                            desc: 'Number of horizontal capture angles around the object (4-128). More angles create smoother rotation but require more texture memory. Only applies in Grid mode.',
-                            image: 'images/params/azimuth.svg'
-                        },
-                        {
-                            id: 'capture-elevations',
-                            name: 'Capture Elevations',
-                            desc: 'Number of vertical angles from top to bottom (1-33). Higher values provide better coverage when viewing from above or below. Only applies in Grid mode.',
-                            image: 'images/params/elevation.svg'
-                        },
-                        {
-                            id: 'fibonacci-points',
-                            name: 'Fibonacci Points',
-                            desc: 'Number of capture points for Fibonacci distribution (4-1024). Higher values provide more uniform coverage. Only applies when using Fibonacci mode.',
-                            image: 'images/params/fibonacci-points.svg'
-                        },
-                        {
-                            id: 'hemisphere-only',
-                            name: 'Hemisphere Only',
-                            desc: 'Only captures the upper hemisphere. Useful for ground objects like vegetation that are never viewed from below. Reduces texture memory by half. Only applies in Grid mode.',
-                            image: 'images/params/hemisphere.svg'
-                        },
-                        {
-                            id: 'pole-scaling',
-                            name: 'Pole Scaling',
-                            desc: 'Controls vertical angle distribution (10-80). Lower values focus on sides, higher values focus on top and bottom. 50 provides uniform distribution. Only applies in Grid mode.',
-                            image: 'images/params/pole-scaling.svg'
-                        },
-                        {
-                            id: 'horizontal-arch-limit',
-                            name: 'Horizontal Arch Limit',
-                            desc: 'Angular range for horizontal capture (10-360°). Use 360° for full rotation or lower values for objects viewed from limited angles. Only applies in Grid mode.',
-                            image: 'images/params/horizontal-arch.svg'
-                        },
-                        {
-                            id: 'capture-lights-as-emissive',
-                            name: 'Capture Lights As Emissive',
-                            desc: 'Captures dynamic lights as emissive color in the texture. Useful for static lighting scenarios.',
-                            image: 'images/params/capture-shadows.svg'
-                        },
-                        {
                             id: 'capture-frame-reduction',
-                            name: 'Capture Frame Reduction',
-                            desc: 'Reduces the capture frame size (0-1). Higher values capture less of the scene, effectively zooming in. Lower values capture more context.',
+                            name: 'Capture Padding',
+                            desc: 'Capture padding (0-1). Expands billboard mesh vertices outward to add padding around captured content. Higher values = more padding. Capture frame stays intact. Default is 0.25 (25% vertex expansion). Range: 0-1.',
                             image: 'images/params/capture-padding.svg'
                         },
                         {
-                            id: 'translucency-strength',
-                            name: 'Translucency Strength',
-                            desc: 'Subsurface scattering intensity (0-2). Simulates light passing through thin materials like leaves or fabric.',
-                            image: 'images/params/translucency.svg'
+                            id: 'edit-bounds',
+                            name: 'Edit Bounds',
+                            desc: 'Enable bounds editing mode. When enabled, shows transform handles and radius dragger in scene view to manually adjust capture bounds.',
+                            image: 'images/params/edit-bounds.svg'
+                        },
+                        {
+                            id: 'use-edit-bounds',
+                            name: 'Use Edit Bounds',
+                            desc: 'Use custom edited bounds instead of automatically calculated bounds. When enabled, the manually positioned bounds sphere will be used for capture.',
+                            image: 'images/params/use-edit-bounds.svg'
                         }
                     ]
                 }
@@ -123,7 +188,7 @@ const DOCS_DATA = {
             id: 'postprocess',
             name: 'Post Process',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/tv-minimal-play.png',
-            description: 'Apply GPU-accelerated post-processing to improve texture quality and add visual effects.',
+            description: 'Post-processing effects and LaMa inpainting for texture quality improvement.',
             groups: [
                 {
                     id: 'post-process',
@@ -131,46 +196,89 @@ const DOCS_DATA = {
                     description: 'Post-processing effects applied to captured textures. All GPU-powered for fast performance.',
                     params: [
                         {
-                            id: 'edge-dilation-radius',
-                            name: 'Edge Dilation Radius',
-                            desc: 'Grow the edges into transparent areas (0-256px). Fixes black outlines when mipmaps kick in. 1-4 is usually perfect.',
-                            image: 'images/params/edge-dilation.svg'
-                        },
-                        {
                             id: 'gamma',
                             name: 'Gamma',
-                            desc: 'Gamma correction (0.1-3.0). Adjusts brightness curve. Values below 1.0 brighten, above 1.0 darken. Default is 1.0.',
+                            desc: 'Gamma (brightness) adjustment (0.1-3.0). Controls brightness correction. Values < 1 brighten, values > 1 darken. Only applied in preview mode. Default is 1.0 (regular/no adjustment). Range: 0.1-3.0.',
                             image: 'images/params/gamma.svg'
                         },
                         {
                             id: 'saturation',
                             name: 'Saturation',
-                            desc: 'Color saturation (0-2). 0 = grayscale, 1 = normal, 2 = oversaturated. Adjusts color intensity.',
+                            desc: 'Saturation adjustment (0-2). Controls color intensity. 0 = grayscale, 1 = normal, > 1 = more saturated. Default is 1.0 (normal saturation). Range: 0-2.',
                             image: 'images/params/saturation.svg'
                         },
                         {
                             id: 'hue',
                             name: 'Hue',
-                            desc: 'Hue shift in degrees (-180 to 180). Rotates colors around the color wheel. 0 = no change.',
+                            desc: 'Hue shift in degrees (-180 to 180). Rotates colors around the color wheel. 0 = no shift, positive = shift towards red, negative = shift towards cyan. Default is 0 (no shift). Range: -180 to 180.',
                             image: 'images/params/hue.svg'
+                        },
+                        {
+                            id: 'emission-strength',
+                            name: 'Emission',
+                            desc: 'Emission strength (0-2). Controls the intensity of emissive surfaces. 0 = no emission, 1 = normal, >1 = brighter. Default is 0. Range: 0-2.',
+                            image: 'images/params/emission-strength.svg'
+                        },
+                        {
+                            id: 'translucency-strength',
+                            name: 'Translucency Strength',
+                            desc: 'Translucency strength (0-32). Controls the intensity of the translucency effect during rendering. Higher values = more pronounced translucency. Translucency is captured separately from albedo and remains independent. Default is 0. Range: 0-32.',
+                            image: 'images/params/translucency.svg'
+                        },
+                        {
+                            id: 'invert-thickness',
+                            name: 'Invert Thickness',
+                            desc: 'Invert thickness map. When enabled, inverts the thickness calculation so thin areas (edges) become thick and thick areas (center) become thin. Useful for certain material types.',
+                            image: 'images/params/invert-thickness.svg'
                         },
                         {
                             id: 'sharpen-strength',
                             name: 'Sharpen Strength',
-                            desc: 'Sharpening intensity (0-10). Brings back details lost in downsampling. Don\'t overdo it or you\'ll get halos. Great for fixing softness.',
+                            desc: 'Post-sharpen strength (0-10). Sharpens the captured textures to enhance detail. Higher values = more sharpening. 0 = disabled. Default is 0. Range: 0-10.',
                             image: 'images/params/sharpen.svg'
                         },
                         {
                             id: 'denoise-strength',
                             name: 'Denoise Strength',
-                            desc: 'Denoising intensity (0-1). Smooths out noise and grain. Higher = more blur. Good for cleaning up grainy captures.',
+                            desc: 'Post-denoise strength (0-1). Reduces noise in captured textures using AI-powered real-time denoising. Higher values = more smoothing. 0 = disabled. Default is 0. Range: 0-1.',
                             image: 'images/params/denoise.svg'
                         },
                         {
                             id: 'denoise-passes',
                             name: 'Denoise Passes',
-                            desc: 'Number of denoising passes (1-5). More passes = smoother result but slower processing.',
-                            image: 'images/params/denoise.svg'
+                            desc: 'Denoise passes (1-32). Number of times to apply the denoise filter. More passes = stronger smoothing. Default is 1. Range: 1-32.',
+                            image: 'images/params/denoise-passes.svg'
+                        }
+                    ]
+                },
+                {
+                    id: 'lama-inpainting',
+                    name: 'LaMa Inpainting',
+                    description: 'AI-powered inpainting to fix bad RGB pixels caused by alpha background artifacts.',
+                    params: [
+                        {
+                            id: 'enable-lama-inpainting',
+                            name: 'Enable LaMa Inpainting',
+                            desc: 'Enable LaMa-Dilated inpainting to fix bad RGB pixels caused by alpha background artifacts. Uses AI model to intelligently fill background regions.',
+                            image: 'images/params/lama-inpainting.svg'
+                        },
+                        {
+                            id: 'lama-model-asset',
+                            name: 'LaMa Model Asset',
+                            desc: 'LaMa-Dilated ONNX model asset. Download from HuggingFace or convert from PyTorch. Required when inpainting is enabled. Only available when Unity Barracuda package is installed.',
+                            image: 'images/params/lama-model.svg'
+                        },
+                        {
+                            id: 'inpainting-alpha-threshold',
+                            name: 'Inpainting Alpha Threshold',
+                            desc: 'Alpha threshold for inpainting mask generation (0-1). Pixels with alpha below this value are considered background and will be inpainted. Default is 0.1. Range: 0-1.',
+                            image: 'images/params/inpainting-threshold.svg'
+                        },
+                        {
+                            id: 'inpainting-quality',
+                            name: 'Inpainting Quality',
+                            desc: 'Inpainting quality preset. Fast = 256x256 (fastest), Standard = 512x512 (balanced), High = 1024x1024 (best quality, slowest). Range: 0-2.',
+                            image: 'images/params/inpainting-quality.svg'
                         }
                     ]
                 }
@@ -180,7 +288,7 @@ const DOCS_DATA = {
             id: 'billboard',
             name: 'Billboard',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/square.png',
-            description: 'Configure how the billboard renders in your game. Depth testing, alpha blending, and LOD integration.',
+            description: 'Billboard rendering mode, blending, and render state settings.',
             groups: [
                 {
                     id: 'billboard-settings',
@@ -188,53 +296,52 @@ const DOCS_DATA = {
                     description: 'Rendering settings for the billboard impostor.',
                     params: [
                         {
-                            id: 'depth-test',
-                            name: 'Depth Test',
-                            desc: 'Test against depth buffer for correct sorting with other geometry. Enable for proper occlusion. Disable only for special effects.',
-                            image: 'images/params/depth-test.svg'
+                            id: 'impostor-mode',
+                            name: 'Impostor Mode',
+                            desc: 'Impostor rendering mode. TextureBased = standard texture-based impostor, SmoothBlending = smooth blending between tiles. Range: 0-1.',
+                            image: 'images/params/impostor-mode.svg'
                         },
                         {
-                            id: 'depth-write',
-                            name: 'Depth Write',
-                            desc: 'Write to depth buffer so other geometry can sort against the impostor. Enable if objects need to be occluded by the impostor. Usually disabled for transparent billboards.',
-                            image: 'images/params/depth-write.svg'
+                            id: 'blending-mode',
+                            name: 'Blending Mode',
+                            desc: 'Blending quality mode: Linear = standard bilinear (fastest), Smoothstep = smoother curves, Barycentric = 3-tile weighting, Spherical = best for normals, CatmullRom = smooth interpolation, Bicubic = high quality, AIInterpolation = AI-powered blending. Range: 0-6.',
+                            image: 'images/params/blending-mode.svg'
                         },
                         {
-                            id: 'alpha-blend',
-                            name: 'Alpha Blend',
-                            desc: 'Enable alpha blending for transparent billboards. Required for objects with transparency.',
-                            image: 'images/params/alpha-blend.svg'
+                            id: 'step-rotation',
+                            name: 'Step Rotation',
+                            desc: 'Step rotation: billboard snaps to face capture angle directions instead of smoothly facing camera. Creates retro sprite-like rotation effect.',
+                            image: 'images/params/step-rotation.svg'
+                        },
+                        {
+                            id: 'billboard-type',
+                            name: 'Billboard Type',
+                            desc: 'Billboard rotation type: Cylindrical = Y-axis locked (trees), Spherical = full 3D facing (bushes), Screen-aligned = camera-aligned, no edge rotation (rocks). Range: 0-2.',
+                            image: 'images/params/billboard-type.svg'
+                        },
+                        {
+                            id: 'unfiltered-pixels',
+                            name: 'Unfiltered Pixels',
+                            desc: 'Unfiltered pixels: use point filtering instead of bilinear filtering for crisp pixel-perfect rendering.',
+                            image: 'images/params/unfiltered-pixels.svg'
                         },
                         {
                             id: 'alpha-test',
                             name: 'Alpha Test',
-                            desc: 'Enable alpha testing to discard pixels below a threshold. Useful for cutout transparency.',
+                            desc: 'Enable alpha test (hard cutout/clipping) for billboard. Pixels with alpha below threshold are discarded.',
                             image: 'images/params/alpha-test.svg'
-                        }
-                    ]
-                },
-                {
-                    id: 'lod-settings',
-                    name: 'LOD Settings',
-                    description: 'Level of detail transition settings and LOD Group integration.',
-                    params: [
-                        {
-                            id: 'join-lod-group',
-                            name: 'Join LOD Group',
-                            desc: 'Add this impostor as the furthest LOD automatically. Perfect combo: detailed up close, impostor far away.',
-                            image: 'images/params/join-lod.svg'
                         },
                         {
-                            id: 'lod-percentage',
-                            name: 'LOD Percentage',
-                            desc: 'Screen height threshold for impostor LOD level (0.01-1). Lower values activate the impostor when objects are further away.',
-                            image: 'images/params/lod-percentage.svg'
+                            id: 'alpha-threshold',
+                            name: 'Alpha Threshold',
+                            desc: 'Alpha threshold for alpha test (0-1). Pixels with alpha below this value are discarded. Default is 0.5. Range: 0.0-1.0.',
+                            image: 'images/params/alpha-threshold.svg'
                         },
                         {
-                            id: 'max-lod-additions',
-                            name: 'Max LOD Additions',
-                            desc: 'Maximum number of LOD levels to add (1-5). Controls how many LOD levels the impostor can occupy.',
-                            image: 'images/params/max-lod-additions.svg'
+                            id: 'show-gizmos',
+                            name: 'Show Gizmos',
+                            desc: 'Show gizmos in scene view. Display camera gizmos showing capture positions and angles. Useful for visualizing how the impostor is captured.',
+                            image: 'images/params/debug-view.svg'
                         }
                     ]
                 }
@@ -244,223 +351,69 @@ const DOCS_DATA = {
             id: 'cast',
             name: 'Cast',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/vector-square.png',
-            description: 'Experimental cast mesh generation. Currently not available in the inspector.',
+            description: 'Cast mesh generation settings for shadow casting.',
             groups: [
                 {
-                    id: 'cast-info',
-                    name: 'Cast Information',
-                    description: 'Cast mesh generation is planned for future releases. This section will contain settings for generating custom meshes that match your object\'s silhouette.',
-                    params: []
-                }
-            ]
-        },
-        {
-            id: 'workflow',
-            name: 'Workflow',
-            icon: '../Packages/com.voidoverzero.rawteous/UI/icons/workflow.png',
-            description: 'How and when things update, plus some handy multi-object tricks.',
-            groups: [
-                {
-                    id: 'regeneration',
-                    name: 'Regeneration',
-                    description: 'Control when and how impostor regeneration occurs.',
+                    id: 'shape',
+                    name: 'Shape',
+                    description: 'Configure cast mesh generation for shadow casting.',
                     params: [
                         {
-                            id: 'regen-mode',
-                            name: 'Regeneration Mode',
-                            desc: 'OnMouseUp = update when you release slider (smooth, recommended). Off = manual only. OnChange = instant updates (can lag). RealTime = live preview (cool but heavy).',
-                            image: 'images/params/regen-mode.svg'
-                        }
-                    ]
-                },
-                {
-                    id: 'source',
-                    name: 'Source Object',
-                    description: 'Settings for handling the source object during impostor generation.',
-                    params: [
+                            id: 'cast-enabled',
+                            name: 'Cast Enabled',
+                            desc: 'Enable cast mesh generation. When enabled, generates simplified meshes for shadow casting.',
+                            image: 'images/params/cast-enabled.svg'
+                        },
                         {
-                            id: 'visibility-mode',
-                            name: 'Source Visibility',
-                            desc: 'Auto hides in Scene View using SceneVisibilityManager. Hidden disables completely. Visible keeps the object shown. Choose based on your workflow needs.',
-                            image: 'images/params/visibility-mode.svg'
-                        }
+                            id: 'cast-threshold',
+                            name: 'Cast Threshold',
+                            desc: 'Cast threshold parameter for silhouette detection. Controls how the cast mesh is generated from the object silhouette. Range: 0.01-1.',
+                            image: 'images/params/cast-threshold.svg'
+                        },
+                        {
+                            id: 'cast-dilation',
+                            name: 'Cast Dilation',
+                            desc: 'Cast dilation parameter. Expands the cast mesh outward. Range: 0-100.',
+                            image: 'images/params/cast-dilation.svg'
+                        },
                     ]
                 }
             ]
         },
         {
-            id: 'leader',
-            name: 'Leadership',
-            icon: '../Packages/com.voidoverzero.rawteous/UI/icons/group.png',
-            description: 'Link multiple impostors to share settings from a leader object. Perfect for forests, crowds, or any time you want consistent impostors.',
+            id: 'channel-packing',
+            name: 'Channels',
+            icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/square.png',
+            description: 'Channel packing configuration for PBR maps.',
             groups: [
                 {
-                    id: 'leadership',
-                    name: 'Leader-Follower',
-                    description: 'Link multiple impostors to share settings from a leader object.',
+                    id: 'pbrmap',
+                    name: 'PBRMap',
+                    description: 'Configure which channels are packed into the PBR map texture.',
                     params: [
                         {
-                            id: 'leader',
-                            name: 'Leader',
-                            desc: 'Pick a "leader" object and this one copies all its settings. Perfect for forests, crowds, or any time you want consistent impostors.',
-                            image: 'images/params/leader.svg'
+                            id: 'map-cr-channel',
+                            name: 'R Channel',
+                            desc: 'R channel source for Map C (PBRMap). Options include: None, Metallic, Smoothness, AO, Depth, EmissionR, EmissionG, EmissionB, Translucency, AlbedoR, AlbedoG, AlbedoB, Alpha, NormalR, NormalG, NormalB, Texcoord0R, Texcoord0G, Texcoord0B, VertexColorR, VertexColorG, VertexColorB, VertexColorA.',
+                            image: 'images/params/channel-packing.svg'
                         },
                         {
-                            id: 'set-leadership',
-                            name: 'Set Leadership from Selection',
-                            desc: 'Set leadership from selected objects. Last selected becomes leader, others become followers. Access via overlay menu.',
+                            id: 'map-cg-channel',
+                            name: 'G Channel',
+                            desc: 'G channel source for Map C (PBRMap). Options include: None, Metallic, Smoothness, AO, Depth, EmissionR, EmissionG, EmissionB, Translucency, AlbedoR, AlbedoG, AlbedoB, Alpha, NormalR, NormalG, NormalB, Texcoord0R, Texcoord0G, Texcoord0B, VertexColorR, VertexColorG, VertexColorB, VertexColorA.',
+                            image: 'images/params/channel-packing.svg'
                         },
                         {
-                            id: 'disconnect-leadership',
-                            name: 'Disconnect Leadership',
-                            desc: 'Disconnect leadership from selected objects, making them independent again. Access via overlay menu.',
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'overlay-menu',
-            name: 'Overlay Menu',
-            icon: '../Packages/com.voidoverzero.rawteous/UI/icons/menu.png',
-            description: 'Context menu and overlay controls for quick access to common impostor operations.',
-            groups: [
-                {
-                    id: 'overlay-controls',
-                    name: 'Overlay Controls',
-                    description: 'Buttons available in the overlay menu.',
-                    params: [
-                        {
-                            id: 'delete-all-button',
-                            name: 'Delete All Button',
-                            desc: 'Button to delete all Rawteous objects from the scene. Use with caution - this removes all impostors.',
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'presets',
-            name: 'Presets',
-            icon: '../Packages/com.voidoverzero.rawteous/UI/icons/bookmark-check.png',
-            description: 'Save and load preset configurations for quick setup of common impostor settings.',
-            groups: [
-                {
-                    id: 'preset-management',
-                    name: 'Preset Management',
-                    description: 'Preset Manager window buttons for managing presets.',
-                    params: [
-                        {
-                            id: 'preset-name-field',
-                            name: 'Preset Name Field',
-                            desc: 'TextField for entering the name of a new preset when adding.',
+                            id: 'map-cb-channel',
+                            name: 'B Channel',
+                            desc: 'B channel source for Map C (PBRMap). Options include: None, Metallic, Smoothness, AO, Depth, EmissionR, EmissionG, EmissionB, Translucency, AlbedoR, AlbedoG, AlbedoB, Alpha, NormalR, NormalG, NormalB, Texcoord0R, Texcoord0G, Texcoord0B, VertexColorR, VertexColorG, VertexColorB, VertexColorA.',
+                            image: 'images/params/channel-packing.svg'
                         },
                         {
-                            id: 'add-preset-button',
-                            name: 'Add Preset Button',
-                            desc: 'Button to create a new preset with the name entered in the Preset Name Field.',
-                        },
-                        {
-                            id: 'load-preset-button',
-                            name: 'Load Preset Button',
-                            desc: 'Button to load the selected preset and apply its settings. Enabled when a preset is selected.',
-                        },
-                        {
-                            id: 'duplicate-preset-button',
-                            name: 'Duplicate Preset Button',
-                            desc: 'Button to create a copy of the selected preset. Enabled when a preset is selected.',
-                        },
-                        {
-                            id: 'rename-preset-button',
-                            name: 'Rename Preset Button',
-                            desc: 'Button to rename the selected preset. Enabled when a preset is selected (except Main Preset).',
-                        },
-                        {
-                            id: 'delete-preset-button',
-                            name: 'Delete Preset Button',
-                            desc: 'Button to delete the selected preset. Enabled when a preset is selected (except Main Preset).',
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'atlas-viewer',
-            name: 'Atlas Viewer',
-            icon: '../Packages/com.voidoverzero.rawteous/UI/icons/eye.png',
-            description: 'Visualize and inspect the generated impostor atlas textures.',
-            groups: [
-                {
-                    id: 'top-bar',
-                    name: 'Top Bar',
-                    description: 'Information labels and controls in the top bar.',
-                    params: [
-                        {
-                            id: 'texture-bounds-label',
-                            name: 'Texture Bounds Label',
-                            desc: 'Label displaying the texture dimensions (width × height) of the atlas texture.',
-                        },
-                        {
-                            id: 'utilized-bounds-label',
-                            name: 'Utilized Bounds Label',
-                            desc: 'Label displaying the grid dimensions (columns × rows) showing how the atlas is utilized.',
-                        },
-                        {
-                            id: 'debug-view-mode-dropdown',
-                            name: 'Debug View Mode Dropdown',
-                            desc: 'EnumField dropdown to switch between different debug visualization modes (Shaded, Wireframe, UV, Normal, etc.).',
-                        },
-                        {
-                            id: 'tile-size-label',
-                            name: 'Tile Size Label',
-                            desc: 'Label displaying the size of each tile in pixels.',
-                        },
-                        {
-                            id: 'total-captures-label',
-                            name: 'Total Captures Label',
-                            desc: 'Label displaying the total number of capture tiles in the atlas.',
-                        }
-                    ]
-                },
-                {
-                    id: 'bottom-bar',
-                    name: 'Bottom Bar',
-                    description: 'Information labels and toggles in the bottom bar.',
-                    params: [
-                        {
-                            id: 'capture-angles-label',
-                            name: 'Capture Angles Label',
-                            desc: 'Label displaying the number of azimuth (horizontal) capture angles.',
-                        },
-                        {
-                            id: 'capture-elevations-label',
-                            name: 'Capture Elevations Label',
-                            desc: 'Label displaying the number of elevation (vertical) capture angles.',
-                        },
-                        {
-                            id: 'show-tile-numbers-toggle',
-                            name: 'Show Tile Numbers Toggle',
-                            desc: 'Toggle to display capture angle and elevation numbers on each tile in the atlas.',
-                        },
-                        {
-                            id: 'show-alpha-toggle',
-                            name: 'Show Alpha Toggle',
-                            desc: 'Toggle to display the alpha channel of textures. Useful for checking transparency and edge quality.',
-                        },
-                        {
-                            id: 'show-wireframe-toggle',
-                            name: 'Show Wireframe Toggle',
-                            desc: 'Toggle to display wireframe overlay on the atlas. Helps visualize mesh structure and capture boundaries.',
-                        },
-                        {
-                            id: 'resolution-label',
-                            name: 'Resolution Label',
-                            desc: 'Label displaying the resolution of the current view or selected tile.',
-                        },
-                        {
-                            id: 'current-tile-index-label',
-                            name: 'Current Tile Index Label',
-                            desc: 'Label displaying the index of the currently selected tile (shows "—" when no tile is selected).',
+                            id: 'map-ca-channel',
+                            name: 'A Channel',
+                            desc: 'A channel source for Map C (PBRMap). Options include: None, Metallic, Smoothness, AO, Depth, EmissionR, EmissionG, EmissionB, Translucency, AlbedoR, AlbedoG, AlbedoB, Alpha, NormalR, NormalG, NormalB, Texcoord0R, Texcoord0G, Texcoord0B, VertexColorR, VertexColorG, VertexColorB, VertexColorA.',
+                            image: 'images/params/channel-packing.svg'
                         }
                     ]
                 }
