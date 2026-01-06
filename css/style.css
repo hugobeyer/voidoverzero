@@ -237,6 +237,15 @@ body {
 .service-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    background: #e8e8e8;
+}
+
+.service-card:hover h3 {
+    color: #111;
+}
+
+.service-card:hover p {
+    color: #333;
 }
 
 .service-icon {

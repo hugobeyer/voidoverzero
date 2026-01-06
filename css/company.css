@@ -22,6 +22,10 @@
 
     min-height: 100vh;
     background: var(--gradient-bg), var(--color-bg-dark);
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* === NAVIGATION === */
@@ -33,15 +37,18 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: var(--main-content-width);
+    width: 100%;
     margin: 0 auto;
     padding: var(--space-sm) var(--space-xl);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .nav-brand {
@@ -106,11 +113,13 @@
     text-align: left;
     position: relative;
     overflow: hidden;
-    min-height: 600px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    width: 100%;
+    background: rgba(8, 10, 14, 0.95);
 }
 
 .company-hero::before {
@@ -199,7 +208,7 @@
 
 
 .hero-container {
-    max-width: 1200px;
+    max-width: var(--main-content-width);
     margin: var(--space-2xl) auto var(--space-xs);
     padding: var(--space-xl);
     position: relative;
@@ -262,6 +271,22 @@
     max-width: 600px;
 }
 
+.product-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.product-logo-hero {
+    margin-bottom: var(--space-lg);
+}
+
+.product-logo-large {
+    width: 200px;
+    height: auto;
+    filter: drop-shadow(0 0 20px var(--color-accent-glow));
+}
+
 .hero-actions {
     display: flex;
     gap: var(--space-md);
@@ -321,7 +346,7 @@
 }
 
 .section-container {
-    max-width: 1200px;
+    max-width: var(--main-content-width);
     margin: 0 auto;
     padding: 0 var(--space-xl);
 }
@@ -390,36 +415,116 @@
     z-index: 0;
 }
 
+/* Product Showcase Section - For large images */
+.product-showcase-section {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    padding: 0;
+    margin: 0 0 var(--space-xl) 0;
+    min-height: 600px;
+}
+
+.product-showcase-container {
+    position: relative;
+    width: 100%;
+    max-width: var(--main-content-width);
+    margin: 0 auto;
+    padding: 0;
+    height: 600px;
+    background: rgba(16, 19, 26, 0.4);
+    backdrop-filter: blur(8px);
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.product-showcase-container .rawteous-inspectors-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    min-height: 600px;
+    max-height: 600px;
+    overflow: hidden;
+}
+
+
 .rawteous-inspector {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 200%;
-    background-image: url('../images/rawteous_scroll/rawteous-inspector.png');
-    background-size: 100% auto;
-    background-attachment: scroll;
-    background-position: top center;
+    height: 100%;
+    opacity: 0;
+    background-size: contain;
+    background-position: center top;
     background-repeat: no-repeat;
-    z-index: 0;
     animation: inspectorScroll 8s linear infinite;
-    opacity: 0; /* Start invisible, animation will control visibility */
-    mask-image: radial-gradient(ellipse 90% 70% at 75% 50%, 
-        black 0%, 
-        black 30%, 
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 0.85) 50%,
-        rgba(0, 0, 0, 0.6) 60%,
-        rgba(0, 0, 0, 0.3) 70%,
-        transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 75% 50%, 
-        black 0%, 
-        black 30%, 
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 0.85) 50%,
-        rgba(0, 0, 0, 0.6) 60%,
-        rgba(0, 0, 0, 0.3) 70%,
-        transparent 80%);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* Rawteous showcase - no transparency, full opacity scrolling */
+.rawteous-showcase-scroll {
+    overflow: visible !important;
+    position: relative !important;
+}
+
+.rawteous-showcase-scroll .rawteous-inspector,
+.rawteous-showcase-scroll .showcase-inspector {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    opacity: 0 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    background-size: 100% auto !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    height: 100% !important;
+    width: 100% !important;
+    will-change: transform, opacity;
+}
+
+/* Override animation for showcase - each image gets its own slot */
+.rawteous-showcase-scroll .rawteous-inspector,
+.rawteous-showcase-scroll .showcase-inspector {
+    animation: showcaseScroll var(--anim-duration, 70s) linear infinite !important;
+    animation-delay: var(--anim-delay, 0s) !important;
+}
+
+@keyframes showcaseScroll {
+    0% { 
+        transform: translateY(0);
+        opacity: 0;
+    }
+    1.5% { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+    12% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    80% { 
+        transform: translateY(var(--scroll-distance, 0));
+        opacity: 1;
+    }
+    85% { 
+        transform: translateY(var(--scroll-distance, 0));
+        opacity: 1;
+    }
+    87% { 
+        transform: translateY(var(--scroll-distance, 0));
+        opacity: 0;
+    }
+    100% { 
+        transform: translateY(0);
+        opacity: 0;
+    }
 }
 
 @keyframes inspectorScroll {
@@ -465,6 +570,22 @@
     transform: translateY(-4px);
     border-color: var(--color-border-accent);
     box-shadow: var(--shadow-card), 0 0 40px rgba(255, 107, 53, 0.1);
+    background: rgba(12, 14, 18, 1);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+.product-card:hover .product-title {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.product-card:hover .product-description {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.product-card:hover .product-byline {
+    color: var(--color-accent);
+    opacity: 1;
 }
 
 .product-card:hover::before {
@@ -508,6 +629,7 @@
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: var(--space-md);
+    transition: color var(--transition-base);
 }
 
 .product-byline {
@@ -515,6 +637,7 @@
     color: var(--color-accent);
     margin-bottom: var(--space-md);
     font-weight: 500;
+    transition: color var(--transition-base), opacity var(--transition-base);
 }
 
 .product-description {
@@ -524,6 +647,7 @@
     margin-bottom: var(--space-md);
     position: relative;
     z-index: 2;
+    transition: color var(--transition-base);
 }
 
 .product-features {
@@ -592,6 +716,21 @@
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.stat-item:hover {
+    background: rgba(12, 15, 20, 1);
+    transform: translateY(-2px);
+}
+
+.stat-item:hover .stat-value {
+    color: rgba(255, 107, 53, 1);
+}
+
+.stat-item:hover .stat-label {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .stat-value {
@@ -600,6 +739,7 @@
     color: var(--color-accent);
     margin-bottom: var(--space-xs);
     font-family: var(--font-mono);
+    transition: color var(--transition-base);
 }
 
 .stat-label {
@@ -607,6 +747,7 @@
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    transition: color var(--transition-base);
 }
 
 /* === CONTACT GRID === */
@@ -637,6 +778,16 @@
     transform: translateY(-4px);
     border-color: var(--color-border-accent);
     box-shadow: var(--shadow-card), 0 0 40px rgba(255, 107, 53, 0.1);
+    background: rgba(12, 15, 20, 1);
+}
+
+.contact-card:hover .contact-name {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.contact-card:hover .contact-role,
+.contact-card:hover .contact-email {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .contact-icon {
@@ -678,7 +829,7 @@
 }
 
 .footer-container {
-    max-width: 1200px;
+    max-width: var(--main-content-width);
     margin: 0 auto;
     display: flex;
     flex-direction: column;

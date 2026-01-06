@@ -28,6 +28,12 @@ body {
     background: var(--color-bg-dark);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -84,16 +90,15 @@ button {
     outline-offset: 2px;
 }
 
-/* App Layout - Centered Panel */
+/* App Layout - 2 Column Layout for Docs Pages */
+/* Note: Actual layout defined in docs-layout.css for modularity */
 .app {
     display: flex;
-    max-width: calc(var(--sidebar-width) + var(--content-max-width) + 80px);
-    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
-    background: var(--color-bg-surface);
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* Utility Classes */
@@ -138,4 +143,47 @@ button {
 /* Loading states */
 .loading {
     animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ========================================
+   UNIVERSAL CARD HOVER SYSTEM
+   ======================================== */
+
+/* All card types have smooth transitions */
+[class*="card"],
+[class*="-card"],
+.stat-item {
+    transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, transform 0.3s ease !important;
+}
+
+/* All text inside cards has smooth color transitions */
+[class*="card"] *,
+[class*="-card"] *,
+.stat-item * {
+    transition: color 0.3s ease !important;
+}
+
+/* All card types darken background on hover */
+[class*="card"]:hover,
+[class*="-card"]:hover,
+.stat-item:hover {
+    background: rgba(8, 10, 14, 0.92) !important;
+    backdrop-filter: blur(0px) !important;
+    -webkit-backdrop-filter: blur(0px) !important;
+}
+
+/* All text inside cards brightens on hover */
+[class*="card"]:hover *:not(button):not(a),
+[class*="-card"]:hover *:not(button):not(a),
+.stat-item:hover * {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Accent colors stay bright */
+[class*="card"]:hover [class*="value"],
+[class*="card"]:hover [class*="byline"],
+[class*="-card"]:hover [class*="value"],
+[class*="-card"]:hover [class*="byline"],
+.stat-item:hover .stat-value {
+    opacity: 1 !important;
 }

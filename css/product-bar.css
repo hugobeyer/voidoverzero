@@ -1,0 +1,44 @@
+/* ========================================
+   PRODUCT BAR - Inside Content Column
+   Used by all documentation pages
+   ======================================== */
+
+.product-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--space-sm) var(--space-xl);
+    background: linear-gradient(180deg, var(--color-accent-glow) 0%, transparent 100%);
+    border-bottom: 1px solid var(--color-border);
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 48px;
+}
+
+.product-bar-links {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+}
+
+.product-bar-link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+.product-bar-link:hover {
+    color: var(--color-text);
+}
+
+.product-bar-link:active {
+    color: var(--color-accent);
+}
+
+/* Active state - highlight current page */
+.product-bar-link.active {
+    color: var(--color-accent);
+}

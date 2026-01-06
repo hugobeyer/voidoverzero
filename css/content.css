@@ -4,13 +4,34 @@
    Updated: January 2025
    ======================================== */
 
+/* Content - Modular, used by all docs pages */
 .content {
-    flex: 1;
+    min-width: 0;
     min-height: 100vh;
     background: var(--gradient-bg), var(--color-bg-dark);
     overflow-x: hidden;
     position: relative;
+    box-sizing: border-box;
 }
+
+/* Width controlled by docs-layout.css */
+.company-app .app .content {
+    width: var(--content-width-percent);
+    flex: 1;
+}
+
+.content-wrapper {
+    width: 100%;
+    padding: 0 var(--space-xl);
+    box-sizing: border-box;
+}
+
+.content #content {
+    width: 100%;
+    padding: 0 var(--space-xl);
+    box-sizing: border-box;
+}
+
 
 /* === CONTENT HIGHLIGHT EFFECT === */
 .panel-section.highlight::before,
@@ -65,18 +86,14 @@
     z-index: 2;
 }
 
-.content-wrapper {
-    padding: var(--space-2xl);
-    padding-top: 0;
-}
 
 /* === HERO SECTION === */
 .hero-section {
-    padding: var(--space-3xl) var(--space-2xl);
+    padding: calc(var(--space-xl) + 80px) var(--space-2xl) var(--space-xl);
     text-align: center;
     position: relative;
     overflow: hidden;
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-lg);
 }
 
 .hero-section::before {
@@ -85,11 +102,12 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
+    width: min(100%, 600px);
     height: 600px;
     background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 70%);
     opacity: 0.5;
     pointer-events: none;
+    box-sizing: border-box;
 }
 
 .hero-badge {
@@ -103,7 +121,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-sm);
     position: relative;
 }
 
@@ -116,7 +134,8 @@
 }
 
 .hero-logo img {
-    max-width: 400px;
+    max-width: 100%;
+    width: auto;
     height: auto;
     filter: drop-shadow(0 0 30px var(--color-accent-glow));
     position: relative;
@@ -125,7 +144,7 @@
 .hero-subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-secondary);
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
     line-height: 1.6;
     position: relative;
@@ -136,6 +155,9 @@
     margin-bottom: var(--space-3xl);
     animation: fadeInUp 0.6s ease backwards;
     cursor: pointer;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 @keyframes fadeInUp {
@@ -152,9 +174,9 @@
 /* === PANEL HEADER === */
 .panel-header {
     position: relative;
-    padding: var(--space-xl) var(--space-2xl);
+    padding: var(--space-md) var(--space-md);
     border-radius: var(--radius-lg);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     overflow: hidden;
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
@@ -169,20 +191,15 @@
     pointer-events: none;
 }
 
-.panel-header .panel-icon {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    margin-bottom: var(--space-md);
-    filter: drop-shadow(0 0 10px var(--panel-color, var(--color-accent)));
-}
 
 .panel-header h1 {
     position: relative;
     font-size: var(--text-2xl);
     font-weight: 600;
     letter-spacing: -0.02em;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    margin-left: 0;
+    padding-left: 0;
     color: var(--color-text);
 }
 
@@ -190,17 +207,12 @@
     position: relative;
     font-size: var(--text-base);
     color: var(--color-text-secondary);
-    max-width: 700px;
+    max-width: 100%;
     line-height: 1.5;
 }
 
 /* === PANEL COLOR VARIANTS === */
-.panel-section[data-panel="impostor"] .panel-header { --panel-color: var(--color-impostor); }
-.panel-section[data-panel="capture"] .panel-header { --panel-color: var(--color-capture); }
-.panel-section[data-panel="postprocess"] .panel-header { --panel-color: var(--color-postprocess); }
-.panel-section[data-panel="billboard"] .panel-header { --panel-color: var(--color-billboard); }
-.panel-section[data-panel="cast"] .panel-header { --panel-color: var(--color-cast); }
-.panel-section[data-panel="workflow"] .panel-header { --panel-color: var(--color-workflow); }
+/* All panels use the same accent color */
 
 /* === RICH TEXT CONTENT === */
 .param-card-rich-content {
@@ -261,6 +273,10 @@
     overflow-x: auto;
     margin: var(--space-md) 0;
     border: 1px solid var(--color-border);
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
 }
 
 .param-card-rich-content pre code {
@@ -275,7 +291,9 @@
     margin: var(--space-md) 0;
     background: rgba(26, 30, 36, 0.5);
     border-radius: var(--radius-md);
-    overflow: hidden;
+    overflow-x: auto;
+    display: block;
+    box-sizing: border-box;
 }
 
 .param-card-rich-content th,

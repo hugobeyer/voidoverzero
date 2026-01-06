@@ -12,9 +12,10 @@ const App = {
         this.initScrollAnimations();
         this.initImageLightbox();
 
-        // Handle initial hash navigation after everything is rendereds
-        // For file:// URLs from Unity, we need multiple attempts to ensure it works
-        if (window.location.hash) {
+        // Handle initial hash navigation after everything is rendered
+        // Only scroll if there's a hash AND it wasn't from a page refresh (check sessionStorage)
+        const isInitialLoad = !sessionStorage.getItem('hashNavigated');
+        if (window.location.hash && !isInitialLoad) {
             // First attempt after a short delay
             requestAnimationFrame(() => {
                 setTimeout(() => {
@@ -32,6 +33,8 @@ const App = {
                 Navigation.handleHashNavigation();
             }, 1000);
         }
+        // Mark that we've handled initial load
+        sessionStorage.setItem('hashNavigated', 'true');
     },
 
     renderContent() {
@@ -55,11 +58,6 @@ const App = {
         section.dataset.panel = panel.id;
         section.style.animationDelay = `${index * 0.1}s`;
 
-        const icon = section.querySelector('.panel-icon');
-        icon.style.backgroundImage = `url('${panel.icon}')`;
-        icon.style.backgroundSize = 'contain';
-        icon.style.backgroundRepeat = 'no-repeat';
-
         section.querySelector('h1').textContent = panel.name;
         section.querySelector('.panel-subtitle').textContent = panel.description;
 
@@ -68,15 +66,14 @@ const App = {
             section.appendChild(groupEl);
         });
 
-        // Add click handler to panel section
+        // Add click handler to panel section - only update URL, no scrolling
         section.addEventListener('click', (e) => {
             // Don't trigger if clicking on a param card (let card handle its own click)
             if (e.target.closest('.param-card')) {
                 return;
             }
 
-            // Scroll to center and highlight
-            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Update URL hash only, no scrolling
             history.pushState(null, '', `#${panel.id}`);
 
             // Update active nav link
@@ -101,7 +98,6 @@ const App = {
         groupEl.innerHTML = `
             <div class="group-header">
                 <div class="group-title">${group.name}</div>
-                <div class="group-count">${group.params.length} parameters</div>
             </div>
             <p class="group-desc">${group.description}</p>
             <div class="param-grid"></div>
@@ -146,15 +142,14 @@ const App = {
             </div>
         `;
 
-        // Add click handler to card
+        // Add click handler to card - only update URL, no scrolling
         card.addEventListener('click', (e) => {
             // Don't trigger if clicking on param-card-id (let link handle navigation)
             if (e.target.closest('.param-card-id')) {
                 return;
             }
 
-            // Scroll to center and highlight
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Update URL hash only, no scrolling
             history.pushState(null, '', `#${key}`);
 
             // Update active nav link
@@ -251,8 +246,10 @@ const App = {
 document.addEventListener('DOMContentLoaded', () => App.init());
 
 // Also handle hash navigation on window load (for file:// URLs from Unity)
+// Only if hash was set programmatically, not on page refresh
 window.addEventListener('load', () => {
-    if (window.location.hash) {
+    const isInitialLoad = !sessionStorage.getItem('hashNavigated');
+    if (window.location.hash && !isInitialLoad) {
         // Try immediately and with delays to handle various loading scenarios
         Navigation.handleHashNavigation();
         setTimeout(() => {

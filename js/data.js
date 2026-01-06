@@ -18,7 +18,7 @@ const DOCS_DATA = {
             groups: [
                 {
                     id: 'quality-settings',
-                    name: 'Quality',
+                    name: 'Settings',
                     description: 'Configure texture resolution and quality options for the impostor atlas.',
                     params: [
                         {
@@ -188,7 +188,7 @@ const DOCS_DATA = {
             id: 'postprocess',
             name: 'Post Process',
             icon: '../Packages/com.voidoverzero.rawteousimpostors/UI/icons/tv-minimal-play.png',
-            description: 'Post-processing effects and LaMa inpainting for texture quality improvement.',
+            description: 'Post-processing effects for texture quality improvement.',
             groups: [
                 {
                     id: 'post-process',
@@ -248,37 +248,6 @@ const DOCS_DATA = {
                             name: 'Denoise Passes',
                             desc: 'Denoise passes (1-32). Number of times to apply the denoise filter. More passes = stronger smoothing. Default is 1. Range: 1-32.',
                             image: 'images/params/denoise-passes.svg'
-                        }
-                    ]
-                },
-                {
-                    id: 'lama-inpainting',
-                    name: 'LaMa Inpainting',
-                    description: 'AI-powered inpainting to fix bad RGB pixels caused by alpha background artifacts.',
-                    params: [
-                        {
-                            id: 'enable-lama-inpainting',
-                            name: 'Enable LaMa Inpainting',
-                            desc: 'Enable LaMa-Dilated inpainting to fix bad RGB pixels caused by alpha background artifacts. Uses AI model to intelligently fill background regions.',
-                            image: 'images/params/lama-inpainting.svg'
-                        },
-                        {
-                            id: 'lama-model-asset',
-                            name: 'LaMa Model Asset',
-                            desc: 'LaMa-Dilated ONNX model asset. Download from HuggingFace or convert from PyTorch. Required when inpainting is enabled. Only available when Unity Barracuda package is installed.',
-                            image: 'images/params/lama-model.svg'
-                        },
-                        {
-                            id: 'inpainting-alpha-threshold',
-                            name: 'Inpainting Alpha Threshold',
-                            desc: 'Alpha threshold for inpainting mask generation (0-1). Pixels with alpha below this value are considered background and will be inpainted. Default is 0.1. Range: 0-1.',
-                            image: 'images/params/inpainting-threshold.svg'
-                        },
-                        {
-                            id: 'inpainting-quality',
-                            name: 'Inpainting Quality',
-                            desc: 'Inpainting quality preset. Fast = 256x256 (fastest), Standard = 512x512 (balanced), High = 1024x1024 (best quality, slowest). Range: 0-2.',
-                            image: 'images/params/inpainting-quality.svg'
                         }
                     ]
                 }

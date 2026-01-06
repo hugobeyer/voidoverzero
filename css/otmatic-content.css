@@ -20,12 +20,48 @@
         radial-gradient(ellipse at 100% 100%, rgba(53, 122, 189, 0.02) 0%, transparent 50%);
 }
 
+/* Content - Modular, used by all docs pages */
 .content {
-    flex: 1;
+    min-width: 0;
     min-height: 100vh;
     background: var(--gradient-bg), var(--color-bg-dark);
     overflow-x: hidden;
     position: relative;
+    box-sizing: border-box;
+}
+
+/* Width controlled by docs-layout.css */
+.company-app .app .content {
+    width: var(--content-width-percent);
+    flex: 1;
+}
+
+.content-wrapper {
+    width: 100%;
+    padding: 0 var(--space-xl);
+    box-sizing: border-box;
+}
+
+.content #content {
+    width: 100%;
+    padding: 0 var(--space-xl);
+    box-sizing: border-box;
+}
+
+/* Wide elements should scroll, not push out */
+.content pre,
+.content .code-block {
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.content table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
 }
 
 /* === CONTENT HIGHLIGHT EFFECT === */
@@ -88,7 +124,7 @@
 
 /* === HERO SECTION === */
 .hero-section {
-    padding: var(--space-3xl) var(--space-2xl);
+    padding: calc(var(--space-3xl) + 80px) var(--space-2xl) var(--space-3xl);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -101,11 +137,12 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
+    width: min(100%, 600px);
     height: 600px;
     background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 70%);
     opacity: 0.5;
     pointer-events: none;
+    box-sizing: border-box;
 }
 
 .hero-badge {
@@ -142,7 +179,7 @@
 .hero-subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-secondary);
-    max-width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     line-height: 1.6;
     position: relative;
@@ -230,4 +267,13 @@
 /* Override hardcoded cyan colors in components.css */
 .param-card:hover {
     box-shadow: var(--shadow-card), 0 0 30px rgba(74, 144, 226, 0.05);
+    background: rgba(12, 15, 20, 1);
+}
+
+.param-card:hover .param-card-name {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.param-card:hover .param-card-desc {
+    color: rgba(255, 255, 255, 0.85);
 }

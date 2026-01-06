@@ -29,7 +29,7 @@ const Navigation = {
 
             const label = document.createElement('span');
             label.className = 'nav-label';
-            label.textContent = panel.name;
+            label.textContent = panel.name.toUpperCase();
 
             // Info icon button that links to the panel section
             const infoIcon = document.createElement('a');
@@ -93,6 +93,7 @@ const Navigation = {
         document.querySelectorAll('.nav-panel-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                sessionStorage.setItem('hashNavigated', 'true');
                 const target = link.dataset.target;
                 const section = document.getElementById(target);
                 if (section) {
@@ -115,6 +116,7 @@ const Navigation = {
         document.querySelectorAll('.nav-param-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                sessionStorage.setItem('hashNavigated', 'true');
                 const key = link.dataset.key;
                 // Try to find by ID first (for hash navigation), then by data-key
                 let card = document.getElementById(key);
@@ -137,8 +139,10 @@ const Navigation = {
             });
         });
 
-        // Handle hash changes (browser back/forward)
+        // Handle hash changes (browser back/forward or manual navigation)
+        // Mark that hash navigation was triggered by user action
         window.addEventListener('hashchange', () => {
+            sessionStorage.setItem('hashNavigated', 'true');
             this.handleHashNavigation();
         });
     },

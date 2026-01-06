@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous - Unity Impostor System</title>
+    <meta name="description" content="Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview.">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/company.css">
+    <style>
+        /* Override colors to match docs - Cyan/Teal instead of Orange */
+        .company-app {
+            --color-accent: #00ffd5;
+            --color-accent-dim: #00d4aa;
+            --color-accent-dark: #00b894;
+            --color-accent-glow: rgba(0, 255, 213, 0.12);
+            --color-accent-glow-strong: rgba(0, 255, 213, 0.25);
+            --color-border-accent: rgba(0, 255, 213, 0.25);
+            --color-success: #00ffd5;
+            --gradient-bg:
+                radial-gradient(ellipse at 0% 0%, rgba(0, 255, 213, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(0, 180, 148, 0.02) 0%, transparent 50%);
+        }
+
+        /* Feature icons styling - no background, fit square, cyan color */
+        .company-app .product-icon {
+            background: transparent !important;
+            width: 96px;
+            height: 96px;
+            padding: 2px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        .company-app .product-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(5000%) hue-rotate(130deg) brightness(1.1);
+        }
+
+        /* More compact card spacing */
+        .company-app .product-card {
+            padding: var(--space-md) var(--space-lg);
+        }
+
+        .company-app .product-title {
+            margin-bottom: var(--space-xs);
+            font-size: var(--text-lg);
+        }
+
+        .company-app .product-description {
+            font-size: var(--text-sm);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Hero layout - logo on right, text aligned vertically */
+        .company-app .product-hero-content {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-xl);
+            margin-top: var(--space-md);
+        }
+
+        .company-app .product-hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .company-app .product-logo-hero {
+            margin: 0;
+            margin-right: var(--space-2xl);
+            flex-shrink: 0;
+        }
+
+        .company-app .product-logo-large {
+            width: 240px;
+        }
+
+        /* Container behind cards */
+        .company-app .products-section .section-container,
+        .company-app .company-section .section-container {
+            background: rgba(16, 19, 26, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Rawteous banner */
+        .company-app .company-hero::before,
+        .company-app .company-hero::after {
+            background-image: url('rt_banner.png');
+        }
+
+        /* Video showcase styling - fit container */
+        .company-app .product-showcase-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../logo.png">
+</head>
+<body>
+    <div class="company-app">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="../index.html">
+                        <img src="../images/voz_logo.svg" alt="Void Over Zero" class="nav-logo">
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <a href="../index.html#products" class="nav-link">Products</a>
+                    <a href="../index.html#about" class="nav-link">About</a>
+                    <a href="../index.html#contact" class="nav-link">Contact</a>
+                    <a href="docs.html" class="nav-link">Documentation</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="company-hero">
+            <div class="hero-container">
+                <div class="product-hero-content">
+                    <div class="product-hero-text">
+                        <p class="hero-description">Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
+                        <div class="hero-actions">
+                            <a href="docs.html" class="btn btn-primary">View Documentation</a>
+                            <a href="tutorial.html" class="btn btn-secondary">Get Started</a>
+                        </div>
+                    </div>
+                    <div class="product-logo-hero">
+                        <img src="../images/rawteous_logo.svg" alt="Rawteous" class="product-logo-large">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Showcase - Video -->
+            <div class="product-showcase-section">
+                <div class="product-showcase-container">
+                    <iframe src="https://player.vimeo.com/video/1151966204?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="rt_banner_video"></iframe>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div id="features" class="products-section">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2 class="section-title">Key Features</h2>
+                        <p class="section-subtitle">Everything you need for efficient impostor generation</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_octahedron.svg" alt="Capture Modes">
+                            </div>
+                            <h3 class="product-title">Octahedron, Fibonacci & Grid</h3>
+                            <p class="product-description">Three capture modes - pick the perfect angle distribution for your needs.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_angles_128.svg" alt="High Resolution">
+                            </div>
+                            <h3 class="product-title">Up to 128 Angles and 2048px Tiles</h3>
+                            <p class="product-description">More angles = better quality. You choose the complexity.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_fov.svg" alt="FOV Control">
+                            </div>
+                            <h3 class="product-title">Adaptive FOV Control</h3>
+                            <p class="product-description">Adjust the field-of-view span to capture exactly what you need.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_snap_cast.svg" alt="Snap Casting">
+                            </div>
+                            <h3 class="product-title">Real-Time Snap Casting</h3>
+                            <p class="product-description">Your geometry automatically fits perfectly to impostor pixels during capture.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_lod_2click.svg" alt="LOD Groups">
+                            </div>
+                            <h3 class="product-title">2-Click LOD Groups</h3>
+                            <p class="product-description">Generate mesh decimation + impostor LODs instantly. Done.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_live_preview.svg" alt="Live Preview">
+                            </div>
+                            <h3 class="product-title">Live Preview System</h3>
+                            <p class="product-description">See your impostor in real-time before you commit.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_atlas_viewer.svg" alt="Atlas Viewer">
+                            </div>
+                            <h3 class="product-title">Built-In Atlas Viewer</h3>
+                            <p class="product-description">Inspect all captured maps (albedo, normal, PBR) directly in the editor.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_delightful_ui.svg" alt="UI">
+                            </div>
+                            <h3 class="product-title">Delightful UI</h3>
+                            <p class="product-description">Clean, intuitive interface that makes complex workflows feel simple.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_batch_process.svg" alt="Batch Processing">
+                            </div>
+                            <h3 class="product-title">Smart Batch Processing</h3>
+                            <p class="product-description">Set it and forget it - auto-resolution handles the heavy lifting.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_leader_follower.svg" alt="Leader-Follower">
+                            </div>
+                            <h3 class="product-title">Leader-Follower System</h3>
+                            <p class="product-description">One object leads, others follow. Sync parameters across multiple impostors effortlessly.</p>
+                        </div>
+
+                        <div class="product-card product-card-blur">
+                            <div class="product-icon">
+                                <img src="features/feature_preset_system.svg" alt="Presets">
+                            </div>
+                            <h3 class="product-title">Preset Library</h3>
+                            <p class="product-description">Save and load your favorite settings. Never configure from scratch again.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Links Section -->
+        <section class="company-section company-section-alt">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Documentation</h2>
+                    <p class="section-subtitle">Get started with Rawteous</p>
+                </div>
+
+                <div class="products-grid">
+                    <div class="product-card product-card-blur">
+                        <div class="product-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h3 class="product-title">Documentation</h3>
+                        <p class="product-description">Comprehensive guide covering all features, settings, and workflows. Learn about distribution, capture, and billboard configuration.</p>
+                        <a href="docs.html" class="product-link">Read Documentation →</a>
+                    </div>
+
+                    <div class="product-card product-card-blur">
+                        <div class="product-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="product-title">Tutorials</h3>
+                        <p class="product-description">Step-by-step tutorials to get you started. Learn how to create impostors, optimize performance, and integrate into your workflow.</p>
+                        <a href="tutorial.html" class="product-link">View Tutorials →</a>
+                    </div>
+
+                    <div class="product-card product-card-blur">
+                        <div class="product-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h3 class="product-title">API Reference</h3>
+                        <p class="product-description">Complete API documentation for programmatic control. Access all impostor functionality through code at runtime.</p>
+                        <a href="api.html" class="product-link">View API →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="company-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">Rawteous</span>
+                </div>
+                <div class="footer-links">
+                    <a href="docs.html" class="footer-link">Documentation</a>
+                    <a href="tutorial.html" class="footer-link">Tutorials</a>
+                    <a href="api.html" class="footer-link">API</a>
+                    <a href="../index.html" class="footer-link">Void Over Zero</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Void Over Zero. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/company.js"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+</body>
+</html>

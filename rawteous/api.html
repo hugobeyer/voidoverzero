@@ -5,15 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rawteous Impostors API - Unity Asset Documentation</title>
     <meta name="description" content="Complete API reference for Rawteous Impostors Unity package. Includes classes, methods, enums, and configuration options.">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/sidebar.css">
-    <link rel="stylesheet" href="css/content.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/company.css">
+    <link rel="stylesheet" href="../css/docs-layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/content.css">
+    <link rel="stylesheet" href="../css/product-bar.css">
+    <link rel="stylesheet" href="../css/components.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="../logo.png">
     <style>
+        /* Override colors to match homepage - Cyan/Teal instead of Orange */
+        .company-app {
+            --color-accent: #00ffd5;
+            --color-accent-dim: #00d4aa;
+            --color-accent-dark: #00b894;
+            --color-accent-glow: rgba(0, 255, 213, 0.12);
+            --color-accent-glow-strong: rgba(0, 255, 213, 0.25);
+            --color-border-accent: rgba(0, 255, 213, 0.25);
+            --color-success: #00ffd5;
+            --gradient-bg:
+                radial-gradient(ellipse at 0% 0%, rgba(0, 255, 213, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(0, 180, 148, 0.02) 0%, transparent 50%);
+        }
+
+        /* Hero layout - logo on right, text aligned vertically */
+        .company-app .product-hero-content {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-lg);
+            margin-top: var(--space-xs);
+        }
+
+        .company-app .product-hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .company-app .product-logo-hero {
+            margin: 0;
+            margin-right: var(--space-2xl);
+            flex-shrink: 0;
+        }
+
+        .company-app .product-logo-large {
+            width: 240px;
+        }
+
+        .company-app .hero-section {
+            text-align: left;
+        }
+
+        .company-app .hero-subtitle {
+            margin: 0;
+            text-align: left;
+        }
         /* Override global user-select: none for API content */
         .api-content *,
         .api-content *::before,
@@ -24,17 +76,17 @@
             user-select: text !important;
         }
         
-        .api-content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        .api-section { margin-bottom: 3rem; }
+        .api-content { width: 100%; max-width: 100%; margin: 0 auto; padding: 2rem; box-sizing: border-box; }
+        .api-section { margin-bottom: 3rem; max-width: 100%; box-sizing: border-box; }
         .api-section h2 { color: var(--color-accent); font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem; }
         .api-section h3 { color: var(--color-text-primary); font-size: 1.4rem; margin: 2rem 0 1rem 0; }
-        .api-table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: var(--gradient-card); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border); }
+        .api-table { width: 100%; max-width: 100%; border-collapse: collapse; margin: 1rem 0; background: var(--gradient-card); border-radius: var(--radius-md); overflow-x: auto; display: block; border: 1px solid var(--color-border); box-sizing: border-box; }
         .api-table th, .api-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); }
         .api-table th { background: var(--color-bg-hover); font-weight: 600; color: var(--color-accent); }
         .api-table tr:hover { background: rgba(0, 255, 213, 0.05); }
-        .code-block { background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; }
-        .code-block code { color: var(--color-text-primary); }
-        .method-signature { font-family: var(--font-mono); background: var(--color-bg-dark); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; border-left: 3px solid var(--color-accent); }
+        .code-block { background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; max-width: 100%; width: 100%; box-sizing: border-box; word-wrap: break-word; }
+        .code-block code { color: var(--color-text-primary); white-space: pre-wrap; word-wrap: break-word; }
+        .method-signature { font-family: var(--font-mono); background: var(--color-bg-dark); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0.5rem 0; border-left: 3px solid var(--color-accent); max-width: 100%; overflow-x: auto; word-wrap: break-word; }
         
         /* Keep sidebar non-selectable */
         .sidebar, .sidebar *, .sidebar-brand, .sidebar-footer, .hero-section { 
@@ -52,17 +104,30 @@
     </style>
 </head>
 <body>
-    <div class="app">
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <a href="http://www.voidoverzero.com/index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
-                    <img src="images/rawteous_logo.svg" alt="Rawteous Impostors" class="logo">
-                </a>
+    <div class="company-app">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="../index.html"><img src="../images/voz_logo.svg" alt="Void Over Zero" class="nav-logo"></a>
+                </div>
+                <div class="nav-links">
+                    <a href="../index.html#products" class="nav-link">Products</a>
+                    <a href="../index.html#about" class="nav-link">About</a>
+                    <a href="../index.html#contact" class="nav-link">Contact</a>
+                    <a href="docs.html" class="nav-link">Docs</a>
+                </div>
             </div>
+        </nav>
+
+        <div class="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav" id="nav"></nav>
 
             <div class="sidebar-footer">
                 <div class="footer-links">
-                    <a href="rawteous.html" class="footer-link">
+                    <a href="docs.html" class="footer-link">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
                         Documentation
                     </a>
@@ -79,9 +144,25 @@
         </aside>
 
         <main class="content">
+            <!-- Product Bar -->
+            <div class="product-bar">
+                <div class="product-bar-links">
+                    <a href="docs.html" class="product-bar-link">Docs</a>
+                    <a href="api.html" class="product-bar-link">API</a>
+                    <a href="tutorial.html" class="product-bar-link">Tutorial</a>
+                </div>
+            </div>
+            
             <div class="hero-section">
                 <div class="hero-badge">API Reference</div>
-                <p class="hero-subtitle">Complete API reference for Rawteous Impostors. Programmatic control and runtime access to all impostor functionality.</p>
+                <div class="product-hero-content">
+                    <div class="product-hero-text">
+                        <p class="hero-subtitle">Complete API reference for Rawteous Impostors. Programmatic control and runtime access to all impostor functionality.</p>
+                    </div>
+                    <div class="product-logo-hero">
+                        <img src="../images/rawteous_logo.svg" alt="Rawteous" class="product-logo-large">
+                    </div>
+                </div>
             </div>
 
             <div class="api-content">
@@ -504,21 +585,6 @@ IEnumerator GenerateWithProgress()
                                 <td>Number of denoise passes (1-32).</td>
                             </tr>
                             <tr>
-                                <td><code>enableLaMaInpainting</code></td>
-                                <td><code>bool</code></td>
-                                <td>Enable LaMa-Dilated inpainting for fixing background artifacts.</td>
-                            </tr>
-                            <tr>
-                                <td><code>inpaintingAlphaThreshold</code></td>
-                                <td><code>float</code></td>
-                                <td>Alpha threshold for inpainting mask (0-1).</td>
-                            </tr>
-                            <tr>
-                                <td><code>inpaintingQuality</code></td>
-                                <td><code>InpaintingQuality</code></td>
-                                <td>Inpainting quality preset: Fast, Standard, or High.</td>
-                            </tr>
-                            <tr>
                                 <td><code>captureLightsAsEmissive</code></td>
                                 <td><code>bool</code></td>
                                 <td>Capture lights inside prefab as emissive.</td>
@@ -748,29 +814,6 @@ IEnumerator GenerateWithProgress()
                         </tbody>
                     </table>
 
-                    <h3>InpaintingQuality</h3>
-                    <table class="api-table">
-                        <thead>
-                            <tr>
-                                <th>Value</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>Fast</code></td>
-                                <td>256x256 inference (fastest).</td>
-                            </tr>
-                            <tr>
-                                <td><code>Standard</code></td>
-                                <td>512x512 inference (balanced).</td>
-                            </tr>
-                            <tr>
-                                <td><code>High</code></td>
-                                <td>1024x1024 inference (best quality, slowest).</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </section>
 
                 <section class="api-section" id="usage-examples">
@@ -859,6 +902,20 @@ foreach (GameObject followerObj in followerObjects)
                 </section>
             </div>
         </main>
+        </div>
     </div>
+    <script>
+        // Mark active product bar link
+        (function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'api.html';
+            const links = document.querySelectorAll('.product-bar-link');
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && (href === currentPage || href.includes(currentPage))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

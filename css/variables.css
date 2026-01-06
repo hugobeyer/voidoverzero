@@ -76,8 +76,9 @@
     --text-indent-xl: 36px;
 
     /* === LAYOUT === */
-    --sidebar-width: 280px;
-    --content-max-width: 960px;
+    --main-content-width: 1200px;
+    --sidebar-width-percent: 20%;
+    --content-width-percent: 80%;
 
     /* === BORDERS === */
     --radius-xs: 0px;

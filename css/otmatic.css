@@ -294,6 +294,22 @@
     transform: translateY(-4px);
     border-color: var(--color-border-accent);
     box-shadow: var(--shadow-card), 0 0 40px rgba(74, 144, 226, 0.1);
+    background: rgba(12, 14, 18, 1);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+.product-card:hover .product-title {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.product-card:hover .product-description {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.product-card:hover .product-byline {
+    color: var(--color-accent);
+    opacity: 1;
 }
 
 .product-card:hover::before {
@@ -332,6 +348,7 @@
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: var(--space-md);
+    transition: color var(--transition-base);
 }
 
 .product-byline {
@@ -339,6 +356,7 @@
     color: var(--color-accent);
     margin-bottom: var(--space-md);
     font-weight: 500;
+    transition: color var(--transition-base), opacity var(--transition-base);
 }
 
 .product-description {
@@ -346,6 +364,7 @@
     color: var(--color-text-secondary);
     line-height: 1.5;
     margin-bottom: var(--space-md);
+    transition: color var(--transition-base);
 }
 
 .product-features {
@@ -410,6 +429,21 @@
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.stat-item:hover {
+    background: rgba(12, 15, 20, 1);
+    transform: translateY(-2px);
+}
+
+.stat-item:hover .stat-value {
+    color: rgba(74, 144, 226, 1);
+}
+
+.stat-item:hover .stat-label {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .stat-value {
@@ -418,6 +452,7 @@
     color: var(--color-accent);
     margin-bottom: var(--space-xs);
     font-family: var(--font-mono);
+    transition: color var(--transition-base);
 }
 
 .stat-label {
@@ -425,6 +460,7 @@
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    transition: color var(--transition-base);
 }
 
 /* === CONTACT GRID === */
@@ -455,6 +491,16 @@
     transform: translateY(-4px);
     border-color: var(--color-border-accent);
     box-shadow: var(--shadow-card), 0 0 40px rgba(74, 144, 226, 0.1);
+    background: rgba(12, 15, 20, 1);
+}
+
+.contact-card:hover .contact-name {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.contact-card:hover .contact-role,
+.contact-card:hover .contact-email {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .contact-icon {

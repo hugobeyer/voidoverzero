@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="feature_angles_128.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="7.3710938"
+     inkscape:cx="-5.7657658"
+     inkscape:cy="59.624801"
+     inkscape:window-width="3840"
+     inkscape:window-height="2089"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g12" />
+  <g
+     id="g12"
+     transform="rotate(180,32.000088,32.000324)">
+    <circle
+       cx="32"
+       cy="32"
+       r="24"
+       fill="none"
+       stroke="#9b59b6"
+       stroke-width="2"
+       stroke-dasharray="3, 2"
+       id="circle1" />
+    <g
+       transform="translate(32,32)"
+       id="g8">
+      <path
+         id="line1"
+         style="stroke:#9b59b6;stroke-width:2"
+         d="M 0,-15.499735 V -24"
+         sodipodi:nodetypes="cc" />
+      <path
+         id="line2"
+         style="opacity:0.7;stroke:#9b59b6;stroke-width:1.5"
+         d="M 11.802862,-11.802862 17,-17"
+         sodipodi:nodetypes="cc" />
+      <line
+         x1="0"
+         y1="0"
+         x2="24"
+         y2="0"
+         stroke="#9b59b6"
+         stroke-width="2"
+         id="line3" />
+      <line
+         x1="0"
+         y1="0"
+         x2="17"
+         y2="17"
+         stroke="#9b59b6"
+         stroke-width="1.5"
+         opacity="0.7"
+         id="line4" />
+      <line
+         x1="0"
+         y1="0"
+         x2="0"
+         y2="24"
+         stroke="#9b59b6"
+         stroke-width="2"
+         id="line5" />
+      <line
+         x1="0"
+         y1="0"
+         x2="-17"
+         y2="17"
+         stroke="#9b59b6"
+         stroke-width="1.5"
+         opacity="0.7"
+         id="line6" />
+      <line
+         x1="0"
+         y1="0"
+         x2="-24"
+         y2="0"
+         stroke="#9b59b6"
+         stroke-width="2"
+         id="line7" />
+      <path
+         id="line8"
+         style="opacity:0.7;stroke:#9b59b6;stroke-width:1.5"
+         d="M -11.599364,-11.938527 -17,-17"
+         sodipodi:nodetypes="cc" />
+    </g>
+    <text
+       x="-32.783764"
+       y="-18.991758"
+       font-family="Arial, sans-serif"
+       font-size="14px"
+       font-weight="bold"
+       text-anchor="middle"
+       fill="#9b59b6"
+       id="text8"
+       transform="scale(-1)">128</text>
+  </g>
+</svg>

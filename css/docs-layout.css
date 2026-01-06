@@ -1,0 +1,34 @@
+/* ========================================
+   DOCS LAYOUT - Modular System
+   Used by all documentation pages
+   ======================================== */
+
+/* Docs pages use: .company-app > nav > .app > sidebar + content */
+
+/* 2-Column Layout Container */
+.company-app .app {
+    display: flex;
+    width: 100%;
+    max-width: var(--main-content-width);
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+    box-sizing: border-box;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* Sidebar - 20% width */
+.company-app .app .sidebar {
+    width: var(--sidebar-width-percent);
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+/* Content - 80% width */
+.company-app .app .content {
+    width: var(--content-width-percent);
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}

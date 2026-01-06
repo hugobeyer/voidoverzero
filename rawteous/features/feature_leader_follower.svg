@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="feature_leader_follower.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="14.742188"
+     inkscape:cx="14.346582"
+     inkscape:cy="51.45098"
+     inkscape:window-width="3840"
+     inkscape:window-height="2089"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <path
+     d="m 11.792263,20.236354 9.627143,5.316488 14.23719,-4.128359"
+     stroke="#3498db"
+     stroke-width="2"
+     stroke-dasharray="4, 2"
+     marker-end="url(#arrowblue)"
+     id="path5"
+     sodipodi:nodetypes="ccc"
+     style="fill:none;stroke-dasharray:none;marker-end:url(#ArrowWideHeavy)" />
+  <defs
+     id="defs6">
+    <marker
+       style="overflow:visible"
+       id="ArrowWideHeavy"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide, heavy arrow"
+       markerWidth="0.5"
+       markerHeight="0.5"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="m 1,0 -3,3 h -2 l 3,-3 -3,-3 h 2 z"
+         id="path3" />
+    </marker>
+    <marker
+       id="arrowblue"
+       markerWidth="10"
+       markerHeight="10"
+       refX="8"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0 0, 6 3, 0 6"
+         fill="#3498DB"
+         id="polygon6" />
+    </marker>
+  </defs>
+  <path
+     d="m 12.131426,20.304185 0.334085,17.594179 11.659553,3.401052"
+     stroke="#3498db"
+     stroke-width="2"
+     stroke-dasharray="4, 2"
+     marker-end="url(#arrowblue)"
+     id="path6"
+     sodipodi:nodetypes="ccc"
+     style="fill:none;stroke-dasharray:none;marker-end:url(#ArrowWideHeavy)" />
+  <path
+     d="m 12.267091,20.711182 7.863497,9.861268 20.884779,5.571693"
+     stroke="#3498db"
+     stroke-width="2"
+     stroke-dasharray="4, 2"
+     marker-end="url(#arrowblue)"
+     id="path7"
+     sodipodi:nodetypes="ccc"
+     style="fill:none;stroke-dasharray:none;marker-end:url(#ArrowWideHeavy)" />
+  <rect
+     style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#95a5a6;stroke-width:1.82;stroke-miterlimit:3.8;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+     id="rect7"
+     width="11.938527"
+     height="16.27981"
+     x="38.461048"
+     y="13.498675" />
+  <rect
+     style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#95a5a6;stroke-width:1.82;stroke-miterlimit:3.8;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+     id="rect8"
+     width="11.938527"
+     height="16.27981"
+     x="43.209328"
+     y="33.170109" />
+  <rect
+     style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#95a5a6;stroke-width:1.82;stroke-miterlimit:3.8;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+     id="rect9"
+     width="11.938527"
+     height="16.27981"
+     x="26.319023"
+     y="40.360359" />
+  <rect
+     style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#95a5a6;stroke-width:1.82;stroke-miterlimit:3.8;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+     id="rect10"
+     width="11.938527"
+     height="16.27981"
+     x="7.2580805"
+     y="3.7307899" />
+  <path
+     id="rect6"
+     style="fill:#95a5a6;fill-opacity:1;fill-rule:evenodd;stroke-width:18.5197;stroke-miterlimit:3.8;paint-order:stroke markers fill"
+     d="m 10.039215,2.645469 h 6.37626 v 10.107048 l -3.255962,-2.645469 -3.120298,2.645469 z"
+     sodipodi:nodetypes="cccccc" />
+</svg>
