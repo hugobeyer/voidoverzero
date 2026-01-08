@@ -35,6 +35,8 @@
             align-items: center;
             justify-content: center;
             margin-bottom: var(--space-sm);
+            position: relative;
+            z-index: 2;
         }
 
         .company-app .product-icon img {
@@ -42,6 +44,8 @@
             height: 100%;
             object-fit: contain;
             filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(5000%) hue-rotate(130deg) brightness(1.1);
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         /* More compact card spacing */
@@ -105,6 +109,10 @@
         }
 
         /* Video showcase styling - fit container */
+        .company-app .product-showcase-container {
+            position: relative;
+        }
+
         .company-app .product-showcase-container video {
             position: absolute;
             top: 0;
@@ -112,6 +120,35 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .video-sound-toggle {
+            position: absolute;
+            bottom: var(--space-md);
+            right: var(--space-md);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: all 0.2s ease;
+            font-size: var(--text-sm);
+        }
+
+        .video-sound-toggle:hover {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: var(--color-accent);
+        }
+
+        .video-sound-toggle svg {
+            width: 18px;
+            height: 18px;
         }
 
     </style>
@@ -159,9 +196,21 @@
             <!-- Product Showcase - Video -->
             <div class="product-showcase-section">
                 <div class="product-showcase-container">
-                    <video autoplay loop muted playsinline>
+                    <video id="teaser-video" autoplay loop muted playsinline>
                         <source src="../teaser/teaser.mp4" type="video/mp4">
                     </video>
+                    <button class="video-sound-toggle" id="sound-toggle" aria-label="Toggle sound">
+                        <svg id="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                            <line x1="23" y1="9" x2="17" y2="15"></line>
+                            <line x1="17" y1="9" x2="23" y2="15"></line>
+                        </svg>
+                        <svg id="sound-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <span id="sound-text">Unmute</span>
+                    </button>
                 </div>
             </div>
 
@@ -229,8 +278,7 @@
                             <p class="product-description">Inspect all captured maps (albedo, normal, PBR) directly in the editor.</p>
                         </div>
 
-                        <div class="product-card product-card-blur card-scroll-bg">
-                            <div class="card-scroll-bg-element" style="background-image: url('features/ui.png');"></div>
+                        <div class="product-card product-card-blur">
                             <div class="product-icon">
                                 <img src="features/feature_delightful_ui.svg" alt="UI">
                             </div>
@@ -338,5 +386,28 @@
     </div>
 
     <script src="../js/company.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('teaser-video');
+            const toggle = document.getElementById('sound-toggle');
+            const iconMuted = document.getElementById('sound-icon-muted');
+            const iconUnmuted = document.getElementById('sound-icon-unmuted');
+            const soundText = document.getElementById('sound-text');
+
+            toggle.addEventListener('click', function() {
+                if (video.muted) {
+                    video.muted = false;
+                    iconMuted.style.display = 'none';
+                    iconUnmuted.style.display = 'block';
+                    soundText.textContent = 'Mute';
+                } else {
+                    video.muted = true;
+                    iconMuted.style.display = 'block';
+                    iconUnmuted.style.display = 'none';
+                    soundText.textContent = 'Unmute';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
