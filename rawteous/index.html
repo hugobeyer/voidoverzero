@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/company.css">
+    <link rel="stylesheet" href="../css/card-scroll-bg.css">
     <style>
         /* Override colors to match docs - Cyan/Teal instead of Orange */
         .company-app {
@@ -104,53 +105,15 @@
         }
 
         /* Video showcase styling - fit container */
-        .company-app .product-showcase-container iframe {
+        .company-app .product-showcase-container video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
         }
 
-        /* Delightful UI card background */
-        .delightful-ui-card {
-            position: relative;
-        }
-
-        .delightful-ui-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 300%;
-            z-index: 0;
-            background-image: url('features/ui.png');
-            background-size: 100% auto;
-            background-repeat: no-repeat;
-            background-position: left bottom;
-            mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
-            animation: uiScroll 25s linear infinite;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        .delightful-ui-card .product-icon,
-        .delightful-ui-card .product-title,
-        .delightful-ui-card .product-description {
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes uiScroll {
-            0% {
-                transform: translateY(66.66%);
-            }
-            100% {
-                transform: translateY(-66.66%);
-            }
-        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -196,7 +159,9 @@
             <!-- Product Showcase - Video -->
             <div class="product-showcase-section">
                 <div class="product-showcase-container">
-                    <iframe src="https://player.vimeo.com/video/1151966204?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="rt_banner_video"></iframe>
+                    <video autoplay loop muted playsinline>
+                        <source src="../teaser/teaser.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
 
@@ -264,8 +229,8 @@
                             <p class="product-description">Inspect all captured maps (albedo, normal, PBR) directly in the editor.</p>
                         </div>
 
-                        <div class="product-card product-card-blur delightful-ui-card">
-                            <div class="delightful-ui-bg"></div>
+                        <div class="product-card product-card-blur card-scroll-bg">
+                            <div class="card-scroll-bg-element" style="background-image: url('features/ui.png');"></div>
                             <div class="product-icon">
                                 <img src="features/feature_delightful_ui.svg" alt="UI">
                             </div>
@@ -373,6 +338,5 @@
     </div>
 
     <script src="../js/company.js"></script>
-    <script src="https://player.vimeo.com/api/player.js"></script>
 </body>
 </html>

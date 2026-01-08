@@ -1,0 +1,87 @@
+/* ========================================
+   CARD SCROLLING BACKGROUND MODULE
+   Reusable animated background system for cards
+   
+   USAGE:
+   1. Add 'card-scroll-bg' class to your card container
+   2. Add 'card-scroll-bg-element' div inside the card with background-image style
+   3. Card content should be siblings of the bg element
+   
+   EXAMPLE:
+   <div class="product-card card-scroll-bg">
+       <div class="card-scroll-bg-element" style="background-image: url('path/to/image.png');"></div>
+       <div class="content">Your content here</div>
+   </div>
+   
+   CUSTOMIZATION:
+   Use CSS variables to customize:
+   - --scroll-bg-height: Image height multiplier (default: 300%)
+   - --scroll-bg-duration: Animation duration (default: 25s)
+   ======================================== */
+
+/* Base card container - add this class to any card */
+.card-scroll-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background element - add this inside the card */
+.card-scroll-bg-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300%;
+    z-index: 0;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: left top;
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,1) 40%, rgba(0,0,0,1) 100%);
+    animation: cardScrollBg 25s linear infinite;
+    pointer-events: none;
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Fade in on hover */
+.card-scroll-bg:hover .card-scroll-bg-element {
+    opacity: 1;
+}
+
+/* Ensure card content stays above background */
+.card-scroll-bg > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animation: scroll from top to bottom, fade out at end */
+@keyframes cardScrollBg {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateY(-200%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-200%);
+        opacity: 0;
+    }
+}
+
+/* Customization variables */
+.card-scroll-bg {
+    --scroll-bg-height: 300%;
+    --scroll-bg-duration: 25s;
+    --scroll-bg-gradient-start: 0%;
+    --scroll-bg-gradient-mid: 20%;
+    --scroll-bg-gradient-end: 40%;
+}
+
+.card-scroll-bg-element {
+    height: var(--scroll-bg-height, 300%);
+    animation-duration: var(--scroll-bg-duration, 25s);
+}
