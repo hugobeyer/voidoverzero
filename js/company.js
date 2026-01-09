@@ -83,8 +83,8 @@
         let currentY = 0;
         let targetY = 0;
         let rafId = null;
-        const dampingFactor = 0.15; // Lower = smoother damping
-        const parallaxSpeed = 0.5;
+        const dampingFactor = parseFloat(heroSection.dataset.parallaxDamping) || 0.15;
+        const parallaxSpeed = parseFloat(heroSection.dataset.parallaxSpeed) || 0.5;
         
         function updateParallax() {
             const scrolled = window.pageYOffset;

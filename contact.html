@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Void Over Zero</title>
+    <meta name="description" content="Get in touch with Void Over Zero. We welcome your feedback, questions, and collaboration ideas.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/company.css">
+    <style>
+        /* Contact page specific - orange accent from contact_bg.png */
+        .contact-page {
+            --color-accent: #ff8c42;
+            --color-accent-dim: #ffa94d;
+            --color-accent-dark: #e67e22;
+            --color-accent-glow: rgba(255, 140, 66, 0.15);
+            --color-accent-glow-strong: rgba(255, 140, 66, 0.3);
+            --color-border-accent: rgba(255, 140, 66, 0.25);
+        }
+
+        /* Hero with contact_bg */
+        .contact-hero {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('images/contact_bg.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .contact-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(10, 12, 15, 0.3) 0%,
+                rgba(10, 12, 15, 0.7) 60%,
+                rgba(10, 12, 15, 1) 100%
+            );
+            z-index: 1;
+        }
+
+        .contact-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            padding: var(--space-2xl);
+        }
+
+        .contact-hero-title {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.02em;
+        }
+
+        .contact-hero-subtitle {
+            font-size: var(--text-lg);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Form section - two column layout */
+        .contact-form-section {
+            padding: var(--space-3xl) 0;
+            background: var(--color-bg-dark);
+        }
+
+        .contact-layout {
+            max-width: var(--main-content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: var(--space-2xl);
+            align-items: start;
+        }
+
+        /* Left column - info cards stacked */
+        .contact-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .sidebar-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            padding: var(--space-xl);
+            transition: all var(--transition-base);
+        }
+
+        .sidebar-card:hover {
+            border-color: var(--color-border-accent);
+            background: rgba(12, 14, 18, 0.95);
+        }
+
+        .sidebar-card-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-accent-glow);
+            color: var(--color-accent);
+            margin-bottom: var(--space-md);
+        }
+
+        .sidebar-card h3 {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+        }
+
+        .sidebar-card p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .sidebar-card a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .sidebar-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Video card */
+        .video-card {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--color-bg-elevated);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Right column - form */
+        .contact-form-container {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            padding: var(--space-xl);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .form-label {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-main);
+            font-size: var(--text-base);
+            color: var(--color-text);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent-glow);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .form-textarea {
+            min-height: 180px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .form-submit {
+            align-self: flex-start;
+            background: var(--color-accent);
+            color: var(--color-bg-dark);
+            border: none;
+            padding: var(--space-md) var(--space-2xl);
+            font-size: var(--text-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .form-submit:hover {
+            background: var(--color-accent-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--color-accent-glow-strong);
+        }
+
+        .form-submit svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Info cards */
+        .contact-info-section {
+            padding: var(--space-2xl) 0 var(--space-3xl);
+            background: var(--color-bg-surface);
+        }
+
+        .contact-info-grid {
+            max-width: var(--main-content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .info-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            padding: var(--space-xl);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-lg);
+            transition: all var(--transition-base);
+        }
+
+        .info-card:hover {
+            border-color: var(--color-border-accent);
+            background: rgba(12, 14, 18, 0.95);
+            transform: translateY(-2px);
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-accent-glow);
+            color: var(--color-accent);
+        }
+
+        .info-content h3 {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-xs);
+        }
+
+        .info-content p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .info-content a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .info-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-sidebar {
+                order: 2;
+            }
+
+            .contact-form-container {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-hero-title {
+                font-size: var(--text-3xl);
+            }
+
+            .form-submit {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <div class="company-app contact-page">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="images/voz_logo.svg" alt="Void Over Zero" class="nav-logo">
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html#products" class="nav-link">Products</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="rawteous/index.html" class="nav-link">Rawteous</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="contact-hero">
+            <div class="contact-hero-content">
+                <h1 class="contact-hero-title">We'd Love to Hear From You</h1>
+                <p class="contact-hero-subtitle">Whether you have feedback, questions, feature requests, or just want to say hi — drop us a message. We read every single one.</p>
+            </div>
+        </section>
+
+        <!-- Contact Layout: Left column (video) + Right column (form) -->
+        <section class="contact-form-section">
+            <div class="contact-layout">
+                <!-- Left Column - Video Card -->
+                <div class="contact-sidebar">
+                    <div class="sidebar-card video-card">
+                        <div class="video-container">
+                            <!-- Replace src with your video -->
+                            <video autoplay loop muted playsinline>
+                                <source src="images/contact_video.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <h3>Email Directly</h3>
+                        <p><a href="mailto:support@voidoverzero.com">support@voidoverzero.com</a></p>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3>All Feedback Welcome</h3>
+                        <p>Bug reports, feature ideas, praise, or criticism — it all helps.</p>
+                    </div>
+                </div>
+
+                <!-- Right Column - Form -->
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Your Name</label>
+                                <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Your Email</label>
+                                <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-input" placeholder="What's this about?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="message">Your Message</label>
+                            <textarea id="message" class="form-textarea" placeholder="Tell us what's on your mind..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                            </svg>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="company-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">Void Over Zero</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#products" class="footer-link">Products</a>
+                    <a href="index.html#about" class="footer-link">About</a>
+                    <a href="contact.html" class="footer-link">Contact</a>
+                    <a href="rawteous/index.html" class="footer-link">Rawteous</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Void Over Zero. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/company.js"></script>
+    <script src="js/analytics.js"></script>
+    <script>
+        // Form submission via mailto
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            const body = `From: ${name} (${email})\n\n${message}`;
+            const mailtoLink = `mailto:support@voidoverzero.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+        });
+    </script>
+</body>
+</html>

@@ -64,31 +64,11 @@
             margin: 0;
         }
 
-        /* Hero layout - logo on right, text aligned vertically */
-        .company-app .product-hero-content {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: var(--space-xl);
-            margin-top: var(--space-md);
-        }
-
-        .company-app .product-hero-text {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .company-app .product-logo-hero {
-            margin: 0;
-            margin-right: var(--space-2xl);
-            flex-shrink: 0;
-        }
-
-        .company-app .product-logo-large {
-            width: 240px;
+        /* Hero logo */
+        .hero-logo {
+            width: 320px;
+            height: auto;
+            margin-bottom: var(--space-lg);
         }
 
         /* Container behind cards */
@@ -102,10 +82,15 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        /* Rawteous banner */
+        /* Rawteous banner - only in hero top area */
         .company-app .company-hero::before,
         .company-app .company-hero::after {
             background-image: url('rt_banner.png');
+            bottom: auto;
+            height: 1100px;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         /* Video showcase styling - fit container */
@@ -151,6 +136,32 @@
             height: 18px;
         }
 
+        /* Features layout - cards left 33%, screenshots right 67% */
+        .features-layout {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .features-left {
+            width: 33%;
+            flex-shrink: 0;
+        }
+
+        .features-cards {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .features-cards .product-card {
+            margin: 0;
+        }
+
+        .features-right {
+            flex: 1;
+            min-height: 400px;
+        }
+
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,26 +181,20 @@
                 <div class="nav-links">
                     <a href="../index.html#products" class="nav-link">Products</a>
                     <a href="../index.html#about" class="nav-link">About</a>
-                    <a href="../index.html#contact" class="nav-link">Contact</a>
+                    <a href="../contact.html" class="nav-link">Contact</a>
                     <a href="docs.html" class="nav-link">Documentation</a>
                 </div>
             </div>
         </nav>
 
         <!-- Hero Section -->
-        <section class="company-hero">
+        <section class="company-hero" data-parallax-speed="0.15" data-parallax-damping="0.03">
             <div class="hero-container">
-                <div class="product-hero-content">
-                    <div class="product-hero-text">
-                        <p class="hero-description">Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
-                        <div class="hero-actions">
-                            <a href="docs.html" class="btn btn-primary">View Documentation</a>
-                            <a href="tutorial.html" class="btn btn-secondary">Get Started</a>
-                        </div>
-                    </div>
-                    <div class="product-logo-hero">
-                        <img src="../images/rawteous_logo.svg" alt="Rawteous" class="product-logo-large">
-                    </div>
+                <img src="../images/rawteous_logo.svg" alt="Rawteous" class="hero-logo">
+                <p class="hero-description">Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
+                <div class="hero-actions">
+                    <a href="docs.html" class="btn btn-primary">View Documentation</a>
+                    <a href="tutorial.html" class="btn btn-secondary">Get Started</a>
                 </div>
             </div>
 
@@ -216,12 +221,13 @@
 
             <!-- Features Section -->
             <div id="features" class="products-section">
-                <div class="section-container">
-                    <div class="section-header">
-                        <h2 class="section-title">Key Features</h2>
-                        <p class="section-subtitle">Everything you need for efficient impostor generation</p>
-                    </div>
-                    <div class="products-grid">
+                <div class="section-container features-layout">
+                    <div class="features-left">
+                        <div class="section-header">
+                            <h2 class="section-title">Key Features</h2>
+                            <p class="section-subtitle">Everything you need for efficient impostor generation</p>
+                        </div>
+                        <div class="features-cards">
                         <div class="product-card product-card-blur">
                             <div class="product-icon">
                                 <img src="features/feature_octahedron.svg" alt="Capture Modes">
@@ -309,6 +315,26 @@
                             <h3 class="product-title">Preset Library</h3>
                             <p class="product-description">Save and load your favorite settings. Never configure from scratch again.</p>
                         </div>
+                        </div>
+                    </div>
+                    <div class="features-right">
+                        <!-- Screenshots go here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="company-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Rawteous?</h2>
+                    <p class="section-subtitle">Performance without compromise</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Impostors are the secret weapon behind stunning open worlds. Replace distant 3D meshes with lightweight billboards that look identical but render in a fraction of the time.</p>
+                        <p>Rawteous makes this workflow effortless - GPU-accelerated capture, real-time preview, and seamless LOD integration. Spend less time optimizing, more time creating.</p>
                     </div>
                 </div>
             </div>
@@ -386,6 +412,7 @@
     </div>
 
     <script src="../js/company.js"></script>
+    <script src="../js/analytics.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('teaser-video');

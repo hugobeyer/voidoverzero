@@ -260,7 +260,11 @@ const Admin = {
         // View-specific actions
         const autoSaveStatus = document.getElementById('auto-save-status');
 
-        if (view === 'editor' && !this.currentItem) {
+        if (view === 'analytics') {
+            if (typeof AdminAnalytics !== 'undefined') {
+                AdminAnalytics.refreshAnalytics();
+            }
+        } else if (view === 'editor' && !this.currentItem) {
             document.getElementById('editor-info').style.display = 'block';
             document.getElementById('editor-container').style.display = 'none';
             this.stopAutoSaveTimer();
