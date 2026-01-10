@@ -97,7 +97,15 @@
                 </div>
 
                 <div class="mission-content">
-                    <p>To empower developers with tools that enhance both workflow efficiency and runtime performance. Every product we create is built with attention to detail, performance, and developer experience.</p>
+                    <div class="mission-card">
+                        <p>To empower developers with tools that enhance both workflow efficiency and runtime performance.</p>
+                    </div>
+                    <div class="mission-card">
+                        <p>Every product we create is built with attention to detail, performance, and developer experience.</p>
+                    </div>
+                    <div class="mission-card">
+                        <p>We combine deep technical expertise with a passion for innovation to push the boundaries of game development.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -114,16 +122,8 @@
                     <div class="about-text">
                         <p>Void Over Zero creates high-performance tools and systems for game developers. With 24 years of development experience, spanning from art to technical development, we combine deep technical expertise with a passion for innovation.</p>
                     </div>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <!-- Image placeholder -->
-                        </div>
-                        <div class="stat-item">
-                            <!-- Image placeholder -->
-                        </div>
-                        <div class="stat-item">
-                            <!-- Image placeholder -->
-                        </div>
+                    <div class="about-images" id="about-images-container">
+                        <!-- Images loaded dynamically from SITE_CONTENT -->
                     </div>
                 </div>
             </div>
@@ -137,16 +137,14 @@
                     <p class="section-subtitle">Have questions or want to collaborate? We'd love to hear from you.</p>
                 </div>
 
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
+                <div class="contact-content-wrapper">
+                    <div class="contact-text">
+                        <p>We're always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Reach out and let's create something amazing together.</p>
+                    </div>
+                    <div class="contact-grid-wrapper">
+                        <div class="contact-grid" id="contact-grid-container">
+                            <!-- Contact card loaded dynamically from SITE_CONTENT -->
                         </div>
-                        <h3 class="contact-title">Email</h3>
-                        <a href="mailto:voidoverzero@gmail.com" class="contact-link">voidoverzero@gmail.com</a>
                     </div>
                 </div>
             </div>
@@ -173,5 +171,75 @@
 
     <script src="js/company.js"></script>
     <script src="js/analytics.js"></script>
+    <script>
+        // Load content from SITE_CONTENT if available
+        (function() {
+            try {
+                const stored = localStorage.getItem('site_content');
+                if (stored) {
+                    const content = JSON.parse(stored);
+                    
+                    // Load About images
+                    if (content.company?.about?.images && content.company.about.images.length > 0) {
+                        const container = document.getElementById('about-images-container');
+                        if (container) {
+                            container.innerHTML = content.company.about.images.map(img => `
+                                <div class="about-image-item">
+                                    <img src="${img.src}" alt="${img.alt || ''}">
+                                </div>
+                            `).join('');
+                        }
+                    }
+                    
+                    // Load Contact section
+                    if (content.company?.contact) {
+                        const contact = content.company.contact;
+                        
+                        // Update text content
+                        const textEl = document.querySelector('.contact-text p');
+                        if (textEl && contact.text) {
+                            textEl.textContent = contact.text;
+                        }
+                        
+                        // Update contact card
+                        const container = document.getElementById('contact-grid-container');
+                        if (container) {
+                            container.innerHTML = `
+                                <a href="${contact.linkUrl || 'contact.html'}" class="contact-card" style="text-decoration: none; color: inherit; display: block;">
+                                    <div class="contact-icon">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                            <polyline points="22,6 12,13 2,6"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="contact-title">${contact.title || 'Get In Touch'}</h3>
+                                    <p class="contact-link">${contact.linkText || 'Visit our contact page →'}</p>
+                                </a>
+                            `;
+                        }
+                    }
+                } else {
+                    // Default fallback
+                    const container = document.getElementById('contact-grid-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <a href="contact.html" class="contact-card" style="text-decoration: none; color: inherit; display: block;">
+                                <div class="contact-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                        <polyline points="22,6 12,13 2,6"/>
+                                    </svg>
+                                </div>
+                                <h3 class="contact-title">Get In Touch</h3>
+                                <p class="contact-link">Visit our contact page →</p>
+                            </a>
+                        `;
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed to load site content:', e);
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -741,16 +741,65 @@
 
 /* === MISSION SECTION === */
 .mission-content {
-    max-width: 700px;
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-    text-align: center;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
 }
 
 .mission-content p {
     margin: 0;
+    text-align: left;
+}
+
+.mission-card {
+    background: rgba(26, 31, 43, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.mission-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.mission-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+    box-shadow: var(--shadow-card), 0 0 40px rgba(255, 107, 53, 0.1);
+    background: rgba(12, 15, 20, 1);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+.mission-card:hover::before {
+    opacity: 1;
+}
+
+.mission-card p {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin: 0;
+    transition: color var(--transition-base);
+}
+
+.mission-card:hover p {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* === ABOUT SECTION === */
@@ -769,6 +818,37 @@
 
 .about-text p {
     margin-bottom: var(--space-md);
+}
+
+.about-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-md);
+}
+
+.about-image-item {
+    position: relative;
+    aspect-ratio: 1;
+    background: rgba(26, 31, 43, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.about-image-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-accent);
+    box-shadow: var(--shadow-card), 0 0 40px rgba(255, 107, 53, 0.1);
+}
+
+.about-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .about-stats {
@@ -817,19 +897,47 @@
     transition: color var(--transition-base);
 }
 
-/* === CONTACT GRID === */
-.contact-grid {
+/* === CONTACT SECTION === */
+.contact-content-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+    margin-top: var(--space-xl);
+}
+
+.contact-text {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    align-self: start;
+}
+
+.contact-text p {
+    margin: 0;
+}
+
+/* === CONTACT GRID === */
+.contact-grid-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: start;
+}
+
+.contact-grid {
+    display: flex;
+    justify-content: flex-end;
+    align-items: start;
     gap: var(--space-lg);
-    max-width: 800px;
-    margin: 0 auto;
-    justify-items: center;
 }
 
 .contact-grid:has(.contact-card:only-child) {
-    grid-template-columns: 1fr;
-    max-width: 400px;
+    justify-content: flex-end;
+}
+
+.contact-card {
+    margin: 0;
+    align-self: start;
 }
 
 .contact-card {
@@ -839,6 +947,9 @@
     padding: var(--space-xl);
     text-align: center;
     transition: all var(--transition-base);
+    width: 100%;
+    max-width: 320px;
+    align-self: start;
 }
 
 .contact-card:hover {
@@ -881,9 +992,14 @@
     text-decoration: none;
     font-size: var(--text-base);
     transition: color var(--transition-fast);
+    margin: 0;
 }
 
 .contact-link:hover {
+    color: var(--color-accent-dim);
+}
+
+.contact-card:hover .contact-link {
     color: var(--color-accent-dim);
 }
 
@@ -997,8 +1113,16 @@
         font-size: var(--text-2xl);
     }
 
-    .contact-grid {
+    .contact-content-wrapper {
         grid-template-columns: 1fr;
+    }
+
+    .contact-grid-wrapper {
+        justify-content: center;
+    }
+
+    .contact-grid {
+        justify-content: center;
     }
 }
 

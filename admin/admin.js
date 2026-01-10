@@ -16,7 +16,7 @@ const Admin = {
         this.renderCategoriesGrid();
         this.renderItemList();
         this.updateStats();
-        this.switchView('list');
+        this.switchView('company');
         this.startAutoSaveTimer();
     },
 
@@ -260,10 +260,10 @@ const Admin = {
         // View-specific actions
         const autoSaveStatus = document.getElementById('auto-save-status');
 
-        if (view === 'analytics') {
-            if (typeof AdminAnalytics !== 'undefined') {
-                AdminAnalytics.refreshAnalytics();
-            }
+        if (view === 'company' && typeof AdminContent !== 'undefined') {
+            AdminContent.renderCompanyPage();
+        } else if (view === 'products' && typeof AdminContent !== 'undefined') {
+            AdminContent.renderProducts();
         } else if (view === 'editor' && !this.currentItem) {
             document.getElementById('editor-info').style.display = 'block';
             document.getElementById('editor-container').style.display = 'none';
@@ -441,9 +441,40 @@ const Admin = {
         if (!this.currentItem) return;
 
         const content = tinymce.get('item-content') ? tinymce.get('item-content').getContent() : '';
-        console.log('Saving content with length:', content.length);
-        console.log('Content preview:', content.substring(0, 200) + '...');
+        
+        // Handle product content updates
+        if (this.currentItem.type === 'product' || this.currentItem.type === 'product-page') {
+            try {
+                const product = SITE_CONTENT.products.find(p => p.id === this.currentItem.productId);
+                if (product) {
+                    if (this.currentItem.type === 'product-page') {
+                        const pageData = JSON.parse(content);
+                        product[this.currentItem.pageType] = pageData;
+                    } else {
+                        const productData = JSON.parse(content);
+                        Object.assign(product, productData);
+                    }
+                    saveSiteContent();
+                    if (typeof AdminContent !== 'undefined') {
+                        AdminContent.renderProducts();
+                    }
+                    if (!autoSave) {
+                        this.toast('Product content saved!');
+                    } else {
+                        this.showAutoSaveIndicator();
+                    }
+                    return;
+                }
+            } catch (e) {
+                console.error('Failed to parse product content:', e);
+                if (!autoSave) {
+                    this.toast('Invalid JSON format', true);
+                }
+                return;
+            }
+        }
 
+        // Handle regular docs items
         const updates = {
             name: document.getElementById('item-name').value,
             category: document.getElementById('item-category').value,
