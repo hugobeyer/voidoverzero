@@ -33,10 +33,10 @@
         <section class="company-hero">
             <div class="hero-container">
                 <h1 class="hero-title">Void Over Zero</h1>
-                <p class="hero-description">Creating powerful tools and solutions for game developers. We build innovative systems that push the boundaries of game development performance and workflow.</p>
+                <p class="hero-description">Creating powerful tools and solutions for game developers. Building innovative systems that push the boundaries of game development performance and workflow.</p>
                 <div class="hero-actions">
                     <a href="contact.html" class="btn btn-primary">Contact</a>
-                    <a href="#about" class="btn btn-secondary">About Us</a>
+                    <a href="#about" class="btn btn-secondary">About</a>
                 </div>
             </div>
 
@@ -77,8 +77,8 @@
                                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                                 </svg>
                             </div>
-                            <h3 class="product-title">More Coming Soon</h3>
-                            <p class="product-description">We're constantly developing new tools and solutions for Unity developers. Stay tuned for upcoming releases.</p>
+                        <h3 class="product-title">More Coming Soon</h3>
+                        <p class="product-description">Constantly developing new tools and solutions for Unity developers. Stay tuned for upcoming releases.</p>
                             <div class="product-features">
                                 <span class="feature-tag">In Development</span>
                             </div>
@@ -92,7 +92,7 @@
         <section id="mission" class="company-section">
             <div class="section-container">
                 <div class="section-header">
-                    <h2 class="section-title">Our Mission</h2>
+                    <h2 class="section-title">Mission</h2>
                     <p class="section-subtitle">Empowering developers to build better games</p>
                 </div>
 
@@ -101,10 +101,10 @@
                         <p>To empower developers with tools that enhance both workflow efficiency and runtime performance.</p>
                     </div>
                     <div class="mission-card">
-                        <p>Every product we create is built with attention to detail, performance, and developer experience.</p>
+                        <p>Every product is built with attention to detail, performance, and developer experience.</p>
                     </div>
                     <div class="mission-card">
-                        <p>We combine deep technical expertise with a passion for innovation to push the boundaries of game development.</p>
+                        <p>Combining deep technical expertise with a passion for innovation to push the boundaries of game development.</p>
                     </div>
                 </div>
             </div>
@@ -114,13 +114,13 @@
         <section id="about" class="company-section company-section-alt">
             <div class="section-container">
                 <div class="section-header">
-                    <h2 class="section-title">About Us</h2>
+                    <h2 class="section-title">About</h2>
                     <p class="section-subtitle">Dedicated to advancing game development</p>
                 </div>
 
                 <div class="about-content">
                     <div class="about-text">
-                        <p>Void Over Zero creates high-performance tools and systems for game developers. With 24 years of development experience, spanning from art to technical development, we combine deep technical expertise with a passion for innovation.</p>
+                        <p>Void Over Zero creates high-performance tools and systems for game developers. With 24 years of development experience, spanning from art to technical development, combining deep technical expertise with a passion for innovation.</p>
                     </div>
                     <div class="about-images" id="about-images-container">
                         <!-- Images loaded dynamically from SITE_CONTENT -->
@@ -179,29 +179,64 @@
                 if (stored) {
                     const content = JSON.parse(stored);
                     
-                    // Load About images
-                    if (content.company?.about?.images && content.company.about.images.length > 0) {
-                        const container = document.getElementById('about-images-container');
-                        if (container) {
-                            container.innerHTML = content.company.about.images.map(img => `
-                                <div class="about-image-item">
-                                    <img src="${img.src}" alt="${img.alt || ''}">
-                                </div>
-                            `).join('');
+                    // Load Hero
+                    if (content.company?.hero) {
+                        const hero = content.company.hero;
+                        const descEl = document.querySelector('.hero-description');
+                        const btnEl = document.querySelector('.btn-secondary[href="#about"]');
+                        if (descEl && hero.description) descEl.textContent = hero.description;
+                        if (btnEl && hero.secondaryButton) btnEl.textContent = hero.secondaryButton.text;
+                    }
+                    
+                    // Load Mission
+                    if (content.company?.mission) {
+                        const mission = content.company.mission;
+                        const titleEl = document.querySelector('#mission .section-title');
+                        if (titleEl && mission.title) titleEl.textContent = mission.title;
+                        
+                        if (mission.sectors && mission.sectors.length > 0) {
+                            const missionContainer = document.querySelector('.mission-content');
+                            if (missionContainer) {
+                                missionContainer.innerHTML = mission.sectors.map(sector => `
+                                    <div class="mission-card">
+                                        <p>${sector}</p>
+                                    </div>
+                                `).join('');
+                            }
+                        }
+                    }
+                    
+                    // Load About
+                    if (content.company?.about) {
+                        const about = content.company.about;
+                        const titleEl = document.querySelector('#about .section-title');
+                        const contentEl = document.querySelector('.about-text p');
+                        if (titleEl && about.title) titleEl.textContent = about.title;
+                        if (contentEl && about.content) contentEl.textContent = about.content;
+                        
+                        if (about.images && about.images.length > 0) {
+                            const container = document.getElementById('about-images-container');
+                            if (container) {
+                                container.innerHTML = about.images.map(img => `
+                                    <div class="about-image-item">
+                                        <img src="${img.src}" alt="${img.alt || ''}">
+                                    </div>
+                                `).join('');
+                            }
                         }
                     }
                     
                     // Load Contact section
                     if (content.company?.contact) {
                         const contact = content.company.contact;
+                        const titleEl = document.querySelector('#contact .section-title');
+                        const subtitleEl = document.querySelector('#contact .section-subtitle');
+                        if (titleEl && contact.title) titleEl.textContent = contact.title;
+                        if (subtitleEl && contact.subtitle) subtitleEl.textContent = contact.subtitle;
                         
-                        // Update text content
                         const textEl = document.querySelector('.contact-text p');
-                        if (textEl && contact.text) {
-                            textEl.textContent = contact.text;
-                        }
+                        if (textEl && contact.text) textEl.textContent = contact.text;
                         
-                        // Update contact card
                         const container = document.getElementById('contact-grid-container');
                         if (container) {
                             container.innerHTML = `
@@ -213,7 +248,7 @@
                                         </svg>
                                     </div>
                                     <h3 class="contact-title">${contact.title || 'Get In Touch'}</h3>
-                                    <p class="contact-link">${contact.linkText || 'Visit our contact page →'}</p>
+                                    <p class="contact-link">${contact.linkText || 'Visit the contact page →'}</p>
                                 </a>
                             `;
                         }
@@ -231,7 +266,7 @@
                                     </svg>
                                 </div>
                                 <h3 class="contact-title">Get In Touch</h3>
-                                <p class="contact-link">Visit our contact page →</p>
+                                <p class="contact-link">Visit the contact page →</p>
                             </a>
                         `;
                     }

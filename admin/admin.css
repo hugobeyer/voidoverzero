@@ -1177,6 +1177,23 @@ body {
     gap: var(--space-xs);
 }
 
+.product-admin-info {
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background: rgba(26, 30, 36, 0.4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+}
+
+.product-badge-preview {
+    color: var(--color-text-secondary);
+}
+
+.product-badge-preview strong {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
 .product-admin-pages {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

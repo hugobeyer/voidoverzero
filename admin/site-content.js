@@ -7,36 +7,36 @@ const SITE_CONTENT = {
     company: {
         hero: {
             title: "Void Over Zero",
-            description: "Creating powerful tools and solutions for game developers. We build innovative systems that push the boundaries of game development performance and workflow.",
+            description: "Creating powerful tools and solutions for game developers. Building innovative systems that push the boundaries of game development performance and workflow.",
             primaryButton: { text: "Contact", link: "contact.html" },
-            secondaryButton: { text: "About Us", link: "#about" }
+            secondaryButton: { text: "About", link: "#about" }
         },
         mission: {
-            title: "Our Mission",
+            title: "Mission",
             subtitle: "Empowering developers to build better games",
             sectors: [
                 "To empower developers with tools that enhance both workflow efficiency and runtime performance.",
-                "Every product we create is built with attention to detail, performance, and developer experience.",
-                "We combine deep technical expertise with a passion for innovation to push the boundaries of game development."
+                "Every product is built with attention to detail, performance, and developer experience.",
+                "Combining deep technical expertise with a passion for innovation to push the boundaries of game development."
             ]
         },
         about: {
-            title: "About Us",
+            title: "About",
             subtitle: "Dedicated to advancing game development",
-            content: "Void Over Zero creates high-performance tools and systems for game developers. With 24 years of development experience, spanning from art to technical development, we combine deep technical expertise with a passion for innovation.",
+            content: "Void Over Zero creates high-performance tools and systems for game developers. With 24 years of development experience, spanning from art to technical development, combining deep technical expertise with a passion for innovation.",
             images: []
         },
         contact: {
             title: "Get In Touch",
-            subtitle: "Have questions or want to collaborate? We'd love to hear from you.",
-            text: "We're always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Reach out and let's create something amazing together.",
-            linkText: "Visit our contact page →",
+            subtitle: "Have questions or want to collaborate? I'd love to hear from you.",
+            text: "Always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Reach out and let's create something amazing together.",
+            linkText: "Visit the contact page →",
             linkUrl: "contact.html"
         },
         contactPage: {
             hero: {
-                title: "We'd Love to Hear From You",
-                subtitle: "Whether you have feedback, questions, feature requests, or just want to say hi — drop us a message. We read every single one.",
+                title: "I'd Love to Hear From You",
+                subtitle: "Whether you have feedback, questions, feature requests, or just want to say hi — drop a message. Every message is read and appreciated.",
                 backgroundImage: "images/contact_bg.png"
             },
             sidebar: {
@@ -54,12 +54,12 @@ const SITE_CONTENT = {
                     {
                         icon: "message",
                         title: "Response Time",
-                        content: "We typically respond within 24-48 hours."
+                        content: "I typically respond within 24-48 hours."
                     }
                 ]
             },
             form: {
-                title: "Send us a message",
+                title: "Send a message",
                 submitText: "Send Message",
                 fields: [
                     { name: "name", label: "Name", type: "text", required: true },
@@ -80,6 +80,7 @@ const SITE_CONTENT = {
             logo: "images/rawteous_logo.svg",
             landing: {
                 hero: {
+                    badge: "In Development!",
                     description: "Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.",
                     primaryButton: { text: "View Documentation", link: "docs.html" },
                     secondaryButton: { text: "Get Started", link: "tutorial.html" }

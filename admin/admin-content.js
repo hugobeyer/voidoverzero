@@ -419,6 +419,9 @@ const AdminContent = {
                         <button class="btn btn-secondary" onclick="AdminContent.previewProduct('${product.id}')">Preview</button>
                     </div>
                 </div>
+                <div class="product-admin-info">
+                    ${product.landing?.hero?.badge ? `<div class="product-badge-preview">Badge: <strong>${product.landing.hero.badge}</strong></div>` : ''}
+                </div>
                 <div class="product-admin-pages">
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'landing')">Landing Page</button>
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'docs')">Docs</button>
@@ -467,12 +470,25 @@ const AdminContent = {
         };
 
         const pageData = product[pageType] || {};
-        document.getElementById('item-name').value = Admin.currentItem.name;
-        document.getElementById('item-description').value = JSON.stringify(pageData, null, 2);
+        
+        // Special handling for landing page hero badge
+        if (pageType === 'landing' && pageData.hero) {
+            document.getElementById('item-name').value = `${product.name} - Landing Page`;
+            document.getElementById('item-description').value = `Badge: ${pageData.hero.badge || '(none)'}\n\nDescription: ${pageData.hero.description || ''}`;
+        } else {
+            document.getElementById('item-name').value = Admin.currentItem.name;
+            document.getElementById('item-description').value = JSON.stringify(pageData, null, 2);
+        }
         
         setTimeout(() => {
             if (tinymce.get('item-content')) {
-                tinymce.get('item-content').setContent(JSON.stringify(pageData, null, 2));
+                if (pageType === 'landing' && pageData.hero) {
+                    // Show badge field prominently
+                    const badgeHtml = `<h3>Hero Badge</h3><p><strong>Current:</strong> ${pageData.hero.badge || '(none)'}</p><p>Edit the badge text in the JSON below, or set it to empty string "" to hide it.</p><hr><h3>Full Landing Page Data:</h3><pre>${JSON.stringify(pageData, null, 2)}</pre>`;
+                    tinymce.get('item-content').setContent(badgeHtml);
+                } else {
+                    tinymce.get('item-content').setContent(JSON.stringify(pageData, null, 2));
+                }
             }
         }, 100);
     },

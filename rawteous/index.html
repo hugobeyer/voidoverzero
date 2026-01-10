@@ -107,6 +107,28 @@
             object-fit: cover;
         }
 
+        .video-badge {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 10;
+            margin: 0;
+        }
+
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: rgba(26, 30, 36, 0.6) !important;
+            border-color: var(--color-border) !important;
+            color: var(--color-text-muted) !important;
+        }
+
+        .btn-disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
         .video-sound-toggle {
             position: absolute;
             bottom: var(--space-md);
@@ -194,13 +216,14 @@
                 <p class="hero-description">Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
                 <div class="hero-actions">
                     <a href="docs.html" class="btn btn-primary">View Documentation</a>
-                    <a href="tutorial.html" class="btn btn-secondary">Get Started</a>
+                    <a href="tutorial.html" class="btn btn-secondary btn-disabled">Get Started</a>
                 </div>
             </div>
 
             <!-- Product Showcase - Video -->
             <div class="product-showcase-section">
                 <div class="product-showcase-container">
+                    <div class="hero-badge video-badge" id="rawteous-hero-badge">In Development!</div>
                     <video id="teaser-video" autoplay loop muted playsinline>
                         <source src="../teaser/teaser.mp4" type="video/mp4">
                     </video>
@@ -414,6 +437,28 @@
     <script src="../js/company.js"></script>
     <script src="../js/analytics.js"></script>
     <script>
+        // Load Rawteous hero badge from SITE_CONTENT
+        (function() {
+            try {
+                const stored = localStorage.getItem('site_content');
+                if (stored) {
+                    const content = JSON.parse(stored);
+                    const rawteous = content.products?.find(p => p.id === 'rawteous');
+                    const badgeEl = document.getElementById('rawteous-hero-badge');
+                    if (badgeEl) {
+                        if (rawteous?.landing?.hero?.badge) {
+                            badgeEl.textContent = rawteous.landing.hero.badge;
+                            badgeEl.style.display = 'block';
+                        } else {
+                            badgeEl.style.display = 'none';
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed to load Rawteous badge:', e);
+            }
+        })();
+
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('teaser-video');
             const toggle = document.getElementById('sound-toggle');
