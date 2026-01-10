@@ -78,22 +78,38 @@ const SITE_CONTENT = {
             id: "rawteous",
             name: "Rawteous",
             logo: "images/rawteous_logo.svg",
-            landing: {
-                hero: {
-                    badge: "In Development!",
-                    description: "Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.",
-                    primaryButton: { text: "View Documentation", link: "docs.html" },
-                    secondaryButton: { text: "Get Started", link: "tutorial.html" }
-                },
-                why: {
-                    title: "Why Rawteous?",
-                    subtitle: "Performance without compromise",
-                    content: [
-                        "Impostors are the secret weapon behind stunning open worlds. Replace distant 3D meshes with lightweight billboards that look identical but render in a fraction of the time.",
-                        "Rawteous makes this workflow effortless - GPU-accelerated capture, real-time preview, and seamless LOD integration. Spend less time optimizing, more time creating."
-                    ]
-                }
-            },
+                        landing: {
+                            hero: {
+                                badge: "In Development!",
+                                description: "Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.",
+                                primaryButton: { text: "View Documentation", link: "docs.html" },
+                                secondaryButton: { text: "Get Started", link: "tutorial.html" }
+                            },
+                            why: {
+                                title: "Why Rawteous?",
+                                subtitle: "Performance without compromise",
+                                content: [
+                                    "Impostors are the secret weapon behind stunning open worlds. Replace distant 3D meshes with lightweight billboards that look identical but render in a fraction of the time.",
+                                    "Rawteous makes this workflow effortless - GPU-accelerated capture, real-time preview, and seamless LOD integration. Spend less time optimizing, more time creating."
+                                ]
+                            },
+                            videos: {
+                                title: "Videos",
+                                subtitle: "See Rawteous in action",
+                                items: [
+                                    {
+                                        id: "video1",
+                                        embedUrl: "https://www.youtube.com/embed/IkvPhh8UYJA?si=qZeop2JT_4QDhyvB",
+                                        title: "YouTube video player"
+                                    },
+                                    {
+                                        id: "video2",
+                                        embedUrl: "https://www.youtube.com/embed/Cb5s5MAoCws?si=IavnMki2wpbLxyqv",
+                                        title: "YouTube video player"
+                                    }
+                                ]
+                            }
+                        },
             homepage: {
                 description: "Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview.",
                 features: ["GPU Accelerated", "Real-time Preview", "Performance Optimized"]

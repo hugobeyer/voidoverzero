@@ -93,28 +93,6 @@
             right: 0;
         }
 
-        /* Video showcase styling - fit container */
-        .company-app .product-showcase-container {
-            position: relative;
-        }
-
-        .company-app .product-showcase-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-badge {
-            position: absolute;
-            top: var(--space-md);
-            right: var(--space-md);
-            z-index: 10;
-            margin: 0;
-        }
-
         .btn-disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -127,35 +105,6 @@
         .btn-disabled:hover {
             transform: none !important;
             box-shadow: none !important;
-        }
-
-        .video-sound-toggle {
-            position: absolute;
-            bottom: var(--space-md);
-            right: var(--space-md);
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: var(--space-sm) var(--space-md);
-            color: var(--color-text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-            transition: all 0.2s ease;
-            font-size: var(--text-sm);
-        }
-
-        .video-sound-toggle:hover {
-            background: rgba(0, 0, 0, 0.8);
-            border-color: var(--color-accent);
-        }
-
-        .video-sound-toggle svg {
-            width: 18px;
-            height: 18px;
         }
 
         /* Features layout - full width grid */
@@ -180,6 +129,40 @@
         .features-right {
             flex: 1;
             min-height: 400px;
+        }
+
+        /* Videos grid */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-lg);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-border);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
@@ -218,27 +201,6 @@
                 </div>
             </div>
 
-            <!-- Product Showcase - Video -->
-            <div class="product-showcase-section">
-                <div class="product-showcase-container">
-                    <div class="hero-badge video-badge" id="rawteous-hero-badge">In Development!</div>
-                    <video id="teaser-video" autoplay loop muted playsinline>
-                        <source src="../teaser/teaser.mp4" type="video/mp4">
-                    </video>
-                    <button class="video-sound-toggle" id="sound-toggle" aria-label="Toggle sound">
-                        <svg id="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                            <line x1="23" y1="9" x2="17" y2="15"></line>
-                            <line x1="17" y1="9" x2="23" y2="15"></line>
-                        </svg>
-                        <svg id="sound-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                        </svg>
-                        <span id="sound-text">Unmute</span>
-                    </button>
-                </div>
-            </div>
 
             <!-- Features Section -->
             <div id="features" class="products-section">
@@ -361,6 +323,24 @@
             </div>
         </section>
 
+        <!-- Videos Section -->
+        <section class="company-section company-section-alt">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title" id="videos-title">Videos</h2>
+                    <p class="section-subtitle" id="videos-subtitle">See Rawteous in action</p>
+                </div>
+                <div class="videos-grid" id="videos-container">
+                    <div class="video-wrapper">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/IkvPhh8UYJA?si=qZeop2JT_4QDhyvB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-wrapper">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Cb5s5MAoCws?si=IavnMki2wpbLxyqv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Documentation Links Section -->
         <section class="company-section company-section-alt">
             <div class="section-container">
@@ -435,49 +415,39 @@
     <script src="../js/company.js"></script>
     <script src="../js/analytics.js"></script>
     <script>
-        // Load Rawteous hero badge from SITE_CONTENT
+        // Load Rawteous content from SITE_CONTENT
         (function() {
             try {
                 const stored = localStorage.getItem('site_content');
                 if (stored) {
                     const content = JSON.parse(stored);
                     const rawteous = content.products?.find(p => p.id === 'rawteous');
-                    const badgeEl = document.getElementById('rawteous-hero-badge');
-                    if (badgeEl) {
-                        if (rawteous?.landing?.hero?.badge) {
-                            badgeEl.textContent = rawteous.landing.hero.badge;
-                            badgeEl.style.display = 'block';
-                        } else {
-                            badgeEl.style.display = 'none';
+                    
+                    
+                    // Load videos
+                    if (rawteous?.landing?.videos) {
+                        const videos = rawteous.landing.videos;
+                        const titleEl = document.getElementById('videos-title');
+                        const subtitleEl = document.getElementById('videos-subtitle');
+                        const containerEl = document.getElementById('videos-container');
+                        
+                        if (titleEl && videos.title) titleEl.textContent = videos.title;
+                        if (subtitleEl && videos.subtitle) subtitleEl.textContent = videos.subtitle;
+                        
+                        if (containerEl && videos.items && videos.items.length > 0) {
+                            containerEl.innerHTML = videos.items.map(video => `
+                                <div class="video-wrapper">
+                                    <iframe width="560" height="315" src="${video.embedUrl}" title="${video.title || 'YouTube video player'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                </div>
+                            `).join('');
                         }
                     }
                 }
             } catch (e) {
-                console.warn('Failed to load Rawteous badge:', e);
+                console.warn('Failed to load Rawteous content:', e);
             }
         })();
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('teaser-video');
-            const toggle = document.getElementById('sound-toggle');
-            const iconMuted = document.getElementById('sound-icon-muted');
-            const iconUnmuted = document.getElementById('sound-icon-unmuted');
-            const soundText = document.getElementById('sound-text');
-
-            toggle.addEventListener('click', function() {
-                if (video.muted) {
-                    video.muted = false;
-                    iconMuted.style.display = 'none';
-                    iconUnmuted.style.display = 'block';
-                    soundText.textContent = 'Mute';
-                } else {
-                    video.muted = true;
-                    iconMuted.style.display = 'block';
-                    iconUnmuted.style.display = 'none';
-                    soundText.textContent = 'Unmute';
-                }
-            });
-        });
     </script>
 </body>
 </html>
