@@ -158,21 +158,19 @@
             height: 18px;
         }
 
-        /* Features layout - cards left 33%, screenshots right 67% */
+        /* Features layout - full width grid */
         .features-layout {
-            display: flex;
-            gap: var(--space-xl);
+            display: block;
         }
 
         .features-left {
-            width: 33%;
-            flex-shrink: 0;
+            width: 100%;
         }
 
         .features-cards {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-md);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
         }
 
         .features-cards .product-card {
