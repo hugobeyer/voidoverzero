@@ -93,6 +93,11 @@
             right: 0;
         }
 
+        /* Videos in hero section */
+        .company-app .product-showcase-section {
+            margin-top: var(--space-xl);
+        }
+
         .btn-disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -198,6 +203,24 @@
                 <div class="hero-actions">
                     <a href="docs.html" class="btn btn-primary">View Documentation</a>
                     <a href="tutorial.html" class="btn btn-secondary btn-disabled">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Videos Section -->
+            <div class="product-showcase-section">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2 class="section-title" id="videos-title">Videos</h2>
+                        <p class="section-subtitle" id="videos-subtitle">See Rawteous in action</p>
+                    </div>
+                    <div class="videos-grid" id="videos-container">
+                        <div class="video-wrapper">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/IkvPhh8UYJA?si=qZeop2JT_4QDhyvB&loop=1&playlist=IkvPhh8UYJA&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-wrapper">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Cb5s5MAoCws?si=IavnMki2wpbLxyqv&loop=1&playlist=Cb5s5MAoCws&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -323,24 +346,6 @@
             </div>
         </section>
 
-        <!-- Videos Section -->
-        <section class="company-section company-section-alt">
-            <div class="section-container">
-                <div class="section-header">
-                    <h2 class="section-title" id="videos-title">Videos</h2>
-                    <p class="section-subtitle" id="videos-subtitle">See Rawteous in action</p>
-                </div>
-                <div class="videos-grid" id="videos-container">
-                    <div class="video-wrapper">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/IkvPhh8UYJA?si=qZeop2JT_4QDhyvB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-wrapper">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Cb5s5MAoCws?si=IavnMki2wpbLxyqv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Documentation Links Section -->
         <section class="company-section company-section-alt">
             <div class="section-container">
@@ -435,11 +440,20 @@
                         if (subtitleEl && videos.subtitle) subtitleEl.textContent = videos.subtitle;
                         
                         if (containerEl && videos.items && videos.items.length > 0) {
-                            containerEl.innerHTML = videos.items.map(video => `
-                                <div class="video-wrapper">
-                                    <iframe width="560" height="315" src="${video.embedUrl}" title="${video.title || 'YouTube video player'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                                </div>
-                            `).join('');
+                            containerEl.innerHTML = videos.items.map(video => {
+                                // Extract video ID from embed URL
+                                const videoIdMatch = video.embedUrl.match(/embed\/([^?&]+)/);
+                                const videoId = videoIdMatch ? videoIdMatch[1] : '';
+                                // Add loop, autoplay, mute, and hide controls
+                                const loopUrl = video.embedUrl.includes('?') 
+                                    ? `${video.embedUrl}&loop=1&playlist=${videoId}&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`
+                                    : `${video.embedUrl}?loop=1&playlist=${videoId}&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`;
+                                return `
+                                    <div class="video-wrapper">
+                                        <iframe width="560" height="315" src="${loopUrl}" title="${video.title || 'YouTube video player'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    </div>
+                                `;
+                            }).join('');
                         }
                     }
                 }
