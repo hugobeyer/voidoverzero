@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Void Over Zero</title>
+    <meta name="description" content="Get support for Void Over Zero products. We usually respond same day or next.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/company.css">
+    <style>
+        /* Support page specific - orange accent */
+        .support-page {
+            --color-accent: #ff8c42;
+            --color-accent-dim: #ffa94d;
+            --color-accent-dark: #e67e22;
+            --color-accent-glow: rgba(255, 140, 66, 0.15);
+            --color-accent-glow-strong: rgba(255, 140, 66, 0.3);
+            --color-border-accent: rgba(255, 140, 66, 0.25);
+        }
+
+        /* Fancy Hero with animated background */
+        .support-hero {
+            position: relative;
+            min-height: 25vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        .support-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('images/contact_bg.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.4;
+            animation: heroZoom 20s ease-in-out infinite;
+        }
+
+        .support-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(10, 12, 15, 0.2) 0%,
+                rgba(10, 12, 15, 0.6) 50%,
+                rgba(10, 12, 15, 0.95) 100%
+            );
+            z-index: 1;
+        }
+
+        .support-hero-glow {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--color-accent-glow-strong) 0%, transparent 70%);
+            opacity: 0.6;
+            z-index: 1;
+            animation: pulseGlow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes heroZoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .support-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: var(--space-2xl);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .support-hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .support-hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-xl);
+        }
+
+        .support-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-xl);
+            background: var(--color-accent-glow);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--radius-xl);
+            color: var(--color-accent);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Full-width form section */
+        .support-form-section {
+            padding: var(--space-4xl) 0;
+            background: var(--color-bg-dark);
+            position: relative;
+        }
+
+        .support-form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                var(--color-accent) 50%,
+                transparent 100%
+            );
+            opacity: 0.3;
+        }
+
+        .support-layout {
+            max-width: var(--main-content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        /* Info cards section */
+        .support-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-4xl);
+        }
+
+        .info-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            padding: var(--space-xl);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
+        }
+
+        .info-card:hover {
+            border-color: var(--color-border-accent);
+            background: rgba(12, 14, 18, 0.95);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .info-card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-accent-glow);
+            color: var(--color-accent);
+            margin-bottom: var(--space-lg);
+            border-radius: var(--radius-md);
+        }
+
+        .info-card h3 {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+        }
+
+        .info-card p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .info-card a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .info-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Full-width form container */
+        .support-form-container {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            padding: var(--space-3xl);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                var(--color-accent) 0%,
+                var(--color-accent-dim) 50%,
+                var(--color-accent) 100%
+            );
+        }
+
+        .form-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .form-header h2 {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+        }
+
+        .form-header p {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .support-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .form-label {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .form-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-file {
+            background: var(--color-bg-dark);
+            border: 2px solid var(--color-border);
+            padding: var(--space-lg) var(--space-xl);
+            font-family: var(--font-main);
+            font-size: var(--text-base);
+            color: var(--color-text);
+            transition: all var(--transition-base);
+            -webkit-user-select: text;
+            user-select: text;
+            border-radius: var(--radius-md);
+        }
+
+        .form-file {
+            cursor: pointer;
+            padding: var(--space-md) var(--space-xl);
+        }
+
+        .form-file::-webkit-file-upload-button {
+            background: var(--color-accent-glow);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-sm);
+            margin-right: var(--space-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: var(--text-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .form-file::-webkit-file-upload-button:hover {
+            background: var(--color-accent);
+            color: var(--color-bg-dark);
+        }
+
+        .form-file::file-selector-button {
+            background: var(--color-accent-glow);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-sm);
+            margin-right: var(--space-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: var(--text-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .form-file::file-selector-button:hover {
+            background: var(--color-accent);
+            color: var(--color-bg-dark);
+        }
+
+        .file-preview {
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            background: var(--color-bg-dark);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .file-preview-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xs);
+        }
+
+        .file-preview-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .file-preview-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-accent);
+            flex-shrink: 0;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-file:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 4px var(--color-accent-glow), 0 4px 16px rgba(0, 0, 0, 0.2);
+            background: var(--color-bg-surface);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .form-textarea {
+            min-height: 500px;
+            resize: vertical;
+            line-height: 1.7;
+            font-size: var(--text-base);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+        }
+
+        .form-submit {
+            align-self: flex-start;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dim) 100%);
+            color: var(--color-bg-dark);
+            border: none;
+            padding: var(--space-lg) var(--space-3xl);
+            font-size: var(--text-base);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-md);
+            border-radius: var(--radius-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 16px var(--color-accent-glow);
+        }
+
+        .form-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px var(--color-accent-glow-strong);
+            background: linear-gradient(135deg, var(--color-accent-dim) 0%, var(--color-accent) 100%);
+        }
+
+        .form-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .form-submit svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .support-hero {
+                min-height: 22vh;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-textarea {
+                min-height: 400px;
+            }
+
+            .support-form-container {
+                padding: var(--space-xl);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .support-hero {
+                min-height: 20vh;
+                padding: var(--space-xl) var(--space-lg);
+            }
+
+            .support-hero-title {
+                font-size: var(--text-3xl);
+            }
+
+            .form-textarea {
+                min-height: 350px;
+            }
+
+            .form-submit {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .support-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <div class="company-app support-page">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="images/voz_logo.svg" alt="Void Over Zero" class="nav-logo">
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html#products" class="nav-link">Products</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="rawteous/index.html" class="nav-link">Rawteous</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Fancy Hero -->
+        <section class="support-hero">
+            <div class="support-hero-glow"></div>
+            <div class="support-hero-content">
+                <div class="support-hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Quick Response Time
+                </div>
+                <h1 class="support-hero-title">We're Here to Help</h1>
+                <p class="support-hero-subtitle">Experiencing an issue or need assistance? Tell us what happened and what you need. We usually respond same day or next.</p>
+            </div>
+        </section>
+
+        <!-- Support Form Section -->
+        <section class="support-form-section">
+            <div class="support-layout">
+                <!-- Info Cards -->
+                <div class="support-info-grid">
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <h3>Email Directly</h3>
+                        <p>Prefer to use email only? You can reach us at <a href="mailto:support@voidoverzero.com">support@voidoverzero.com</a></p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Quick Response</h3>
+                        <p>We usually respond same day or next. Your issue matters to us.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3>Detailed Information</h3>
+                        <p>Please provide as much detail as possible about what happened and what you need. This helps us help you faster.</p>
+                    </div>
+                </div>
+
+                <!-- Full-Width Form -->
+                <div class="support-form-container">
+                    <div class="form-header">
+                        <h2>Tell Us What Happened</h2>
+                        <p>Fill out the form below with as much detail as possible. The more information you provide, the faster we can help.</p>
+                    </div>
+
+                    <form class="support-form" id="supportForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Your Name</label>
+                                <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Your Email</label>
+                                <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="what-happened">What Happened?</label>
+                            <textarea id="what-happened" class="form-textarea" placeholder="Describe the issue, error, or situation you encountered in detail. Include steps to reproduce if applicable, error messages, screenshots descriptions, or any other relevant information that might help us understand the problem..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="what-you-want">What Do You Need?</label>
+                            <textarea id="what-you-want" class="form-textarea" placeholder="Tell us what you'd like us to help with or what outcome you're looking for. Be as specific as possible about what you need, what you've already tried, and what you expect to happen..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="attachments">Attach Images (Optional)</label>
+                            <input type="file" id="attachments" class="form-file" accept="image/*" multiple>
+                            <div id="filePreview" class="file-preview" style="display: none;"></div>
+                        </div>
+
+                        <button type="submit" class="form-submit">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                            </svg>
+                            Send Support Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="company-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">Void Over Zero</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#products" class="footer-link">Products</a>
+                    <a href="index.html#about" class="footer-link">About</a>
+                    <a href="contact.html" class="footer-link">Contact</a>
+                    <a href="rawteous/index.html" class="footer-link">Rawteous</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Void Over Zero. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/company.js"></script>
+    <script src="js/analytics.js"></script>
+    <script>
+        // File preview
+        const fileInput = document.getElementById('attachments');
+        const filePreview = document.getElementById('filePreview');
+        
+        fileInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            if (files.length === 0) {
+                filePreview.style.display = 'none';
+                return;
+            }
+            
+            filePreview.style.display = 'block';
+            filePreview.innerHTML = files.map(file => `
+                <div class="file-preview-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
+                </div>
+            `).join('');
+        });
+
+        // Form submission via mailto
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const whatHappened = document.getElementById('what-happened').value.trim();
+            const whatYouWant = document.getElementById('what-you-want').value.trim();
+            const files = Array.from(fileInput.files);
+            
+            let attachmentsNote = '';
+            if (files.length > 0) {
+                attachmentsNote = `\n\nATTACHED IMAGES:\n${files.map(f => `- ${f.name} (${(f.size / 1024).toFixed(1)} KB)`).join('\n')}\n\nNote: Please attach these images manually in your email client.`;
+            }
+            
+            const subject = `Support Request from ${name}`;
+            const body = `From: ${name} (${email})\n\nWHAT HAPPENED:\n${whatHappened}\n\nWHAT YOU NEED:\n${whatYouWant}${attachmentsNote}`;
+            const mailtoLink = `mailto:support@voidoverzero.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+        });
+    </script>
+</body>
+</html>

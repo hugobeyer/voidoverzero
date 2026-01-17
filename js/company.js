@@ -41,8 +41,8 @@
         });
     }, observerOptions);
 
-    // Observe product cards, contact cards, stat items, and mission cards
-    document.querySelectorAll('.product-card, .contact-card, .stat-item, .mission-card').forEach(el => {
+    // Observe product cards and contact cards
+    document.querySelectorAll('.product-card, .contact-card, .stat-item').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';

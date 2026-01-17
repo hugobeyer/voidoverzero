@@ -457,15 +457,6 @@
 
 .rawteous-card {
     overflow: hidden;
-    position: relative;
-}
-
-.product-badge {
-    position: absolute;
-    top: var(--space-md);
-    right: var(--space-md);
-    z-index: 10;
-    margin: 0;
 }
 
 .rawteous-inspectors-container {

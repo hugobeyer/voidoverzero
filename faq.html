@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Void Over Zero</title>
+    <meta name="description" content="Frequently asked questions about Void Over Zero products and services.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/company.css">
+    <style>
+        /* FAQ page specific - orange accent */
+        .faq-page {
+            --color-accent: #ff8c42;
+            --color-accent-dim: #ffa94d;
+            --color-accent-dark: #e67e22;
+            --color-accent-glow: rgba(255, 140, 66, 0.15);
+            --color-accent-glow-strong: rgba(255, 140, 66, 0.3);
+            --color-border-accent: rgba(255, 140, 66, 0.25);
+        }
+
+        /* Hero */
+        .faq-hero {
+            position: relative;
+            min-height: 25vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('images/contact_bg.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.4;
+            animation: heroZoom 20s ease-in-out infinite;
+        }
+
+        .faq-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(10, 12, 15, 0.2) 0%,
+                rgba(10, 12, 15, 0.6) 50%,
+                rgba(10, 12, 15, 0.95) 100%
+            );
+            z-index: 1;
+        }
+
+        @keyframes heroZoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .faq-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: var(--space-2xl);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .faq-hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: var(--space-4xl) 0;
+            background: var(--color-bg-dark);
+            position: relative;
+        }
+
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                var(--color-accent) 50%,
+                transparent 100%
+            );
+            opacity: 0.3;
+        }
+
+        .faq-container {
+            max-width: var(--main-content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .faq-category {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .faq-category-title {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .faq-category-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .faq-item {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .faq-item:hover {
+            border-color: var(--color-border-accent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-item.active {
+            border-color: var(--color-accent);
+            box-shadow: 0 4px 24px var(--color-accent-glow);
+        }
+
+        .faq-question {
+            padding: var(--space-lg) var(--space-xl);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-lg);
+            user-select: none;
+            transition: background var(--transition-fast);
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 140, 66, 0.05);
+        }
+
+        .faq-question-text {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--color-text);
+            flex: 1;
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: var(--color-accent);
+            transition: transform var(--transition-base);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base), padding var(--transition-base);
+            padding: 0 var(--space-xl);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 var(--space-xl) var(--space-lg);
+        }
+
+        .faq-answer-content {
+            padding-top: var(--space-md);
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        .faq-answer-content p {
+            margin-bottom: var(--space-sm);
+        }
+
+        .faq-answer-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer-content ul,
+        .faq-answer-content ol {
+            margin: var(--space-sm) 0;
+            padding-left: var(--space-xl);
+        }
+
+        .faq-answer-content li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .faq-answer-content a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .faq-answer-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact CTA */
+        .faq-cta {
+            margin-top: var(--space-4xl);
+            padding: var(--space-3xl);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .faq-cta h3 {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+        }
+
+        .faq-cta p {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .faq-cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-2xl);
+            background: var(--color-accent);
+            color: var(--color-bg-dark);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+        }
+
+        .faq-cta-link:hover {
+            background: var(--color-accent-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--color-accent-glow-strong);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .faq-hero {
+                min-height: 22vh;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .faq-hero {
+                min-height: 20vh;
+                padding: var(--space-xl) var(--space-lg);
+            }
+
+            .faq-question {
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            .faq-question-text {
+                font-size: var(--text-base);
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 0 var(--space-lg) var(--space-md);
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <div class="company-app faq-page">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="images/voz_logo.svg" alt="Void Over Zero" class="nav-logo">
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html#products" class="nav-link">Products</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="rawteous/index.html" class="nav-link">Rawteous</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="faq-hero">
+            <div class="faq-hero-content">
+                <h1 class="faq-hero-title">Frequently Asked Questions</h1>
+                <p class="faq-hero-subtitle">Find answers to common questions about our products and services.</p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-container">
+                <!-- General Questions -->
+                <div class="faq-category">
+                    <h2 class="faq-category-title">General</h2>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">What is Void Over Zero?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Void Over Zero creates powerful tools and solutions for game developers. We build innovative systems that push the boundaries of game development performance and workflow, with a focus on Unity development.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">How can I contact support?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>You can reach our support team through our <a href="support.html">support page</a> or by emailing <a href="mailto:support@voidoverzero.com">support@voidoverzero.com</a>. We usually respond same day or next.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">What is your response time?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>We typically respond to support requests within the same day or next business day. For urgent issues, please mention it in your request and we'll prioritize accordingly.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rawteous Questions -->
+                <div class="faq-category">
+                    <h2 class="faq-category-title">Rawteous</h2>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">What is Rawteous?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Rawteous is an advanced impostor generation system for Unity. It allows you to create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview, significantly improving performance in your Unity projects.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">What Unity version does Rawteous support?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Rawteous supports modern Unity versions. Please check the <a href="rawteous/index.html">Rawteous documentation</a> for specific version requirements and compatibility information.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">Is Rawteous GPU accelerated?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Yes! Rawteous uses GPU acceleration for impostor generation, providing fast processing times and real-time preview capabilities. This makes it ideal for optimizing large scenes with many objects.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">Where can I find Rawteous documentation?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>You can find comprehensive documentation, tutorials, and API references on the <a href="rawteous/index.html">Rawteous page</a>. This includes detailed guides on installation, usage, and all available parameters.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Questions -->
+                <div class="faq-category">
+                    <h2 class="faq-category-title">Technical</h2>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">Do you provide technical support?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Yes, we provide technical support for all our products. If you encounter any issues or have questions, please use our <a href="support.html">support page</a> to submit a detailed request. Include as much information as possible about your issue for faster resolution.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span class="faq-question-text">Can I request features or report bugs?</span>
+                                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    <p>Absolutely! We welcome feature requests and bug reports. You can submit them through our <a href="support.html">support page</a> or <a href="contact.html">contact page</a>. Please provide detailed information including steps to reproduce for bugs, or use cases for feature requests.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact CTA -->
+                <div class="faq-cta">
+                    <h3>Still have questions?</h3>
+                    <p>Can't find what you're looking for? Get in touch with us and we'll be happy to help.</p>
+                    <a href="support.html" class="faq-cta-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="company-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">Void Over Zero</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#products" class="footer-link">Products</a>
+                    <a href="index.html#about" class="footer-link">About</a>
+                    <a href="contact.html" class="footer-link">Contact</a>
+                    <a href="rawteous/index.html" class="footer-link">Rawteous</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Void Over Zero. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/company.js"></script>
+    <script src="js/analytics.js"></script>
+    <script>
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Open FAQ item from URL hash
+        if (window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            const item = document.querySelector(`[data-faq-id="${hash}"]`);
+            if (item) {
+                item.classList.add('active');
+                setTimeout(() => {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
