@@ -168,15 +168,15 @@
             <div class="api-content">
                 <section class="api-section" id="getting-started">
                     <h2>Getting Started</h2>
-                    <p>Add the RawteousImpostors component to any GameObject and configure it programmatically.</p>
+                    <p>Add the Rawteous component to any GameObject and configure it programmatically.</p>
 
                     <h3>Basic Setup</h3>
                     <div class="code-block">
-                        <code>using RawteousImpostors.Runtime;
+                        <code>using Rawteous.Runtime;
 using UnityEngine;
 
 // Add component to GameObject
-RawteousImpostors impostor = gameObject.AddComponent&lt;RawteousImpostors&gt;();
+Rawteous impostor = gameObject.AddComponent&lt;Rawteous&gt;();
 
 // Set source object
 impostor.sourceObject = myGameObject;
@@ -204,8 +204,8 @@ IEnumerator GenerateWithProgress()
                     </div>
                 </section>
 
-                <section class="api-section" id="RawteousImpostors">
-                    <h2>RawteousImpostors</h2>
+                <section class="api-section" id="Rawteous">
+                    <h2>Rawteous</h2>
                     <p>Main component class. Attach to any GameObject to convert it into an impostor billboard.</p>
 
                     <h3>Properties</h3>
@@ -220,7 +220,7 @@ IEnumerator GenerateWithProgress()
                         <tbody>
                             <tr>
                                 <td><code>settings</code></td>
-                                <td><code>RawteousImpostorsSettings</code></td>
+                                <td><code>RawteousSettings</code></td>
                                 <td>All configuration options. Access all inspector settings programmatically.</td>
                             </tr>
                             <tr>
@@ -231,22 +231,27 @@ IEnumerator GenerateWithProgress()
                             <tr>
                                 <td><code>textureResolution</code></td>
                                 <td><code>int</code></td>
-                                <td>Resolution of each tile in the atlas (8-1024, power of 2).</td>
+                                <td>Resolution of each tile in the atlas (8-2048, power of 2).</td>
                             </tr>
                             <tr>
                                 <td><code>captureAngles</code></td>
                                 <td><code>int</code></td>
-                                <td>Number of horizontal azimuth angles to capture (4-128).</td>
+                                <td>Number of horizontal azimuth angles to capture (4-256).</td>
                             </tr>
                             <tr>
                                 <td><code>captureElevations</code></td>
                                 <td><code>int</code></td>
-                                <td>Number of vertical elevation angles to capture (1-33).</td>
+                                <td>Number of vertical elevation angles to capture (1-37).</td>
                             </tr>
                             <tr>
                                 <td><code>showGizmos</code></td>
                                 <td><code>bool</code></td>
                                 <td>Show gizmos in scene view displaying capture positions and angles.</td>
+                            </tr>
+                            <tr>
+                                <td><code>HasImpostor</code></td>
+                                <td><code>bool</code></td>
+                                <td>Returns true if a billboard has been generated (read-only).</td>
                             </tr>
                             <tr>
                                 <td><code>ImpostorTextureRT</code></td>
@@ -259,14 +264,54 @@ IEnumerator GenerateWithProgress()
                                 <td>Normal map texture atlas (read-only).</td>
                             </tr>
                             <tr>
+                                <td><code>ViewNormalAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>View-space normal map atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>PositionAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Position atlas (read-only).</td>
+                            </tr>
+                            <tr>
                                 <td><code>PBRMapTextureRT</code></td>
                                 <td><code>RenderTexture</code></td>
                                 <td>PBR map texture atlas containing metallic, smoothness, AO, depth (read-only).</td>
                             </tr>
                             <tr>
+                                <td><code>MetallicAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Metallic channel atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>SmoothnessAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Smoothness channel atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AOAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Ambient occlusion channel atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>DepthAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Depth channel atlas (read-only).</td>
+                            </tr>
+                            <tr>
                                 <td><code>EmissionMapTextureRT</code></td>
                                 <td><code>RenderTexture</code></td>
                                 <td>Emission map texture atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>TranslucencyAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Translucency channel atlas (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>AlphaAtlasRT</code></td>
+                                <td><code>RenderTexture</code></td>
+                                <td>Alpha channel atlas (read-only).</td>
                             </tr>
                             <tr>
                                 <td><code>AtlasCols</code></td>
@@ -292,6 +337,16 @@ IEnumerator GenerateWithProgress()
                                 <td><code>AtlasTileSize</code></td>
                                 <td><code>int</code></td>
                                 <td>Size of each tile in pixels (read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>IsCapturing</code></td>
+                                <td><code>bool</code></td>
+                                <td>Returns true if this instance is currently capturing (Editor only, read-only).</td>
+                            </tr>
+                            <tr>
+                                <td><code>TotalCaptures</code></td>
+                                <td><code>int</code></td>
+                                <td>Total number of captures based on current distribution settings (Editor only, read-only).</td>
                             </tr>
                         </tbody>
                     </table>
@@ -350,36 +405,6 @@ IEnumerator GenerateWithProgress()
                                 <td>Update a single material property by name. Editor-only.</td>
                             </tr>
                             <tr>
-                                <td><code>UpdateLODGroupAssignment()</code></td>
-                                <td></td>
-                                <td><code>void</code></td>
-                                <td>Update LOD Group assignment. Adds or removes impostor from source object's LOD Group based on joinLODGroup setting.</td>
-                            </tr>
-                            <tr>
-                                <td><code>SetCastEnabled()</code></td>
-                                <td><code>bool enabled</code></td>
-                                <td><code>void</code></td>
-                                <td>Enable or disable cast mesh generation for shadow casting.</td>
-                            </tr>
-                            <tr>
-                                <td><code>GetCastEnabled()</code></td>
-                                <td></td>
-                                <td><code>bool</code></td>
-                                <td>Get whether cast mesh generation is enabled.</td>
-                            </tr>
-                            <tr>
-                                <td><code>SetCastParameters()</code></td>
-                                <td><code>float threshold, float dilation, float pointReduction</code></td>
-                                <td><code>void</code></td>
-                                <td>Set cast mesh generation parameters.</td>
-                            </tr>
-                            <tr>
-                                <td><code>GetCastParameters()</code></td>
-                                <td><code>out float threshold, out float dilation, out float pointReduction</code></td>
-                                <td><code>void</code></td>
-                                <td>Get current cast mesh generation parameters.</td>
-                            </tr>
-                            <tr>
                                 <td><code>CalculateCaptureParameterHash()</code></td>
                                 <td></td>
                                 <td><code>int</code></td>
@@ -395,8 +420,8 @@ IEnumerator GenerateWithProgress()
                     </table>
                 </section>
 
-                <section class="api-section" id="RawteousImpostorsSettings">
-                    <h2>RawteousImpostorsSettings</h2>
+                <section class="api-section" id="RawteousSettings">
+                    <h2>RawteousSettings</h2>
                     <p>Configuration class containing all impostor settings. Access via <code>impostor.settings</code>.</p>
 
                     <h3>Key Properties</h3>
@@ -427,7 +452,7 @@ IEnumerator GenerateWithProgress()
                             <tr>
                                 <td><code>blendingMode</code></td>
                                 <td><code>BlendingMode</code></td>
-                                <td>Blending quality: Linear, Smoothstep, Barycentric, Spherical, CatmullRom, Bicubic, AIInterpolation.</td>
+                                <td>Blending quality: Linear, Smoothstep, Barycentric, CatmullRom.</td>
                             </tr>
                             <tr>
                                 <td><code>billboardType</code></td>
@@ -435,14 +460,14 @@ IEnumerator GenerateWithProgress()
                                 <td>Billboard rotation type: Cylindrical, Spherical, or ScreenAligned.</td>
                             </tr>
                             <tr>
-                                <td><code>stepRotation</code></td>
+                                <td><code>unfilteredPixels</code></td>
                                 <td><code>bool</code></td>
-                                <td>Enable step rotation for retro sprite-like snapping.</td>
+                                <td>Use point filtering instead of bilinear for pixel-perfect rendering.</td>
                             </tr>
                             <tr>
                                 <td><code>textureResolution</code></td>
                                 <td><code>int</code></td>
-                                <td>Resolution of each tile (8-1024, power of 2).</td>
+                                <td>Resolution of each tile (8-2048, power of 2).</td>
                             </tr>
                             <tr>
                                 <td><code>autoResolution</code></td>
@@ -455,6 +480,11 @@ IEnumerator GenerateWithProgress()
                                 <td>Maximum resolution when autoResolution is enabled (8-2048).</td>
                             </tr>
                             <tr>
+                                <td><code>autoResolutionUseWorldSize</code></td>
+                                <td><code>bool</code></td>
+                                <td>Use world-space AABB for auto resolution (accounts for instance scale).</td>
+                            </tr>
+                            <tr>
                                 <td><code>captureDistribution</code></td>
                                 <td><code>CaptureDistribution</code></td>
                                 <td>Distribution mode: Grid, Fibonacci, Octahedron, or HemiOctahedron.</td>
@@ -462,12 +492,12 @@ IEnumerator GenerateWithProgress()
                             <tr>
                                 <td><code>captureAngles</code></td>
                                 <td><code>int</code></td>
-                                <td>Number of horizontal azimuth angles (4-128). Only applies in Grid mode.</td>
+                                <td>Number of horizontal azimuth angles (4-256). Only applies in Grid mode.</td>
                             </tr>
                             <tr>
                                 <td><code>captureElevations</code></td>
                                 <td><code>int</code></td>
-                                <td>Number of vertical elevation angles (1-33). Only applies in Grid mode.</td>
+                                <td>Number of vertical elevation angles (1-37). Only applies in Grid mode.</td>
                             </tr>
                             <tr>
                                 <td><code>hemisphereOnly</code></td>
@@ -505,11 +535,6 @@ IEnumerator GenerateWithProgress()
                                 <td>Downscaling filter: 0 = Bilinear, 1 = Lanczos, 2 = CatmullRom.</td>
                             </tr>
                             <tr>
-                                <td><code>useFXAA</code></td>
-                                <td><code>bool</code></td>
-                                <td>Enable FXAA anti-aliasing.</td>
-                            </tr>
-                            <tr>
                                 <td><code>captureFrameReduction</code></td>
                                 <td><code>float</code></td>
                                 <td>Capture padding (0-1). Expands billboard mesh vertices outward.</td>
@@ -520,11 +545,6 @@ IEnumerator GenerateWithProgress()
                                 <td>Enable bounds editing mode in scene view.</td>
                             </tr>
                             <tr>
-                                <td><code>useEditBounds</code></td>
-                                <td><code>bool</code></td>
-                                <td>Use custom edited bounds instead of auto-calculated.</td>
-                            </tr>
-                            <tr>
                                 <td><code>customBoundsCenter</code></td>
                                 <td><code>Vector3</code></td>
                                 <td>Custom bounds sphere center (world space).</td>
@@ -533,11 +553,6 @@ IEnumerator GenerateWithProgress()
                                 <td><code>customBoundsRadius</code></td>
                                 <td><code>float</code></td>
                                 <td>Custom bounds sphere radius (0.01-100).</td>
-                            </tr>
-                            <tr>
-                                <td><code>orthographicSize</code></td>
-                                <td><code>float</code></td>
-                                <td>Orthographic camera size for capture (0.1-10).</td>
                             </tr>
                             <tr>
                                 <td><code>gamma</code></td>
@@ -565,29 +580,39 @@ IEnumerator GenerateWithProgress()
                                 <td>Translucency strength (0-32).</td>
                             </tr>
                             <tr>
+                                <td><code>occlusionStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Ambient occlusion strength (0-1).</td>
+                            </tr>
+                            <tr>
                                 <td><code>invertThickness</code></td>
                                 <td><code>bool</code></td>
                                 <td>Invert thickness map calculation.</td>
                             </tr>
                             <tr>
-                                <td><code>sharpenStrength</code></td>
-                                <td><code>float</code></td>
-                                <td>Post-sharpen strength (0-10).</td>
-                            </tr>
-                            <tr>
-                                <td><code>denoiseStrength</code></td>
-                                <td><code>float</code></td>
-                                <td>Post-denoise strength (0-1).</td>
-                            </tr>
-                            <tr>
-                                <td><code>denoisePasses</code></td>
-                                <td><code>int</code></td>
-                                <td>Number of denoise passes (1-32).</td>
-                            </tr>
-                            <tr>
-                                <td><code>captureLightsAsEmissive</code></td>
+                                <td><code>useParallax</code></td>
                                 <td><code>bool</code></td>
-                                <td>Capture lights inside prefab as emissive.</td>
+                                <td>Enable parallax mapping using depth atlas.</td>
+                            </tr>
+                            <tr>
+                                <td><code>parallaxScale</code></td>
+                                <td><code>float</code></td>
+                                <td>Parallax height scale (0-4).</td>
+                            </tr>
+                            <tr>
+                                <td><code>parallaxMaxSteps</code></td>
+                                <td><code>int</code></td>
+                                <td>Maximum parallax raymarch steps (1-128).</td>
+                            </tr>
+                            <tr>
+                                <td><code>parallaxMidPlane</code></td>
+                                <td><code>float</code></td>
+                                <td>Mid-plane depth for parallax (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>intersectionTolerance</code></td>
+                                <td><code>float</code></td>
+                                <td>Intersection tolerance to reduce artifacts (0-0.1).</td>
                             </tr>
                             <tr>
                                 <td><code>depthTest</code></td>
@@ -615,29 +640,74 @@ IEnumerator GenerateWithProgress()
                                 <td>Alpha threshold for alpha test (0-1).</td>
                             </tr>
                             <tr>
-                                <td><code>unfilteredPixels</code></td>
-                                <td><code>bool</code></td>
-                                <td>Use point filtering instead of bilinear for pixel-perfect rendering.</td>
-                            </tr>
-                            <tr>
-                                <td><code>joinLODGroup</code></td>
-                                <td><code>bool</code></td>
-                                <td>Automatically join source object's LOD Group.</td>
-                            </tr>
-                            <tr>
-                                <td><code>lodPercentage</code></td>
+                                <td><code>billboardZOffset</code></td>
                                 <td><code>float</code></td>
-                                <td>Screen height threshold for LOD level (0.01-1).</td>
+                                <td>Z offset for billboard position (0-1000).</td>
                             </tr>
                             <tr>
-                                <td><code>maxLODAdditions</code></td>
-                                <td><code>int</code></td>
-                                <td>Maximum number of LOD additions (1-5).</td>
+                                <td><code>enableWind</code></td>
+                                <td><code>bool</code></td>
+                                <td>Enable wind animation effects.</td>
                             </tr>
                             <tr>
-                                <td><code>regenerationMode</code></td>
-                                <td><code>RegenerationMode</code></td>
-                                <td>When to automatically regenerate: OnMouseUp, Off, OnChange, or RealTime.</td>
+                                <td><code>windSpeed</code></td>
+                                <td><code>float</code></td>
+                                <td>Overall wind speed multiplier (0-10).</td>
+                            </tr>
+                            <tr>
+                                <td><code>windRate</code></td>
+                                <td><code>float</code></td>
+                                <td>Wind gust rate (0-5).</td>
+                            </tr>
+                            <tr>
+                                <td><code>windStrength</code></td>
+                                <td><code>float</code></td>
+                                <td>Wind strength multiplier (0-5).</td>
+                            </tr>
+                            <tr>
+                                <td><code>grassWeight</code></td>
+                                <td><code>float</code></td>
+                                <td>Grass-like wind weight (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>bushWeight</code></td>
+                                <td><code>float</code></td>
+                                <td>Bush-like wind weight (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>treeWeight</code></td>
+                                <td><code>float</code></td>
+                                <td>Tree-like wind weight (0-1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>windDirection</code></td>
+                                <td><code>Vector3</code></td>
+                                <td>Wind direction in world space.</td>
+                            </tr>
+                            <tr>
+                                <td><code>randomPhase</code></td>
+                                <td><code>bool</code></td>
+                                <td>Use random phase offset for wind animation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>windPivotHeightOffset</code></td>
+                                <td><code>float</code></td>
+                                <td>Pivot height offset for wind animation (-1 to 1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>useContourGeometry</code></td>
+                                <td><code>bool</code></td>
+                                <td>Use contour-based geometry instead of simple quad.</td>
+                            </tr>
+                            <tr>
+                                <td><code>geometrySimplificationTolerance</code></td>
+                                <td><code>float</code></td>
+                                <td>Simplification tolerance for contour geometry (0.001-0.1).</td>
+                            </tr>
+                            <tr>
+                                <td><code>geometryAlphaThreshold</code></td>
+                                <td><code>float</code></td>
+                                <td>Alpha threshold for contour extraction (0-1).</td>
                             </tr>
                             <tr>
                                 <td><code>showGizmos</code></td>
@@ -665,7 +735,17 @@ IEnumerator GenerateWithProgress()
                             <tr>
                                 <td><code>GetEffectiveCaptureDistribution()</code></td>
                                 <td><code>CaptureDistribution</code></td>
-                                <td>Get the effective capture distribution (handles deprecated fibonacciMode).</td>
+                                <td>Get the effective capture distribution.</td>
+                            </tr>
+                            <tr>
+                                <td><code>IsOctahedronMode</code></td>
+                                <td><code>bool</code></td>
+                                <td>Returns true if using Octahedron or HemiOctahedron distribution.</td>
+                            </tr>
+                            <tr>
+                                <td><code>CreateCopy()</code></td>
+                                <td><code>RawteousSettings</code></td>
+                                <td>Create a copy of the settings (static method).</td>
                             </tr>
                         </tbody>
                     </table>
@@ -716,20 +796,8 @@ IEnumerator GenerateWithProgress()
                                 <td>3-tile weighting for blending.</td>
                             </tr>
                             <tr>
-                                <td><code>Spherical</code></td>
-                                <td>Best for normals, spherical interpolation.</td>
-                            </tr>
-                            <tr>
                                 <td><code>CatmullRom</code></td>
                                 <td>Smooth interpolation with Catmull-Rom splines.</td>
-                            </tr>
-                            <tr>
-                                <td><code>Bicubic</code></td>
-                                <td>High quality bicubic interpolation.</td>
-                            </tr>
-                            <tr>
-                                <td><code>AIInterpolation</code></td>
-                                <td>AI-powered blending.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -786,7 +854,7 @@ IEnumerator GenerateWithProgress()
                         </tbody>
                     </table>
 
-                    <h3>RegenerationMode</h3>
+                    <h3>DownscalingFilter</h3>
                     <table class="api-table">
                         <thead>
                             <tr>
@@ -796,20 +864,16 @@ IEnumerator GenerateWithProgress()
                         </thead>
                         <tbody>
                             <tr>
-                                <td><code>OnMouseUp</code></td>
-                                <td>Update when you release slider (recommended).</td>
+                                <td><code>Bilinear</code></td>
+                                <td>Standard bilinear filter (fastest).</td>
                             </tr>
                             <tr>
-                                <td><code>Off</code></td>
-                                <td>Manual regeneration only.</td>
+                                <td><code>Lanczos</code></td>
+                                <td>High quality Lanczos filter (best quality).</td>
                             </tr>
                             <tr>
-                                <td><code>OnChange</code></td>
-                                <td>Instant updates on every change (can lag).</td>
-                            </tr>
-                            <tr>
-                                <td><code>RealTime</code></td>
-                                <td>Live preview (smooth but resource-intensive).</td>
+                                <td><code>CatmullRom</code></td>
+                                <td>Sharp Catmull-Rom filter.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -822,13 +886,13 @@ IEnumerator GenerateWithProgress()
                     <h3>Programmatic Impostor Generation</h3>
                     <div class="code-block">
                         <code>using UnityEngine;
-using RawteousImpostors.Runtime;
+using Rawteous.Runtime;
 
 public class ImpostorManager : MonoBehaviour
 {
     public void ConvertToImpostor(GameObject target)
     {
-        var impostor = target.AddComponent&lt;RawteousImpostors&gt;();
+        var impostor = target.AddComponent&lt;Rawteous&gt;();
         impostor.sourceObject = target;
         
         impostor.settings.textureResolution = 256;
@@ -858,7 +922,7 @@ int tileSize = impostor.AtlasTileSize;</code>
 
                     <h3>Coroutine-Based Generation with Progress</h3>
                     <div class="code-block">
-                        <code>IEnumerator GenerateWithProgress(RawteousImpostors impostor)
+                        <code>IEnumerator GenerateWithProgress(Rawteous impostor)
 {
     yield return impostor.RegenerateCoroutine((progress) => {
         Debug.Log($"Generation progress: {progress * 100:F1}%");
@@ -887,17 +951,42 @@ impostor.settings.octahedronResolution = 8;</code>
                     <h3>Leader-Follower Pattern</h3>
                     <div class="code-block">
                         <code>// Set up leader
-RawteousImpostors leader = leaderObject.GetComponent&lt;RawteousImpostors&gt;();
+Rawteous leader = leaderObject.GetComponent&lt;Rawteous&gt;();
 leader.settings.textureResolution = 512;
 leader.settings.captureAngles = 8;
 
 // Set up followers
 foreach (GameObject followerObj in followerObjects)
 {
-    var follower = followerObj.GetComponent&lt;RawteousImpostors&gt;();
+    var follower = followerObj.GetComponent&lt;Rawteous&gt;();
     follower.settings.leader = leaderObject;
     // Follower will automatically sync settings from leader
 }</code>
+                    </div>
+
+                    <h3>Wind Animation Setup</h3>
+                    <div class="code-block">
+                        <code>// Enable wind effects
+impostor.settings.enableWind = true;
+impostor.settings.windSpeed = 1.5f;
+impostor.settings.windStrength = 1.0f;
+
+// Use tree preset weights
+impostor.settings.grassWeight = 0f;
+impostor.settings.bushWeight = 0f;
+impostor.settings.treeWeight = 1f;
+
+// Set wind direction
+impostor.settings.windDirection = new Vector3(1f, 0f, 0.3f);</code>
+                    </div>
+
+                    <h3>Parallax Configuration</h3>
+                    <div class="code-block">
+                        <code>// Enable parallax depth effect
+impostor.settings.useParallax = true;
+impostor.settings.parallaxScale = 1.0f;
+impostor.settings.parallaxMaxSteps = 32;
+impostor.settings.parallaxMidPlane = 0.5f;</code>
                     </div>
                 </section>
             </div>
