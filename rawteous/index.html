@@ -64,18 +64,40 @@
             margin: 0;
         }
 
-        /* Hero logo */
+        /* Hero logo and description row */
+        .hero-container {
+            display: flex;
+            align-items: flex-start;
+            gap: calc(var(--space-xl) - 100px);
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-subtitle {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-md);
+            line-height: 1.4;
+        }
+
+        .hero-description {
+            margin-top: 0;
+        }
+
         .hero-logo {
             width: 320px;
             height: auto;
-            margin-bottom: var(--space-lg);
+            flex-shrink: 0;
+            transform: translateX(-100px);
         }
 
         /* Container behind cards */
         .company-app .products-section .section-container,
         .company-app .company-section .section-container {
-            background: rgba(16, 19, 26, 0.6);
-            backdrop-filter: blur(8px);
+            background: transparent;
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
             border: 1px solid var(--color-border);
@@ -94,21 +116,56 @@
         }
 
         /* Video showcase styling - fit container */
+        .company-app .company-hero {
+            padding-top: calc(var(--space-3xl) + 50px) !important;
+            padding-bottom: 0 !important;
+        }
+
+        .company-app .company-hero .hero-container {
+            margin-bottom: 4px !important;
+            padding-bottom: 0 !important;
+        }
+
+        .company-app .company-hero {
+            padding-bottom: 0 !important;
+        }
+
+        .company-app .product-showcase-section {
+            min-height: auto !important;
+            padding: 0 !important;
+            margin: 0 auto 30px auto !important;
+        }
+
         .company-app .product-showcase-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: auto !important;
+            min-height: auto !important;
+            padding: var(--space-xl);
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .company-app .product-showcase-container > div {
+            width: 100%;
+            margin: 0;
+            display: block;
             position: relative;
         }
 
         .company-app .product-showcase-container iframe {
-            width: 100%;
-            height: 100%;
-            min-height: 405px;
-            aspect-ratio: 16 / 9;
+            display: block;
+            visibility: visible;
         }
 
         .video-badge {
             position: absolute;
             top: var(--space-md);
-            right: var(--space-md);
+            left: calc((100% - 1200px) / 2 + var(--space-xl));
+            width: 320px;
             z-index: 10;
             margin: 0;
         }
@@ -152,6 +209,35 @@
             min-height: 400px;
         }
 
+        /* Blur background wrapper for hero section - 1200px width */
+        .company-app .company-hero .hero-blur-bg {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 100%;
+            background: rgba(16, 19, 26, 0.6);
+            backdrop-filter: blur(13px);
+            pointer-events: none;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        /* Remove blur background from video section area */
+        .company-app .company-hero .product-showcase-section {
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        .company-app .company-hero .hero-container,
+        .company-app .company-hero .product-showcase-section {
+            position: relative;
+            z-index: 2;
+        }
+
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,20 +265,23 @@
 
         <!-- Hero Section -->
         <section class="company-hero" data-parallax-speed="0.15" data-parallax-damping="0.03">
+            <div class="hero-blur-bg"></div>
             <div class="hero-container">
-                <img src="../images/rawteous_logo.svg" alt="Rawteous" class="hero-logo">
-                <p class="hero-description">Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
-                <div class="hero-actions">
-                    <a href="docs.html" class="btn btn-primary">View Documentation</a>
-                    <a href="tutorial.html" class="btn btn-secondary btn-disabled">Get Started</a>
+                <div class="hero-content">
+                    <p class="hero-subtitle">Unique and quick.<br>Professional shortcuts system for Unity.</p>
+                    <p class="hero-description">Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.</p>
+                    <div class="hero-actions">
+                        <a href="docs.html" class="btn btn-primary">View Documentation</a>
+                        <a href="tutorial.html" class="btn btn-secondary btn-disabled">Get Started</a>
+                    </div>
                 </div>
+                <img src="../images/rawteous_logo.svg" alt="Rawteous" class="hero-logo">
             </div>
 
             <!-- Product Showcase - Video -->
             <div class="product-showcase-section">
                 <div class="product-showcase-container">
-                    <div class="hero-badge video-badge" id="rawteous-hero-badge">In Development!</div>
-                    <div style="padding:75% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1155391579?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="rawteous2"></iframe></div>
+                    <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1155391579?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="rawteous2"></iframe></div>
                 </div>
             </div>
 
@@ -392,27 +481,6 @@
     <script src="../js/analytics.js"></script>
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-        // Load Rawteous hero badge from SITE_CONTENT
-        (function() {
-            try {
-                const stored = localStorage.getItem('site_content');
-                if (stored) {
-                    const content = JSON.parse(stored);
-                    const rawteous = content.products?.find(p => p.id === 'rawteous');
-                    const badgeEl = document.getElementById('rawteous-hero-badge');
-                    if (badgeEl) {
-                        if (rawteous?.landing?.hero?.badge) {
-                            badgeEl.textContent = rawteous.landing.hero.badge;
-                            badgeEl.style.display = 'block';
-                        } else {
-                            badgeEl.style.display = 'none';
-                        }
-                    }
-                }
-            } catch (e) {
-                console.warn('Failed to load Rawteous badge:', e);
-            }
-        })();
 
     </script>
 </body>

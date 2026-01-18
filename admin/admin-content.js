@@ -135,12 +135,68 @@ const AdminContent = {
                 </div>
                 <div class="product-admin-pages">
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'landing')">Landing Page</button>
+                    <button class="page-btn" onclick="AdminContent.editProductLanding('${product.id}')">Landing Details</button>
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'docs')">Docs</button>
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'api')">API</button>
                     <button class="page-btn" onclick="AdminContent.editProductPage('${product.id}', 'tutorial')">Tutorial</button>
                 </div>
             </div>
         `).join('');
+    },
+
+    editProductLanding(productId) {
+        Admin.switchView('editor');
+        const product = SITE_CONTENT.products.find(p => p.id === productId);
+        if (!product) return;
+
+        const landing = product.landing || {};
+        const hero = landing.hero || {};
+        const features = landing.features || { items: [] };
+        const video = landing.video || {};
+        const documentation = landing.documentation || { items: [] };
+
+        Admin.currentItem = {
+            id: `product-${productId}-landing-details`,
+            type: 'product-landing',
+            name: `${product.name} - Landing Page Details`,
+            productId: productId
+        };
+
+        // Create comprehensive editor content
+        const editorContent = `
+            <h2>Hero Section</h2>
+            <p><strong>Subtitle:</strong> ${hero.subtitle || ''}</p>
+            <p><strong>Description:</strong> ${hero.description || ''}</p>
+            
+            <h2>Video Showcase</h2>
+            <p><strong>Enabled:</strong> ${video.enabled ? 'Yes' : 'No'}</p>
+            <p><strong>Video URL:</strong> ${video.src || ''}</p>
+            
+            <h2>Features Section</h2>
+            <p><strong>Title:</strong> ${features.title || ''}</p>
+            <p><strong>Subtitle:</strong> ${features.subtitle || ''}</p>
+            <h3>Features (${features.items ? features.items.length : 0}):</h3>
+            <ul>
+                ${features.items ? features.items.map(f => `<li><strong>${f.title}</strong>: ${f.description}</li>`).join('') : ''}
+            </ul>
+            
+            <h2>Documentation Links</h2>
+            <p><strong>Title:</strong> ${documentation.title || ''}</p>
+            <p><strong>Subtitle:</strong> ${documentation.subtitle || ''}</p>
+            <h3>Links (${documentation.items ? documentation.items.length : 0}):</h3>
+            <ul>
+                ${documentation.items ? documentation.items.map(d => `<li><strong>${d.title}</strong>: ${d.description} → ${d.link}</li>`).join('') : ''}
+            </ul>
+        `;
+
+        document.getElementById('item-name').value = Admin.currentItem.name;
+        document.getElementById('item-description').value = JSON.stringify(landing, null, 2);
+        
+        setTimeout(() => {
+            if (tinymce.get('item-content')) {
+                tinymce.get('item-content').setContent(editorContent);
+            }
+        }, 100);
     },
 
     editProduct(productId) {
@@ -198,6 +254,60 @@ const AdminContent = {
         }
     },
 
+    editProductLanding(productId) {
+        Admin.switchView('editor');
+        const product = SITE_CONTENT.products.find(p => p.id === productId);
+        if (!product) return;
+
+        const landing = product.landing || {};
+        const hero = landing.hero || {};
+        const features = landing.features || { items: [] };
+        const video = landing.video || {};
+        const documentation = landing.documentation || { items: [] };
+
+        Admin.currentItem = {
+            id: `product-${productId}-landing-details`,
+            type: 'product-landing',
+            name: `${product.name} - Landing Page Details`,
+            productId: productId
+        };
+
+        const editorContent = `
+            <h2>Hero Section</h2>
+            <p><strong>Subtitle:</strong> ${hero.subtitle || ''}</p>
+            <p><strong>Description:</strong> ${hero.description || ''}</p>
+            
+            <h2>Video Showcase</h2>
+            <p><strong>Enabled:</strong> ${video.enabled ? 'Yes' : 'No'}</p>
+            <p><strong>Video URL:</strong> ${video.src || ''}</p>
+            
+            <h2>Features Section</h2>
+            <p><strong>Title:</strong> ${features.title || ''}</p>
+            <p><strong>Subtitle:</strong> ${features.subtitle || ''}</p>
+            <h3>Features (${features.items ? features.items.length : 0}):</h3>
+            <ul>
+                ${features.items ? features.items.map(f => `<li><strong>${f.title}</strong>: ${f.description}</li>`).join('') : ''}
+            </ul>
+            
+            <h2>Documentation Links</h2>
+            <p><strong>Title:</strong> ${documentation.title || ''}</p>
+            <p><strong>Subtitle:</strong> ${documentation.subtitle || ''}</p>
+            <h3>Links (${documentation.items ? documentation.items.length : 0}):</h3>
+            <ul>
+                ${documentation.items ? documentation.items.map(d => `<li><strong>${d.title}</strong>: ${d.description} → ${d.link}</li>`).join('') : ''}
+            </ul>
+        `;
+
+        document.getElementById('item-name').value = Admin.currentItem.name;
+        document.getElementById('item-description').value = JSON.stringify(landing, null, 2);
+        
+        setTimeout(() => {
+            if (tinymce.get('item-content')) {
+                tinymce.get('item-content').setContent(editorContent);
+            }
+        }, 100);
+    },
+
     addNewProduct() {
         const name = prompt('Product name:');
         if (!name) return;
@@ -209,9 +319,24 @@ const AdminContent = {
             logo: `images/${id}_logo.svg`,
             landing: {
                 hero: {
+                    subtitle: "",
                     description: "",
                     primaryButton: { text: "View Documentation", link: "docs.html" },
                     secondaryButton: { text: "Get Started", link: "tutorial.html" }
+                },
+                video: {
+                    enabled: false,
+                    src: ""
+                },
+                features: {
+                    title: "Key Features",
+                    subtitle: "",
+                    items: []
+                },
+                documentation: {
+                    title: "Documentation",
+                    subtitle: "",
+                    items: []
                 },
                 why: {
                     title: `Why ${name}?`,

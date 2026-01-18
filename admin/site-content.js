@@ -80,9 +80,31 @@ const SITE_CONTENT = {
             logo: "images/rawteous_logo.svg",
             landing: {
                 hero: {
-                    description: "Advanced impostor generation system for Unity. Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.",
+                    subtitle: "Unique and quick.\nProfessional shortcuts system for Unity.",
+                    description: "Create lightweight billboard representations from any 3D object with GPU acceleration and real-time preview for fast iteration and better performance.",
                     primaryButton: { text: "View Documentation", link: "docs.html" },
                     secondaryButton: { text: "Get Started", link: "tutorial.html" }
+                },
+                video: {
+                    enabled: true,
+                    src: "https://player.vimeo.com/video/1155391579?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+                },
+                features: {
+                    title: "Key Features",
+                    subtitle: "Everything you need for efficient impostor generation",
+                    items: [
+                        { icon: "features/feature_octahedron.svg", title: "Octahedron, Fibonacci & Grid", description: "Three capture modes - pick the perfect angle distribution for your needs." },
+                        { icon: "features/feature_angles_128.svg", title: "Up to 128 Angles and 2048px Tiles", description: "More angles = better quality. You choose the complexity." },
+                        { icon: "features/feature_fov.svg", title: "Adaptive FOV Control", description: "Adjust the field-of-view span to capture exactly what you need." },
+                        { icon: "features/feature_snap_cast.svg", title: "Real-Time Snap Casting", description: "Your geometry automatically fits perfectly to impostor pixels during capture." },
+                        { icon: "features/feature_lod_2click.svg", title: "2-Click LOD Groups", description: "Generate mesh decimation + impostor LODs instantly. Done." },
+                        { icon: "features/feature_live_preview.svg", title: "Live Preview System", description: "See your impostor in real-time before you commit." },
+                        { icon: "features/feature_atlas_viewer.svg", title: "Built-In Atlas Viewer", description: "Inspect all captured maps (albedo, normal, PBR) directly in the editor." },
+                        { icon: "features/feature_delightful_ui.svg", title: "Delightful UI", description: "Clean, intuitive interface that makes complex workflows feel simple." },
+                        { icon: "features/feature_batch_process.svg", title: "Smart Batch Processing", description: "Set it and forget it - auto-resolution handles the heavy lifting." },
+                        { icon: "features/feature_leader_follower.svg", title: "Leader-Follower System", description: "One object leads, others follow. Sync parameters across multiple impostors effortlessly." },
+                        { icon: "features/feature_preset_system.svg", title: "Preset Library", description: "Save and load your favorite settings. Never configure from scratch again." }
+                    ]
                 },
                 why: {
                     title: "Why Rawteous?",
@@ -90,6 +112,15 @@ const SITE_CONTENT = {
                     content: [
                         "Impostors are the secret weapon behind stunning open worlds. Replace distant 3D meshes with lightweight billboards that look identical but render in a fraction of the time.",
                         "Rawteous makes this workflow effortless - GPU-accelerated capture, real-time preview, and seamless LOD integration. Spend less time optimizing, more time creating."
+                    ]
+                },
+                documentation: {
+                    title: "Documentation",
+                    subtitle: "Get started with Rawteous",
+                    items: [
+                        { icon: "document", title: "Documentation", description: "Comprehensive guide covering all features, settings, and workflows. Learn about distribution, capture, and billboard configuration.", link: "docs.html" },
+                        { icon: "tutorial", title: "Tutorials", description: "Step-by-step tutorials to get you started. Learn how to create impostors, optimize performance, and integrate into your workflow.", link: "tutorial.html" },
+                        { icon: "api", title: "API Reference", description: "Complete API documentation for programmatic control. Access all impostor functionality through code at runtime.", link: "api.html" }
                     ]
                 }
             },
