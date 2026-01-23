@@ -429,7 +429,7 @@
 }
 
 .products-grid-horizontal .product-card {
-    min-height: 320px;
+    min-height: 200px !important;
     display: flex;
     flex-direction: column;
 }
@@ -457,6 +457,17 @@
 
 .rawteous-card {
     overflow: hidden;
+    min-height: 200px !important;
+    padding: var(--space-xl) !important;
+}
+
+.rawteous-card .product-icon.product-logo {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+.rawteous-card .product-logo {
+    margin-bottom: 0 !important;
 }
 
 .rawteous-inspectors-container {

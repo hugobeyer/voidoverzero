@@ -1,0 +1,308 @@
+/**
+ * VOZ Editor Styles
+ */
+
+.voz-editor {
+    --voz-bg: #1a1e24;
+    --voz-bg-light: #22272e;
+    --voz-bg-lighter: #2d333b;
+    --voz-border: #373e47;
+    --voz-border-focus: #00ffd5;
+    --voz-text: #e4e4e7;
+    --voz-text-dim: #8b949e;
+    --voz-accent: #00ffd5;
+    --voz-accent-dim: #00d4aa;
+    --voz-radius: 6px;
+
+    background: var(--voz-bg);
+    border: 1px solid var(--voz-border);
+    border-radius: var(--voz-radius);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+}
+
+.voz-editor.voz-focused {
+    border-color: var(--voz-border-focus);
+    box-shadow: 0 0 0 3px rgba(0, 255, 213, 0.15);
+}
+
+/* Toolbar */
+.voz-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px 12px;
+    background: var(--voz-bg-light);
+    border-bottom: 1px solid var(--voz-border);
+    align-items: center;
+}
+
+.voz-toolbar-group {
+    display: flex;
+    gap: 2px;
+}
+
+.voz-toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--voz-border);
+    margin: 0 6px;
+}
+
+.voz-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--voz-text-dim);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.voz-btn:hover {
+    background: var(--voz-bg-lighter);
+    color: var(--voz-text);
+}
+
+.voz-btn:active {
+    background: var(--voz-border);
+}
+
+.voz-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.voz-select {
+    height: 32px;
+    padding: 0 28px 0 10px;
+    background: var(--voz-bg);
+    border: 1px solid var(--voz-border);
+    border-radius: 4px;
+    color: var(--voz-text);
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%238b949e'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+.voz-select:hover {
+    border-color: var(--voz-text-dim);
+}
+
+.voz-select:focus {
+    outline: none;
+    border-color: var(--voz-accent);
+}
+
+/* Content area */
+.voz-content {
+    padding: 16px 20px;
+    min-height: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+    color: var(--voz-text);
+    font-size: 15px;
+    line-height: 1.7;
+    outline: none;
+}
+
+.voz-content:empty::before {
+    content: attr(data-placeholder);
+    color: var(--voz-text-dim);
+    pointer-events: none;
+}
+
+.voz-content.voz-dragover {
+    background: rgba(0, 255, 213, 0.05);
+    outline: 2px dashed var(--voz-accent);
+    outline-offset: -4px;
+}
+
+/* Content styling */
+.voz-content h1,
+.voz-content h2,
+.voz-content h3,
+.voz-content h4 {
+    color: var(--voz-text);
+    margin: 1.5em 0 0.5em;
+    line-height: 1.3;
+}
+
+.voz-content h1 { font-size: 2em; }
+.voz-content h2 { font-size: 1.5em; color: var(--voz-accent); }
+.voz-content h3 { font-size: 1.25em; }
+.voz-content h4 { font-size: 1.1em; }
+
+.voz-content p {
+    margin: 0.75em 0;
+}
+
+.voz-content a {
+    color: var(--voz-accent);
+    text-decoration: underline;
+}
+
+.voz-content a:hover {
+    color: var(--voz-accent-dim);
+}
+
+.voz-content ul,
+.voz-content ol {
+    margin: 0.75em 0;
+    padding-left: 1.5em;
+}
+
+.voz-content li {
+    margin: 0.25em 0;
+}
+
+.voz-content blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    border-left: 4px solid var(--voz-accent);
+    background: var(--voz-bg-light);
+    color: var(--voz-text-dim);
+    font-style: italic;
+}
+
+.voz-content pre {
+    margin: 1em 0;
+    padding: 1em;
+    background: var(--voz-bg-light);
+    border: 1px solid var(--voz-border);
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9em;
+}
+
+.voz-content code {
+    padding: 0.15em 0.4em;
+    background: var(--voz-bg-light);
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9em;
+    color: var(--voz-accent);
+}
+
+.voz-content pre code {
+    padding: 0;
+    background: none;
+    color: var(--voz-text);
+}
+
+.voz-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 0.5em 0;
+}
+
+.voz-content hr {
+    border: none;
+    height: 1px;
+    background: var(--voz-border);
+    margin: 1.5em 0;
+}
+
+.voz-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+.voz-content th,
+.voz-content td {
+    padding: 0.5em;
+    border: 1px solid var(--voz-border);
+    text-align: left;
+}
+
+.voz-content th {
+    background: var(--voz-bg-light);
+    font-weight: 600;
+}
+
+/* Status bar */
+.voz-status {
+    padding: 6px 12px;
+    background: var(--voz-bg-light);
+    border-top: 1px solid var(--voz-border);
+    font-size: 12px;
+    color: var(--voz-text-dim);
+}
+
+.voz-word-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Source mode */
+.voz-editor.voz-source-mode .voz-content {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--voz-text-dim);
+}
+
+/* Scrollbar styling */
+.voz-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.voz-content::-webkit-scrollbar-track {
+    background: var(--voz-bg);
+}
+
+.voz-content::-webkit-scrollbar-thumb {
+    background: var(--voz-border);
+    border-radius: 4px;
+}
+
+.voz-content::-webkit-scrollbar-thumb:hover {
+    background: var(--voz-text-dim);
+}
+
+/* Selection */
+.voz-content ::selection {
+    background: rgba(0, 255, 213, 0.3);
+    color: var(--voz-text);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .voz-toolbar {
+        padding: 6px 8px;
+    }
+    
+    .voz-btn {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .voz-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .voz-toolbar-divider {
+        margin: 0 4px;
+    }
+    
+    .voz-content {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+}

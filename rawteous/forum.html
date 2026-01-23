@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawteous Forum - Community Support</title>
+    <meta name="description" content="Community forum for Rawteous Unity impostor system. Get help, share tips, and connect with other developers.">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/company.css">
+    <style>
+        /* Forum page - cyan accent matching Rawteous */
+        .forum-page {
+            --color-accent: #00ffd5;
+            --color-accent-dim: #00d4aa;
+            --color-accent-dark: #00b894;
+            --color-accent-glow: rgba(0, 255, 213, 0.12);
+            --color-accent-glow-strong: rgba(0, 255, 213, 0.25);
+            --color-border-accent: rgba(0, 255, 213, 0.25);
+            --color-category-setup: #00ffd5;
+            --color-category-bugs: #ff6b6b;
+            --color-category-features: #a78bfa;
+            --color-category-showcase: #fbbf24;
+            --color-category-general: #60a5fa;
+        }
+
+        /* Hero */
+        .forum-hero {
+            position: relative;
+            padding: var(--space-3xl) var(--space-xl);
+            background: linear-gradient(180deg, var(--color-bg-dark) 0%, var(--color-bg) 100%);
+            border-bottom: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .forum-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 600px;
+            background: radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .forum-hero-content {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+
+        .forum-hero-text h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .forum-hero-text p {
+            font-size: var(--text-lg);
+            color: var(--color-text-secondary);
+            max-width: 600px;
+        }
+
+        .forum-hero-logo {
+            width: 180px;
+            flex-shrink: 0;
+        }
+
+        .forum-hero-stats {
+            display: flex;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Main layout */
+        .forum-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        .forum-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: var(--space-2xl);
+        }
+
+        /* Category cards */
+        .forum-categories {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .category-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--category-color);
+        }
+
+        .category-card:hover {
+            border-color: var(--color-border-accent);
+            transform: translateX(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(var(--category-color-rgb), 0.15);
+            border-radius: var(--radius-md);
+            color: var(--category-color);
+        }
+
+        .category-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .category-desc {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .category-meta {
+            display: flex;
+            gap: var(--space-xl);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        .category-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* Recent topics */
+        .recent-topics {
+            margin-top: var(--space-3xl);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .view-all-link {
+            font-size: var(--text-sm);
+            color: var(--color-accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .topic-item {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--space-lg);
+            align-items: center;
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .topic-item:hover {
+            border-color: var(--color-border-accent);
+            background: var(--color-bg-hover);
+        }
+
+        .topic-category-badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(var(--badge-color-rgb), 0.15);
+            color: var(--badge-color);
+            white-space: nowrap;
+        }
+
+        .topic-content {
+            min-width: 0;
+        }
+
+        .topic-title {
+            font-size: var(--text-base);
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: var(--space-xs);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .topic-meta {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        .topic-stats {
+            display: flex;
+            gap: var(--space-lg);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        .topic-stats span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* Sidebar */
+        .forum-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        .sidebar-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .sidebar-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .sidebar-title svg {
+            color: var(--color-accent);
+        }
+
+        /* New topic button */
+        .new-topic-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dim) 100%);
+            color: var(--color-bg-dark);
+            border: none;
+            padding: var(--space-lg) var(--space-xl);
+            font-size: var(--text-base);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            border-radius: var(--radius-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 16px var(--color-accent-glow);
+        }
+
+        .new-topic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px var(--color-accent-glow-strong);
+        }
+
+        /* Quick links */
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            font-size: var(--text-sm);
+        }
+
+        .quick-link:hover {
+            background: var(--color-bg-hover);
+            color: var(--color-accent);
+        }
+
+        .quick-link svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Guidelines */
+        .guidelines-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .guideline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .guideline-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xl);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: var(--space-xl);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: var(--space-sm);
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--color-text);
+        }
+
+        .modal-body {
+            padding: var(--space-xl);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            background: var(--color-bg-dark);
+            border: 2px solid var(--color-border);
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-main);
+            font-size: var(--text-base);
+            color: var(--color-text);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 4px var(--color-accent-glow);
+        }
+
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300ffd5' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-md) center;
+            background-size: 18px;
+            padding-right: var(--space-3xl);
+        }
+
+        .modal-footer {
+            padding: var(--space-xl);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-md);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            padding: var(--space-md) var(--space-xl);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            border: none;
+            color: var(--color-bg-dark);
+            padding: var(--space-md) var(--space-xl);
+            font-size: var(--text-sm);
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-dim);
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .forum-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .forum-sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .forum-hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .forum-hero-logo {
+                order: -1;
+            }
+
+            .forum-hero-stats {
+                justify-content: center;
+            }
+
+            .topic-item {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .topic-stats {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../logo.png">
+</head>
+<body>
+    <div class="company-app forum-page">
+        <!-- Navigation -->
+        <nav class="company-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="../index.html"><img src="../images/voz_logo.svg" alt="Void Over Zero" class="nav-logo"></a>
+                </div>
+                <div class="nav-links">
+                    <a href="../index.html#products" class="nav-link">Products</a>
+                    <a href="../index.html#about" class="nav-link">About</a>
+                    <a href="../support.html" class="nav-link">Support</a>
+                    <a href="docs.html" class="nav-link">Docs</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="forum-hero">
+            <div class="forum-hero-content">
+                <div class="forum-hero-text">
+                    <h1>Rawteous Community</h1>
+                    <p>Get help, share tips, and connect with developers using Rawteous. Browse topics or start a new discussion.</p>
+                    <div class="forum-hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="topicCount">--</div>
+                            <div class="stat-label">Topics</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="replyCount">--</div>
+                            <div class="stat-label">Replies</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="memberCount">--</div>
+                            <div class="stat-label">Members</div>
+                        </div>
+                    </div>
+                </div>
+                <img src="logo.png" alt="Rawteous" class="forum-hero-logo">
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="forum-container">
+            <div class="forum-layout">
+                <!-- Categories -->
+                <div class="forum-main">
+                    <div class="forum-categories">
+                        <div class="category-card" style="--category-color: var(--color-category-setup);" onclick="filterByCategory('setup')">
+                            <div class="category-header">
+                                <div class="category-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                    </svg>
+                                </div>
+                                <span class="category-title">Setup & Configuration</span>
+                            </div>
+                            <p class="category-desc">Installation help, project setup, URP configuration, and getting started questions.</p>
+                            <div class="category-meta">
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 24 topics</span>
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 89 replies</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" style="--category-color: var(--color-category-bugs);" onclick="filterByCategory('bugs')">
+                            <div class="category-header">
+                                <div class="category-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                    </svg>
+                                </div>
+                                <span class="category-title">Bug Reports</span>
+                            </div>
+                            <p class="category-desc">Report issues, errors, and unexpected behavior. Include reproduction steps for faster resolution.</p>
+                            <div class="category-meta">
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 12 topics</span>
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 45 replies</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" style="--category-color: var(--color-category-features);" onclick="filterByCategory('features')">
+                            <div class="category-header">
+                                <div class="category-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                                <span class="category-title">Feature Requests</span>
+                            </div>
+                            <p class="category-desc">Suggest new features, improvements, and workflow enhancements. Vote on ideas you'd like to see.</p>
+                            <div class="category-meta">
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 18 topics</span>
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 67 replies</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" style="--category-color: var(--color-category-showcase);" onclick="filterByCategory('showcase')">
+                            <div class="category-header">
+                                <div class="category-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="category-title">Showcase</span>
+                            </div>
+                            <p class="category-desc">Share your projects, screenshots, and results. Show what you've built with Rawteous.</p>
+                            <div class="category-meta">
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 8 topics</span>
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 32 replies</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" style="--category-color: var(--color-category-general);" onclick="filterByCategory('general')">
+                            <div class="category-header">
+                                <div class="category-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="category-title">General Discussion</span>
+                            </div>
+                            <p class="category-desc">General questions, tips, workflows, and anything else related to Rawteous and impostors.</p>
+                            <div class="category-meta">
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 31 topics</span>
+                                <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 124 replies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Topics -->
+                    <div class="recent-topics">
+                        <div class="section-header">
+                            <h2 class="section-title">Recent Topics</h2>
+                        </div>
+                        <div class="topic-list" id="topicList">
+                            <div class="topic-item" style="--badge-color: var(--color-category-setup);">
+                                <span class="topic-category-badge">Setup</span>
+                                <div class="topic-content">
+                                    <div class="topic-title">URP 17 compatibility with Unity 6?</div>
+                                    <div class="topic-meta">by <strong>devuser42</strong> • 2 hours ago</div>
+                                </div>
+                                <div class="topic-stats">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 5</span>
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 42</span>
+                                </div>
+                            </div>
+
+                            <div class="topic-item" style="--badge-color: var(--color-category-bugs);">
+                                <span class="topic-category-badge">Bug</span>
+                                <div class="topic-content">
+                                    <div class="topic-title">Octahedron mode produces artifacts at seams</div>
+                                    <div class="topic-meta">by <strong>shader_wizard</strong> • 5 hours ago</div>
+                                </div>
+                                <div class="topic-stats">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 3</span>
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 28</span>
+                                </div>
+                            </div>
+
+                            <div class="topic-item" style="--badge-color: var(--color-category-features);">
+                                <span class="topic-category-badge">Feature</span>
+                                <div class="topic-content">
+                                    <div class="topic-title">Request: HDRP support for v2.0</div>
+                                    <div class="topic-meta">by <strong>cinematic_dev</strong> • 1 day ago</div>
+                                </div>
+                                <div class="topic-stats">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 12</span>
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 156</span>
+                                </div>
+                            </div>
+
+                            <div class="topic-item" style="--badge-color: var(--color-category-showcase);">
+                                <span class="topic-category-badge">Showcase</span>
+                                <div class="topic-content">
+                                    <div class="topic-title">Forest scene with 50k trees at 120fps</div>
+                                    <div class="topic-meta">by <strong>perf_master</strong> • 2 days ago</div>
+                                </div>
+                                <div class="topic-stats">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 8</span>
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 89</span>
+                                </div>
+                            </div>
+
+                            <div class="topic-item" style="--badge-color: var(--color-category-general);">
+                                <span class="topic-category-badge">General</span>
+                                <div class="topic-content">
+                                    <div class="topic-title">Best practices for LOD transitions with wind</div>
+                                    <div class="topic-meta">by <strong>unity_newbie</strong> • 3 days ago</div>
+                                </div>
+                                <div class="topic-stats">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 6</span>
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="forum-sidebar">
+                    <button class="new-topic-btn" onclick="openNewTopicModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        New Topic
+                    </button>
+
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            Quick Links
+                        </h3>
+                        <div class="quick-links">
+                            <a href="docs.html" class="quick-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                                Documentation
+                            </a>
+                            <a href="api.html" class="quick-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                API Reference
+                            </a>
+                            <a href="tutorial.html" class="quick-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                Tutorial
+                            </a>
+                            <a href="../support.html" class="quick-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                Direct Support
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            Guidelines
+                        </h3>
+                        <div class="guidelines-list">
+                            <div class="guideline-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Be respectful and constructive</span>
+                            </div>
+                            <div class="guideline-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Search before posting</span>
+                            </div>
+                            <div class="guideline-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Include version numbers</span>
+                            </div>
+                            <div class="guideline-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Provide reproduction steps</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="company-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">Void Over Zero</span>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html#products" class="footer-link">Products</a>
+                    <a href="../index.html#about" class="footer-link">About</a>
+                    <a href="../support.html" class="footer-link">Support</a>
+                    <a href="index.html" class="footer-link">Rawteous</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2026 Void Over Zero. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- New Topic Modal -->
+        <div class="modal-overlay" id="newTopicModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2 class="modal-title">Create New Topic</h2>
+                    <button class="modal-close" onclick="closeNewTopicModal()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <form id="newTopicForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label" for="topicCategory">Category</label>
+                            <select id="topicCategory" class="form-select" required>
+                                <option value="">Select a category...</option>
+                                <option value="setup">Setup & Configuration</option>
+                                <option value="bugs">Bug Reports</option>
+                                <option value="features">Feature Requests</option>
+                                <option value="showcase">Showcase</option>
+                                <option value="general">General Discussion</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="topicTitle">Title</label>
+                            <input type="text" id="topicTitle" class="form-input" placeholder="Brief, descriptive title..." required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="topicContent">Content</label>
+                            <textarea id="topicContent" class="form-textarea" placeholder="Describe your question, issue, or topic in detail. Include Unity version, Rawteous version, and any relevant information..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="topicEmail">Your Email</label>
+                            <input type="email" id="topicEmail" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeNewTopicModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Submit Topic</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Stats animation
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                obj.textContent = Math.floor(start + range * eased);
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Animate stats on load
+        setTimeout(() => {
+            animateValue('topicCount', 0, 93, 1500);
+            animateValue('replyCount', 0, 357, 1500);
+            animateValue('memberCount', 0, 248, 1500);
+        }, 300);
+
+        // Modal functions
+        function openNewTopicModal() {
+            document.getElementById('newTopicModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNewTopicModal() {
+            document.getElementById('newTopicModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('newTopicModal').addEventListener('click', function(e) {
+            if (e.target === this) closeNewTopicModal();
+        });
+
+        // Close modal on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNewTopicModal();
+        });
+
+        // Form submission - sends via email
+        document.getElementById('newTopicForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('topicCategory').value;
+            const title = document.getElementById('topicTitle').value;
+            const content = document.getElementById('topicContent').value;
+            const email = document.getElementById('topicEmail').value;
+            
+            const subject = `[Forum: ${category}] ${title}`;
+            const body = `From: ${email}\n\nCategory: ${category}\n\nTitle: ${title}\n\n${content}`;
+            
+            window.location.href = `mailto:support@voidoverzero.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            closeNewTopicModal();
+        });
+
+        // Category filter (placeholder - would connect to backend)
+        function filterByCategory(category) {
+            console.log('Filter by:', category);
+            // In production, this would filter topics or navigate to category page
+        }
+    </script>
+</body>
+</html>

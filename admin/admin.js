@@ -21,148 +21,31 @@ const Admin = {
     },
 
     initRichEditor() {
-        // Initialize TinyMCE with user's configuration
-        tinymce.init({
-            selector: '.rich-editor',
+        // Initialize VOZ Editor (custom rich text editor)
+        this.richEditor = VOZEditor.init('.rich-editor', {
             height: 400,
-            menubar: false,
-            plugins: [
-                // Core editing features
-                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                // Premium features trial
-                'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
-            ],
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; color: #e4e4e7; background: #1a1e24; }',
-            skin: 'oxide-dark',
-            content_css: false,
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Rawteous Admin',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-            uploadcare_public_key: 'eda62d1a2606065851e6',
-            images_upload_handler: (blobInfo, success, failure) => {
-                console.log('Starting image upload for:', blobInfo.filename());
-
-                try {
-                    // Convert blob to base64 and store in our image gallery
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        console.log('Image file read successfully, size:', reader.result.length);
-
-                        // Store image in the uploaded images array
-                        if (!window.uploadedImages) window.uploadedImages = [];
-
-                        const imageData = {
-                            id: 'editor_' + Date.now() + '_' + Math.random(),
-                            src: reader.result,
-                            name: blobInfo.filename() || 'editor-image.png',
-                            uploaded: new Date().toISOString(),
-                            fromEditor: true
-                        };
-
-                        window.uploadedImages.push(imageData);
-
-                        // Return the base64 data URL for TinyMCE
-                        success(reader.result);
-
-                        // Update the images gallery display
-                        this.renderImagesGallery();
-
-                        console.log('Image uploaded and stored successfully:', imageData.name);
-                        this.toast('Image uploaded successfully');
-                    };
-                    reader.onerror = (error) => {
-                        console.error('Failed to read image file:', error);
-                        failure('Failed to read image file');
-                        this.toast('Failed to read image file', true);
-                    };
-                    reader.readAsDataURL(blobInfo.blob());
-                } catch (error) {
-                    console.error('Image upload error:', error);
-                    failure('Image upload failed: ' + error.message);
-                    this.toast('Image upload failed', true);
-                }
+            placeholder: 'Start writing your content here...',
+            onChange: (content) => {
+                console.log('Editor content changed');
             },
-            // Enable automatic uploads when images are pasted/dragged
-            automatic_uploads: true,
-            paste_data_images: true,
-            // Allow images to be uploaded
-            images_reuse_filename: true,
-            // Enhanced paste settings for full copy/paste support
-            paste_as_text: false,
-            paste_webkit_styles: "all",
-            paste_retain_style_properties: "all",
-            paste_merge_formats: true,
-            smart_paste: true,
-            paste_postprocess: (plugin, args) => {
-                console.log('Paste operation completed');
-            },
-            paste_preprocess: (plugin, args) => {
-                console.log('Paste operation started');
-            },
-            // PowerPaste settings for enhanced paste functionality
-            powerpaste_allow_local_images: true,
-            powerpaste_word_import: 'merge',
-            powerpaste_html_import: 'merge',
-            powerpaste_clean_filtered_inline_css: false,
-            // Additional paste settings
-            paste_remove_styles_if_webkit: false,
-            paste_webkit_styles: "color font-size font-family font-weight font-style text-decoration text-align",
-            paste_convert_word_fake_lists: true,
-            paste_tab_spaces: 4,
-            // Image settings
-            image_advtab: true,
-            image_title: true,
-            // Handle image insertion
-            images_upload_base_path: '',
-            // Debug logging and paste event handling
-            setup: (editor) => {
-                editor.on('init', () => {
-                    console.log('TinyMCE editor initialized successfully');
-                });
-                editor.on('change', () => {
-                    console.log('Editor content changed');
-                });
-                editor.on('paste', (e) => {
-                    console.log('Paste event detected:', e);
-                });
-                editor.on('copy', (e) => {
-                    console.log('Copy event detected');
-                });
-                editor.on('cut', (e) => {
-                    console.log('Cut event detected');
-                });
-                editor.on('ObjectResized', (e) => {
-                    console.log('Image resized:', e);
-                });
-                editor.on('keydown', (e) => {
-                    // Log Ctrl+C, Ctrl+V, Ctrl+X combinations
-                    if (e.ctrlKey || e.metaKey) {
-                        if (e.key === 'c') console.log('Ctrl+C detected');
-                        if (e.key === 'v') console.log('Ctrl+V detected');
-                        if (e.key === 'x') console.log('Ctrl+X detected');
-                    }
-                });
-
-                // Add custom keyboard shortcuts for copy/paste
-                editor.addShortcut('ctrl+c', 'Copy', () => {
-                    document.execCommand('copy');
-                    console.log('Custom copy shortcut triggered');
-                });
-                editor.addShortcut('ctrl+v', 'Paste', () => {
-                    document.execCommand('paste');
-                    console.log('Custom paste shortcut triggered');
-                });
-                editor.addShortcut('ctrl+x', 'Cut', () => {
-                    document.execCommand('cut');
-                    console.log('Custom cut shortcut triggered');
-                });
+            onImageUpload: (imageData) => {
+                // Store image in the uploaded images array
+                if (!window.uploadedImages) window.uploadedImages = [];
+                
+                const image = {
+                    id: 'editor_' + Date.now() + '_' + Math.random(),
+                    src: imageData.src,
+                    name: imageData.name || 'editor-image.png',
+                    uploaded: new Date().toISOString(),
+                    fromEditor: true
+                };
+                
+                window.uploadedImages.push(image);
+                this.renderImagesGallery();
+                this.toast('Image added to gallery');
             }
         });
+        console.log('VOZ Editor initialized');
     },
 
     bindEvents() {
@@ -431,8 +314,9 @@ const Admin = {
 
         // Set rich editor content
         setTimeout(() => {
-            if (tinymce.get('item-content')) {
-                tinymce.get('item-content').setContent(item.content || '');
+            const editor = VOZEditor.get('item-content');
+            if (editor) {
+                editor.setContent(item.content || '');
             }
         }, 100);
     },
@@ -440,7 +324,8 @@ const Admin = {
     saveCurrentItem(autoSave = false) {
         if (!this.currentItem) return;
 
-        const content = tinymce.get('item-content') ? tinymce.get('item-content').getContent() : '';
+        const editor = VOZEditor.get('item-content');
+        const content = editor ? editor.getContent() : '';
         
         // Handle product content updates
         if (this.currentItem.type === 'product' || this.currentItem.type === 'product-page') {
@@ -588,8 +473,9 @@ const Admin = {
     },
 
     insertSelectedImage(src) {
-        if (tinymce.activeEditor) {
-            tinymce.activeEditor.insertContent(`<img src="${src}" alt="Inserted image" style="max-width: 100%; height: auto;">`);
+        const editor = VOZEditor.get('item-content');
+        if (editor) {
+            editor.insertContent(`<img src="${src}" alt="Inserted image" style="max-width: 100%; height: auto;">`);
             this.toast('Image inserted into editor');
         }
         // Remove the modal
@@ -611,9 +497,9 @@ const Admin = {
             </blockquote>
         `;
 
-        if (tinymce.activeEditor) {
-            // Insert test content at cursor
-            tinymce.activeEditor.insertContent(testContent);
+        const editor = VOZEditor.get('item-content');
+        if (editor) {
+            editor.insertContent(testContent);
             this.toast('Test content inserted! Try copying it and pasting elsewhere.');
         } else {
             this.toast('Editor not ready yet. Please select an item to edit first.', true);
